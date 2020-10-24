@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend part for FaceJournal project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serushakov/facejournal.git"
+  },
+  "author": "Sergey Ushakov (sergey@ushakov.io)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/serushakov/facejournal/issues"
+  },
+  "homepage": "https://github.com/serushakov/facejournal#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
