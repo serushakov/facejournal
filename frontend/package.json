@@ -1,0 +1,27 @@
+{
+  "name": "facejournal-frontend",
+  "version": "1.0.0",
+  "description": "Frontend code for FaceJournal project",
+  "main": "index.js",
+  "scripts": {
+    "build-test": "for file in ./src/**/*.js; do echo $file done",
+    "build": "babel src -d build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serushakov/facejournal.git"
+  },
+  "author": "Sergey Ushakov (sergey@ushakov.io)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/serushakov/facejourna/issues"
+  },
+  "homepage": "https://github.com/serushakov/facejourna#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1"
+  },
+  "dependencies": {}
+}
