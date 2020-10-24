@@ -1,11 +1,11 @@
 {
-  "name": "facejournal-frontend",
+  "name": "frontend",
   "version": "1.0.0",
   "description": "Frontend code for FaceJournal project",
   "main": "index.js",
   "scripts": {
-    "build-test": "for file in ./src/**/*.js; do echo $file done",
-    "build": "babel src -d build",
+    "start": "concurrently \"nodemon --watch src --ext '*' -x yarn build\" \"serve -l 8080 ./build\"",
+    "build": "babel src -d build  --copy-files",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,7 +21,10 @@
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1"
+    "@babel/preset-env": "^7.12.1",
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.6",
+    "serve": "^11.3.2"
   },
   "dependencies": {}
 }
