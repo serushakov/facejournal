@@ -1,5 +1,20 @@
 version: "3.7"
 services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - 3306:3306
+    networks:
+      - gateway
+    volumes:
+      - data/
+
   frontend:
     build: ./frontend
     volumes:
@@ -10,6 +25,8 @@ services:
     command: yarn start
 
   backend:
+    depends_on:
+      - db
     build: ./backend
     volumes:
       - ./backend:/backend
@@ -18,7 +35,13 @@ services:
       - gateway
     ports:
       - 3000:3000
+    networks:
+      - gateway
     command: yarn start
 
 networks:
-  gateway: {}
+  gateway:
+    driver: bridge
+
+volumes:
+  data:

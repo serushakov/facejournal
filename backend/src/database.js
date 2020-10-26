@@ -1,5 +1,8 @@
-const sequelize = new Sequelize("database", "username", "password", {
-  host: "localhost:3306",
+import Sequelize from "sequelize";
+
+const sequelize = new Sequelize("db", "user", "password", {
+  host: "db",
+  port: 3306,
   dialect: "mariadb",
 
   pool: {
@@ -9,4 +12,11 @@ const sequelize = new Sequelize("database", "username", "password", {
   },
 });
 
-module.exports = sequelize;
+try {
+  await sequelize.authenticate();
+  console.log("Sequelize: Connection has been established successfully.");
+} catch (error) {
+  console.error("Sequelize: Unable to connect to the database:", error);
+}
+
+export default sequelize;
