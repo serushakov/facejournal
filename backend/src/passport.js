@@ -1,7 +1,8 @@
 import passport from "passport";
 import { Op } from "sequelize";
 import { Strategy as LocalStrategy } from "passport-local";
-import { User } from "./database/index";
+import { User } from "./database";
+import bcrypt from "bcrypt";
 
 passport.use(
   new LocalStrategy(
@@ -15,13 +16,18 @@ passport.use(
             email: {
               [Op.eq]: email,
             },
-            password: {
-              [Op.eq]: password,
-            },
           },
         });
 
         if (!user) {
+          return done(null, false, {
+            message: "Either email or password are incorrect",
+          });
+        }
+
+        const passwordCorrect = await bcrypt.compare(password, user.password);
+
+        if (!passwordCorrect) {
           return done(null, false, {
             message: "Either email or password are incorrect",
           });
@@ -34,3 +40,21 @@ passport.use(
     }
   )
 );
+
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async function (id, done) {
+  const user = await User.findOne({
+    where: {
+      id: {
+        [Op.eq]: id,
+      },
+    },
+  });
+
+  done(null, user);
+});
+
+passport;

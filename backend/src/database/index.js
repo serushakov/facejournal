@@ -1,5 +1,5 @@
-import { default as sequelize, initialize } from "./sequelize.js";
-import { default as User } from "./User.js";
+import { default as sequelize, initialize } from "./sequelize";
+import { default as User } from "./User";
 
 (async () => {
   await initialize();
