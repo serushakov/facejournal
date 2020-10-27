@@ -27,17 +27,19 @@ services:
   backend:
     depends_on:
       - db
-    build: ./backend
+    build:
+        context: .
+        dockerfile: ./backend/Dockerfile
     volumes:
-      - ./backend:/backend
-      - ./node_modules:/backend/node_modules
+      - ./backend/src:/usr/src/backend/src
     networks:
       - gateway
     ports:
       - 3000:3000
+      - 9229:9229
     networks:
       - gateway
-    command: yarn start
+    command: yarn workspace backend run start
 
 networks:
   gateway:
