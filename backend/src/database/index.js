@@ -1,9 +1,10 @@
-import { default as sequelize, initialize } from "./sequelize";
-import { default as User } from "./User";
+import sequelize, { initialize } from "./sequelize";
+import User, { Friendship } from "./User";
 
 (async () => {
   await initialize();
   await User.sync();
+  await Friendship.sync();
 })();
 
-export { sequelize, User };
+export { sequelize, User, Friendship };
