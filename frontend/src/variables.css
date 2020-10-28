@@ -1,0 +1,11 @@
+body {
+  --brand-color: #33bee6;
+  --background-color: #ffffff;
+  --light-shade: #f9f8f7;
+  --light-accent: #7aa5c2;
+  --dark-accent: #7b7b95;
+  --dark-shade: #353d4c;
+
+  --text-color-light: var(--light-shade);
+  --text-color-dark: var(--dark-shade);
+}

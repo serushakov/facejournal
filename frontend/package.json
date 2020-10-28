@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"nodemon --watch src --ext '*' -x yarn build\" \"serve -l 8080 ./build\"",
-    "build": "babel src -d build  --copy-files",
+    "build": "babel src -d build --copy-files",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
