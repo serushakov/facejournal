@@ -46,7 +46,7 @@ services:
     image: nginx
     volumes:
       - ./frontend/build/:/var/www/html
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 8080:80
     networks:
