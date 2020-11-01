@@ -20,9 +20,7 @@ services:
     volumes:
       - ./frontend:/frontend
       - ./node_modules:/frontend/node_modules
-    ports:
-      - 8080:8080
-    command: yarn start
+    command: yarn watch
 
   backend:
     depends_on:
@@ -40,6 +38,20 @@ services:
     networks:
       - gateway
     command: yarn workspace backend run start
+
+  nginx:
+    depends_on:
+      - frontend
+      - backend
+    image: nginx
+    volumes:
+      - ./frontend/build/:/var/www/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8080:80
+    networks:
+      - gateway
+
 
 networks:
   gateway:

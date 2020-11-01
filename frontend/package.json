@@ -4,7 +4,8 @@
   "description": "Frontend code for FaceJournal project",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"nodemon --watch src --ext '*' -x yarn build\" \"serve -l 8080 ./build\"",
+    "start": "concurrently -x \"yarn watch\" \"serve -l 8080 ./build\"",
+    "watch": "nodemon --watch src --ext '*' -x yarn build",
     "build": "babel src -d build --copy-files",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
