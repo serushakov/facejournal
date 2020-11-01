@@ -9,6 +9,8 @@ class Link extends HTMLAnchorElement {
     event.preventDefault();
     if (location.href !== this.href) {
       history.pushState(null, null, this.href);
+      // Dispatching a popstate event to trigger router listener
+      window.dispatchEvent(new PopStateEvent("popstate"));
     }
   }
 }
