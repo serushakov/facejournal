@@ -4,6 +4,8 @@ class Router {
 
   prevLocation = null;
 
+  registeredElements = new Set();
+
   constructor(rootElement, routes) {
     this.routes = routes;
     this.rootElement = rootElement;
@@ -20,24 +22,39 @@ class Router {
     const currentLocation = location.pathname;
 
     const route = this.routes.find((item) => item.path === currentLocation);
-    console.log(route, this.routes, currentLocation);
 
-    if (route) {
-      const elements = await route.loadPage();
+    const elements = route
+      ? await route.loadPage()
+      : await this.routes.find((item) => item.path === null)?.loadPage();
 
-      console.log(elements);
-
-      // clearing content
-      while (this.rootElement.lastElementChild) {
-        this.rootElement.removeChild(this.rootElement.lastElementChild);
-      }
-
-      this.rootElement.append(...elements);
+    if (elements) {
+      this.mountRoute(elements);
     } else {
-      this.routes.find((item) => item.path === null)?.loadPage();
+      throw Error("No route to render");
     }
 
     this.prevLocation = currentLocation;
+  };
+
+  mountRoute({ head, body }) {
+    this.clearCurrentRouteContent();
+
+    this.registerElements([...head, ...body]);
+
+    if (head) {
+      document.head.append(...head);
+    }
+
+    this.rootElement.append(...body);
+  }
+
+  registerElements(elements) {
+    elements.forEach((item) => this.registeredElements.add(item));
+  }
+
+  clearCurrentRouteContent = () => {
+    this.registeredElements.forEach((item) => item.remove());
+    this.registeredElements.clear();
   };
 }
 

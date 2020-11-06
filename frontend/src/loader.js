@@ -11,7 +11,7 @@ function loadComponent(path) {
     });
 }
 
-async function loadPage(path) {
+async function getPageContent(path) {
   const r = await fetch(path);
   const data = await r.text();
 
@@ -20,9 +20,7 @@ async function loadPage(path) {
   const head = processNodes(component.head.childNodes);
   const body = processNodes(component.body.childNodes);
 
-  document.head.append(...head);
-
-  return body;
+  return { head, body };
 }
 
 function processNodes(input) {
