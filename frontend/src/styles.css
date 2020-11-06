@@ -2,3 +2,21 @@
   color: var(--brand-color);
   background-color: var(--light-shade);
 }
+
+body {
+  font-size: var(--font-size-max);
+
+  min-width: var(--min-width);
+}
+
+@media screen and (min-width: 320px) {
+  body {
+    font-size: calc(var(--font-size-min) + 6 * ((100vw - 320px) / 1920));
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  body {
+    font-size: var(--font-size-max);
+  }
+}

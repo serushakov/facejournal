@@ -8,4 +8,13 @@ body {
 
   --text-color-light: var(--light-shade);
   --text-color-dark: var(--dark-shade);
+
+  --font-size-min: 12px;
+  --font-size-max: 16px;
+  --min-width: 320px;
+
+  --small-breakpoint: 480px;
+  --medium-breakpoint: 768px;
+  --large-breakpoint: 992px;
+  --x-large-breakpoint: 1200px;
 }
