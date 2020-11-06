@@ -1,0 +1,53 @@
+.button {
+}
+
+.primary {
+  position: relative;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+
+  color: var(--text-color-light);
+  font-size: 1rem;
+  font-weight: 600;
+
+  background: var(--brand-color);
+  border: none;
+
+  outline: none;
+}
+
+.icon + .text {
+  margin-inline-start: 0.5rem;
+}
+
+.primary:focus-visible {
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+.primary:hover {
+  transform: translate3d(4px, -4px, 0);
+}
+.primary:hover .background {
+  transform: translate3d(-4px, 4px, 0);
+}
+
+.primary:active,
+.primary:active .background {
+  transform: translate3d(0, 0, 0);
+}
+
+.content {
+  z-index: 1;
+  font-size: 1rem;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  border-radius: 4px;
+
+  border: 2px solid var(--brand-color);
+}
