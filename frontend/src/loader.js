@@ -28,7 +28,9 @@ function processNodes(input) {
     // need to clone scirpt elements for them to work
     if (node instanceof HTMLScriptElement) {
       const script = document.createElement("script");
-      script.src = node.src;
+      for (const attribute of Array.from(node.attributes)) {
+        script.setAttribute(attribute.name, attribute.value);
+      }
       return script;
     }
     return node;
