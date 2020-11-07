@@ -1,4 +1,4 @@
-<script src="/components/header/header.js"></script>
+<script type="module" src="/components/header/header.js"></script>
 
 <template id="header">
   <header class="root">
@@ -6,10 +6,10 @@
       <brand-logo class="logo"></brand-logo>
 
       <div class="buttons">
-        <i-button class="button" variant="secondary">
+        <i-button id="register" class="button" variant="secondary">
           <span slot="text">Register</span>
         </i-button>
-        <i-button class="button" variant="primary">
+        <i-button id="login" class="button" variant="primary">
           <span slot="text">Log in</span>
         </i-button>
       </div>

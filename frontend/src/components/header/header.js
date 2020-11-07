@@ -1,3 +1,6 @@
+import store from "/state/index.js";
+import * as actions from "/state/auth/actions.js";
+
 class Header extends HTMLElement {
   constructor() {
     super();
@@ -8,6 +11,21 @@ class Header extends HTMLElement {
 
     this.loadStyle();
   }
+
+  connectedCallback() {
+    store.subscribe(this.storeCallback);
+
+    this.shadowRoot.getElementById("login").addEventListener("click", () => {
+      store.dispatch(actions.setLogin(true));
+    });
+    this.shadowRoot.getElementById("register").addEventListener("click", () => {
+      store.dispatch(actions.setLogin(false));
+    });
+  }
+
+  storeCallback = (state) => {
+    console.log(state.auth);
+  };
 
   loadStyle = async () => {
     this.shadowRoot.append(
