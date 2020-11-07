@@ -34,3 +34,11 @@ function processNodes(input) {
     return node;
   });
 }
+
+async function loadStyles(link) {
+  const styles = await fetch(link).then((r) => r.text());
+  const style = document.createElement("style");
+  style.innerText = styles;
+
+  return style;
+}

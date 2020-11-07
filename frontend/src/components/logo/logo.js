@@ -1,4 +1,3 @@
-console.log("kek");
 class Logo extends HTMLElement {
   constructor() {
     super();
@@ -7,7 +6,16 @@ class Logo extends HTMLElement {
     const shadowRoot = this.attachShadow({ mode: "open" }).appendChild(
       template.content.cloneNode(true)
     );
+
+    this.loadStyle();
   }
+
+  loadStyle = async () => {
+    this.shadowRoot.append(
+      await loadStyles("/components/logo/logo.css"),
+      await loadStyles("/reset.css")
+    );
+  };
 }
 
 customElements.define("brand-logo", Logo);

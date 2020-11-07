@@ -12,21 +12,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <script type="text/javascript">
-      loadComponent("/components/logo/logo.html");
+      loadComponent("/components/header/header.html");
       loadComponent("/components/button/button.html");
+      loadComponent("/components/logo/logo.html");
     </script>
   </head>
 
   <body>
-    <h1>Hello world!</h1>
-
-    <a href="/pages/kek" onclick="nav(event)">link</a>
-    <a href="/pages/lol" onclick="nav(event)">link 2</a>
-
-    <brand-logo class="logo"></brand-logo>
-
-    <i-button variant="primary"><span slot="text">Button</span></i-button>
-    <i-button variant="secondary"><span slot="text">Button</span></i-button>
+    <i-header></i-header>
 
     <div id="root"></div>
   </body>

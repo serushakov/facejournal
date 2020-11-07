@@ -1,0 +1,33 @@
+.root {
+  height: 4.5rem;
+  width: 100%;
+}
+
+.container {
+  margin: 0 auto;
+  height: 100%;
+  max-width: 1200px;
+
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons {
+  display: flex;
+}
+
+.button + .button {
+  margin-inline-start: 1rem;
+}
+
+.logo {
+  color: var(--brand-color);
+  height: 100%;
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 1rem 1rem;
+  }
+}
