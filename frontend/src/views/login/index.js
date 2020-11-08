@@ -1,17 +1,16 @@
-console.log("login");
+import store from "/state/index.js";
+import { loginSuccess } from "/state/auth/actions.js";
 
 const form = document.getElementById("login-form");
 
 fetch("/api/me").then(console.log);
 
-console.log(form);
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  console.log(event);
 
   const formData = new FormData(form);
 
-  fetch("/api/login", {
+  const response = await fetch("/api/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,5 +19,9 @@ form.addEventListener("submit", (event) => {
       email: formData.get("email"),
       password: formData.get("password"),
     }),
-  }).then(console.log);
+  });
+
+  const { user, token } = await response.json();
+
+  store.dispatch(loginSuccess(user, token));
 });

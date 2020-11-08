@@ -1,5 +1,10 @@
+import { LOGIN_SUCCESS } from "/state/auth/types.js";
+
 const initialState = {
-  login: false,
+  user: null,
+  token: null,
+  loading: false,
+  initialized: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -7,10 +12,11 @@ const reducer = (state = initialState, action) => {
     default:
       return state;
 
-    case "auth/SET_LOGIN":
+    case LOGIN_SUCCESS:
       return {
         ...state,
-        login: action.payload,
+        user: action.payload.user,
+        token: action.payload.token,
       };
   }
 };
