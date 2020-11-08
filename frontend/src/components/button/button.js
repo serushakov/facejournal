@@ -24,19 +24,8 @@ class Button extends HTMLElement {
   }
 
   handleClick = () => {
-    const formSelector = this.attributes.getNamedItem("form-selector");
-    console.log(formSelector);
-    if (formSelector) {
-      const form = document.querySelector(formSelector.value);
-      if (!form) throw Error("No form found with selector " + formSelector);
-
-      // Creating a hidden submit button to submit the form
-      const button = document.createElement("button");
-      button.type = "submit";
-
-      form.appendChild(button);
-      button.click();
-      button.remove();
+    if (this.submitButton) {
+      this.submitButton.click();
     }
   };
 
@@ -49,6 +38,24 @@ class Button extends HTMLElement {
 
   setButtonAttribute(name, value, oldValue) {
     switch (name) {
+      case "form-selector":
+        if (oldValue && this.submitButton) {
+          this.submitButton.remove();
+        }
+        if (value) {
+          const form = document.querySelector(value);
+          if (!form) throw Error("No form found with selector " + value);
+
+          // Creating a hidden submit button to submit the form
+          const button = document.createElement("button");
+          button.type = "submit";
+          button.hidden = true;
+
+          form.appendChild(button);
+
+          this.submitButton = button;
+        }
+        break;
       case "id":
         break;
       case "class":
