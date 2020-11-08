@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <script type="module" src="/views/login/index.js"></script>
+  </head>
+  <body>
+    <form id="login-form">
+      <label for="email">Email</label>
+      <input required="true" id="email" type="email" name="email" />
+
+      <label for="password">Password</label>
+      <input required="true" id="password" type="password" name="password" />
+
+      <i-button form-selector="#login-form" variant="primary">
+        <span slot="text">Login</span>
+      </i-button>
+    </form>
+  </body>
+</html>
