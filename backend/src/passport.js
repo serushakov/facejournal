@@ -1,15 +1,19 @@
 import passport from "passport";
 import { Op } from "sequelize";
-import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { User } from "./database";
 import bcrypt from "bcrypt";
 
 passport.use(
-  new LocalStrategy(
+  new JwtStrategy(
     {
-      usernameField: "email",
+      secretOrKey: "very secret", // FIXME
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jsonWebTokenOptions: {
+        maxAge: "1 day",
+      },
     },
-    async (email, password, done) => {
+    async ({ email }, done) => {
       try {
         const user = await User.findOne({
           where: {
@@ -20,14 +24,6 @@ passport.use(
         });
 
         if (!user) {
-          return done(null, false, {
-            message: "Either email or password are incorrect",
-          });
-        }
-
-        const passwordCorrect = await bcrypt.compare(password, user.password);
-
-        if (!passwordCorrect) {
           return done(null, false, {
             message: "Either email or password are incorrect",
           });
@@ -56,5 +52,3 @@ passport.deserializeUser(async function (id, done) {
 
   done(null, user);
 });
-
-passport;
