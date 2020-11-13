@@ -16,10 +16,12 @@ class Header extends HTMLElement {
     store.subscribe(this.storeCallback);
 
     this.shadowRoot.getElementById("login").addEventListener("click", () => {
-      store.dispatch(actions.setLogin(true));
+      history.pushState(null, null, "/login");
+      window.dispatchEvent(new PopStateEvent("popstate"));
     });
     this.shadowRoot.getElementById("register").addEventListener("click", () => {
-      store.dispatch(actions.setLogin(false));
+      history.pushState(null, null, "/register");
+      window.dispatchEvent(new PopStateEvent("popstate"));
     });
   }
 

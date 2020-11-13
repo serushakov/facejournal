@@ -1,9 +1,9 @@
 import store from "/state/index.js";
 import { loginSuccess } from "/state/auth/actions.js";
 
-const form = document.getElementById("login-form");
+const routeRoot = document.getElementById("login");
 
-fetch("/api/me").then(console.log);
+const form = document.getElementById("login-form");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -24,4 +24,31 @@ form.addEventListener("submit", async (event) => {
   const { user, token } = await response.json();
 
   store.dispatch(loginSuccess(user, token));
+
+  localStorage.setItem("token", token);
 });
+
+function listener(state) {}
+
+store.subscribe(listener);
+
+const root = document.getElementById("root");
+
+const observer = new MutationObserver(cleanup);
+
+observer.observe(root, {
+  childList: true,
+});
+
+function cleanup(events) {
+  if (
+    events.find((event) =>
+      Array.from(event.removedNodes).find((element) =>
+        element.isSameNode?.(routeRoot)
+      )
+    )
+  ) {
+    console.log("cleanup");
+    store.unsubscribe(listener);
+  }
+}

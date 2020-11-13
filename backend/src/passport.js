@@ -2,7 +2,6 @@ import passport from "passport";
 import { Op } from "sequelize";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { User } from "./database";
-import bcrypt from "bcrypt";
 
 passport.use(
   new JwtStrategy(
