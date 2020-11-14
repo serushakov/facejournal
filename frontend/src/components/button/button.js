@@ -1,15 +1,32 @@
 class Button extends HTMLElement {
   constructor() {
     super();
+
+    loadAndParseHtml("/components/button/button.html").then(
+      this.createShadowRoot
+    );
+  }
+
+  createShadowRoot = (document) => {
+    console.log(document);
     const template = document.getElementById("button");
-    const shadowRoot = this.attachShadow({
+
+    this.attachShadow({
       mode: "open",
     }).appendChild(template.content.cloneNode(true));
 
     this.loadStyle();
+    this.init();
+  };
+
+  async loadStyle() {
+    this.shadowRoot.append(
+      await loadStyles("/components/button/button.css"),
+      await loadStyles("/reset.css")
+    );
   }
 
-  connectedCallback() {
+  init() {
     if (!this.attributes.variant) {
       throw Error("Button should have a variant attribute");
     }
@@ -28,13 +45,6 @@ class Button extends HTMLElement {
       this.submitButton.click();
     }
   };
-
-  async loadStyle() {
-    this.shadowRoot.append(
-      await loadStyles("/components/button/button.css"),
-      await loadStyles("/reset.css")
-    );
-  }
 
   setButtonAttribute(name, value, oldValue) {
     switch (name) {

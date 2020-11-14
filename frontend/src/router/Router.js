@@ -6,6 +6,11 @@ class Router {
 
   registeredElements = new Set();
 
+  static navigate(path) {
+    history.pushState(null, null, path);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  }
+
   constructor(rootElement, routes) {
     this.routes = routes;
     this.rootElement = rootElement;

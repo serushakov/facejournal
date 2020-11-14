@@ -1,27 +1,36 @@
 import store from "/state/index.js";
+import Router from "/router/Router.js";
+
 import * as actions from "/state/auth/actions.js";
 
 class Header extends HTMLElement {
   constructor() {
     super();
+
+    loadAndParseHtml("/components/header/header.html").then(
+      this.createShadowRoot
+    );
+  }
+
+  createShadowRoot = (document) => {
     const template = document.getElementById("header");
-    const shadowRoot = this.attachShadow({
+
+    this.attachShadow({
       mode: "open",
     }).appendChild(template.content.cloneNode(true));
 
     this.loadStyle();
-  }
+    this.init();
+  };
 
-  connectedCallback() {
+  init() {
     store.subscribe(this.storeCallback);
 
     this.shadowRoot.getElementById("login").addEventListener("click", () => {
-      history.pushState(null, null, "/login");
-      window.dispatchEvent(new PopStateEvent("popstate"));
+      Router.navigate("/login");
     });
     this.shadowRoot.getElementById("register").addEventListener("click", () => {
-      history.pushState(null, null, "/register");
-      window.dispatchEvent(new PopStateEvent("popstate"));
+      Router.navigate("/register");
     });
   }
 

@@ -1,14 +1,22 @@
 function loadComponent(path) {
-  fetch(path)
-    .then((r) => r.text())
-    .then((data) => {
-      const parser = new DOMParser();
-      const component = parser.parseFromString(data, "text/html");
+  import(path);
+}
 
-      const nodes = processNodes(component.head.childNodes);
+const contentMap = new Map();
 
-      document.head.append(...nodes);
-    });
+async function loadAndParseHtml(path) {
+  if (contentMap.get(path)) return contentMap.get(path);
+
+  const data = await (await fetch(path)).text();
+
+  const parser = new DOMParser();
+  const component = parser.parseFromString(data, "text/html");
+  const nodes = processNodes(component.head.childNodes);
+  component.head.childNodes = nodes;
+
+  contentMap.set(path, component);
+
+  return component;
 }
 
 async function getPageContent(path) {
@@ -41,6 +49,7 @@ async function loadStyles(link) {
   const styles = await fetch(link).then((r) => r.text());
   const style = document.createElement("style");
   style.innerText = styles;
+  contentMap.set(link, style);
 
   return style;
 }

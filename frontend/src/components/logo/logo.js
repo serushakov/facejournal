@@ -1,14 +1,18 @@
 class Logo extends HTMLElement {
   constructor() {
     super();
+    loadAndParseHtml("/components/logo/logo.html").then(this.createShadowRoot);
+  }
+
+  createShadowRoot = (document) => {
     const template = document.getElementById("logo");
 
-    const shadowRoot = this.attachShadow({ mode: "open" }).appendChild(
-      template.content.cloneNode(true)
-    );
+    this.attachShadow({
+      mode: "open",
+    }).appendChild(template.content.cloneNode(true));
 
     this.loadStyle();
-  }
+  };
 
   loadStyle = async () => {
     this.shadowRoot.append(
