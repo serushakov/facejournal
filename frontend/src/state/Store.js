@@ -19,24 +19,29 @@ class Store {
     this.reducer = reducer;
     this.state = initialState;
 
-    this.reducer(this.state, { type: null });
+    this.state = this.reducer(this.state, { type: null });
   }
 
   dispatch(action) {
     const newState = this.reducer(this.state, action);
+    const prevState = this.state;
     this.state = newState;
 
-    this.sendUpdate();
+    console.log(this.state);
+
+    this.sendUpdate(prevState);
   }
 
-  sendUpdate() {
+  sendUpdate(prevState) {
     for (const listener of this.listeners) {
-      listener(this.state);
+      listener(this.state, prevState);
     }
   }
 
   subscribe = (listener) => {
     this.listeners.add(listener);
+    console.log(this.state);
+    listener(this.state);
   };
 
   unsubscribe = (listener) => {
