@@ -24,7 +24,7 @@ class Header extends HTMLElement {
   };
 
   init() {
-    store.subscribe(this.storeCallback);
+    store.subscribe(this.listener);
 
     this.shadowRoot.getElementById("login").addEventListener("click", () => {
       Router.navigate("/login");
@@ -34,7 +34,11 @@ class Header extends HTMLElement {
     });
   }
 
-  storeCallback = (state) => {
+  disconnectedCallback() {
+    store.unsubscribe(this.listener);
+  }
+
+  listener = (state) => {
     console.log(state.auth);
   };
 

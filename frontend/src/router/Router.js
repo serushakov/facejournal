@@ -7,8 +7,10 @@ class Router {
   registeredElements = new Set();
 
   static navigate(path) {
-    history.pushState(null, null, path);
-    window.dispatchEvent(new PopStateEvent("popstate"));
+    if (location.pathname !== path) {
+      history.pushState(null, null, path);
+      window.dispatchEvent(new PopStateEvent("popstate"));
+    }
   }
 
   constructor(rootElement, routes) {
@@ -23,17 +25,22 @@ class Router {
     window.addEventListener("popstate", this.handleLocationChange);
   }
 
+  getRoute(currentLocation) {
+    const route = this.routes.find((item) => item.path === currentLocation);
+
+    if (route) {
+      return route;
+    }
+    return this.routes.find((item) => item.path === null);
+  }
+
   handleLocationChange = async () => {
     const currentLocation = location.pathname;
 
-    const route = this.routes.find((item) => item.path === currentLocation);
+    const element = await this.getRoute(currentLocation).loadPage();
 
-    const elements = route
-      ? await route.loadPage()
-      : await this.routes.find((item) => item.path === null)?.loadPage();
-
-    if (elements) {
-      this.mountRoute(elements);
+    if (element) {
+      this.mountRoute(element);
     } else {
       throw Error("No route to render");
     }
@@ -41,24 +48,15 @@ class Router {
     this.prevLocation = currentLocation;
   };
 
-  mountRoute({ head, body }) {
+  mountRoute(element) {
     this.clearCurrentRouteContent();
 
-    this.registerElements([...head, ...body]);
-
-    if (head) {
-      document.head.append(...head);
-    }
-
-    this.rootElement.append(...body);
-  }
-
-  registerElements(elements) {
-    elements.forEach((item) => this.registeredElements.add(item));
+    this.registeredElements.add(element);
+    this.rootElement.append(element);
   }
 
   clearCurrentRouteContent = () => {
-    this.registeredElements.forEach((item) => item.remove());
+    this.registeredElements.forEach((element) => element.remove());
     this.registeredElements.clear();
   };
 }

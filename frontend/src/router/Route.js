@@ -3,16 +3,18 @@ class Route {
   pageLocation = null;
   pageContent = null;
 
-  constructor(path, pageLocation) {
+  constructor(path, pageLocation, tagName) {
     this.path = path;
     this.pageLocation = pageLocation;
+    this.tagName = tagName;
   }
 
   loadPage = async () => {
-    this.pageContent =
-      this.pageContent ?? (await getPageContent(this.pageLocation));
+    await import(this.pageLocation);
 
-    return this.pageContent;
+    const element = document.createElement(this.tagName);
+
+    return element;
   };
 }
 

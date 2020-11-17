@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS } from "/state/auth/types.js";
+import { LOGIN_SUCCESS, LOGIN_REQUEST } from "./types.js";
 
 export function loginSuccess(user, token) {
   return {
@@ -7,5 +7,11 @@ export function loginSuccess(user, token) {
       user,
       token,
     },
+  };
+}
+
+export function loginRequest() {
+  return {
+    type: LOGIN_REQUEST,
   };
 }

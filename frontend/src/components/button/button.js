@@ -48,22 +48,13 @@ class Button extends HTMLElement {
 
   setButtonAttribute(name, value, oldValue) {
     switch (name) {
-      case "form-selector":
-        if (oldValue && this.submitButton) {
-          this.submitButton.remove();
-        }
-        if (value) {
-          const form = document.querySelector(value);
-          if (!form) throw Error("No form found with selector " + value);
+      case "type":
+        if (value === "submit") {
+          this.submitButton = document.createElement("button");
+          this.submitButton.type = "submit";
+          this.submitButton.hidden = "true";
 
-          // Creating a hidden submit button to submit the form
-          const button = document.createElement("button");
-          button.type = "submit";
-          button.hidden = true;
-
-          form.appendChild(button);
-
-          this.submitButton = button;
+          this.append(this.submitButton);
         }
         break;
       case "id":

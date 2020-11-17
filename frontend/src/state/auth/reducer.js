@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS } from "/state/auth/types.js";
+import { LOGIN_REQUEST, LOGIN_SUCCESS } from "./types.js";
 
 const initialState = {
   user: null,
@@ -12,9 +12,16 @@ const reducer = (state = initialState, action) => {
     default:
       return state;
 
+    case LOGIN_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
     case LOGIN_SUCCESS:
       return {
         ...state,
+        initialized: true,
+        loading: false,
         user: action.payload.user,
         token: action.payload.token,
       };
