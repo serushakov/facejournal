@@ -16,6 +16,13 @@ class LoginPage extends HTMLElement {
     this.loadStyles();
   };
 
+  init() {
+    store.subscribe(this.listener);
+
+    this.form = this.querySelector("#login-form");
+    this.form.addEventListener("submit", this.handleFormSubmit);
+  }
+
   async loadStyles() {
     const styles = await loadStyles("/views/login/login.css");
 
@@ -27,13 +34,34 @@ class LoginPage extends HTMLElement {
     store.unsubscribe(this.listener);
   }
 
-  listener(state) {}
+  listener = (state) => {
+    const { user } = state.auth;
+    if (user) {
+      this.displayLoggedInState(user);
+    } else {
+      this.displayLoggedOutState();
+    }
+  };
 
-  init() {
-    store.subscribe(this.listener);
+  displayLoggedInState(user) {
+    const loggedInState = this.querySelector("#logged-in-view");
+    const form = this.querySelector("#login-form");
 
-    this.form = this.querySelector("#login-form");
-    this.form.addEventListener("submit", this.handleFormSubmit);
+    loggedInState.classList.add("visible");
+    form.classList.add("hidden");
+
+    const userName = `${user.firstName} ${user.lastName}`;
+
+    const title = this.querySelector("#user-name");
+    title.textContent = `Hello, ${userName} 👋`;
+  }
+
+  displayLoggedOutState() {
+    const loggedInState = this.querySelector("#logged-in-view");
+    const form = this.querySelector("#login-form");
+
+    loggedInState.classList.remove("visible");
+    form.classList.remove("hidden");
   }
 
   handleFormSubmit = async (event) => {

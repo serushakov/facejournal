@@ -3,7 +3,8 @@
   margin: auto;
 }
 
-.login-page__form {
+.login-page__form.hidden {
+  display: none;
 }
 
 .login-page__form fieldset {
@@ -28,4 +29,15 @@
 
 .login-page__form__button {
   width: fit-content;
+}
+
+#logged-in-view {
+  display: none;
+}
+
+#logged-in-view.visible {
+  display: block;
+}
+
+.logged-in__title {
 }
