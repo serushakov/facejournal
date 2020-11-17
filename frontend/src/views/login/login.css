@@ -1,5 +1,5 @@
 .login-page {
-  max-width: 40rem;
+  max-width: 30rem;
   margin: auto;
 }
 
@@ -16,29 +16,16 @@
   border: solid 2px var(--dark-shade);
 }
 
-.login-page__form legend {
+.login-page__form__legend {
   font-size: 1.2rem;
   font-weight: 500;
 }
 
-.login-page__form__field {
-  display: flex;
-  flex-direction: column;
+.login-page__form__field-wrapper {
   margin-bottom: 1rem;
   width: 100%;
 }
 
-.login-page__form__field__label {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.login-page__form__field__input {
-  padding: 1rem;
-  border: solid 2px var(--dark-shade);
-  border-radius: 8px;
-}
-
-.login-page__form__field__button {
+.login-page__form__button {
   width: fit-content;
 }

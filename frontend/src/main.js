@@ -10,7 +10,6 @@ new Router(document.getElementById("root"), [
 
 async function loadUser() {
   const token = localStorage.getItem("token");
-  console.log(token);
 
   if (token) {
     store.dispatch(loginRequest());

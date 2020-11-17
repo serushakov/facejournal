@@ -1,0 +1,15 @@
+.input__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.input__field {
+  padding: 1rem;
+  border: solid 2px var(--dark-shade);
+  border-radius: 8px;
+}
+
+.input__label {
+  font-size: 1rem;
+  font-weight: 500;
+}
