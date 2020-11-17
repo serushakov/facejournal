@@ -1,15 +1,38 @@
 <template id="login-page">
-  <div id="login">
-    <form id="login-form">
-      <label for="email">Email</label>
-      <input required="true" id="email" type="email" name="email" />
+  <div class="login-page">
+    <form id="login-form" class="login-page__form">
+      <fieldset>
+        <legend>Login form</legend>
+        <div class="login-page__form__field">
+          <label class="login-page__form__label" for="email">Email</label>
+          <input
+            class="login-page__form__field__input"
+            required="true"
+            id="email"
+            type="email"
+            name="email"
+          />
+        </div>
 
-      <label for="password">Password</label>
-      <input required="true" id="password" type="password" name="password" />
+        <div class="login-page__form__field">
+          <label for="password" class="login-page__form__label">Password</label>
+          <input
+            class="login-page__form__field__input"
+            required="true"
+            id="password"
+            type="password"
+            name="password"
+          />
+        </div>
 
-      <i-button variant="primary" type="submit">
-        <span slot="text">Login</span>
-      </i-button>
+        <i-button
+          variant="primary"
+          type="submit"
+          class="login-page__form__field__button"
+        >
+          <span slot="text">Login</span>
+        </i-button>
+      </fieldset>
     </form>
   </div>
 </template>

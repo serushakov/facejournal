@@ -13,7 +13,14 @@ class LoginPage extends HTMLElement {
     this.appendChild(template.content.cloneNode(true));
 
     this.init();
+    this.loadStyles();
   };
+
+  async loadStyles() {
+    const styles = await loadStyles("/views/login/login.css");
+
+    this.appendChild(styles);
+  }
 
   disconnectedCallback() {
     console.log("disconnect");

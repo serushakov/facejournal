@@ -1,0 +1,44 @@
+.login-page {
+  max-width: 40rem;
+  margin: auto;
+}
+
+.login-page__form {
+}
+
+.login-page__form fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border-radius: 8px;
+  padding: 1rem;
+  border: solid 2px var(--dark-shade);
+}
+
+.login-page__form legend {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.login-page__form__field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.login-page__form__field__label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.login-page__form__field__input {
+  padding: 1rem;
+  border: solid 2px var(--dark-shade);
+  border-radius: 8px;
+}
+
+.login-page__form__field__button {
+  width: fit-content;
+}
