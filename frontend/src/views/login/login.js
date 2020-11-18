@@ -2,6 +2,8 @@ import store from "/state/index.js";
 import "/components/button/button.js";
 import { login } from "/state/auth/thunks.js";
 
+import css from "./login.scss";
+
 class LoginPage extends HTMLElement {
   constructor() {
     super();
@@ -11,6 +13,10 @@ class LoginPage extends HTMLElement {
   setContent = (document) => {
     const template = document.getElementById("login-page");
     this.appendChild(template.content.cloneNode(true));
+
+    const style = document.createElement("style");
+    style.innerText = css;
+    this.appendChild(style);
 
     this.init();
   };
