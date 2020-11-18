@@ -22,15 +22,20 @@ class Store {
     this.state = this.reducer(this.state, { type: null });
   }
 
-  dispatch(action) {
-    const newState = this.reducer(this.state, action);
-    const prevState = this.state;
-    this.state = newState;
+  getState = () => this.state;
 
-    console.log(this.state);
+  dispatch = (action) => {
+    // Redux-thunk pattern
+    if (typeof action === "function") {
+      return action(this.dispatch, this.getState);
+    } else {
+      const newState = this.reducer(this.state, action);
+      const prevState = this.state;
+      this.state = newState;
 
-    this.sendUpdate(prevState);
-  }
+      this.sendUpdate(prevState);
+    }
+  };
 
   sendUpdate(prevState) {
     for (const listener of this.listeners) {
@@ -40,7 +45,7 @@ class Store {
 
   subscribe = (listener) => {
     this.listeners.add(listener);
-    console.log(this.state);
+
     listener(this.state);
   };
 
