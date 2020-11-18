@@ -1,6 +1,6 @@
 import store from "/state/index.js";
 import "/components/button/button.js";
-import { loginSuccess } from "/state/auth/actions.js";
+import { login } from "/state/auth/thunks.js";
 
 class LoginPage extends HTMLElement {
   constructor() {
@@ -64,27 +64,11 @@ class LoginPage extends HTMLElement {
     form.classList.remove("hidden");
   }
 
-  handleFormSubmit = async (event) => {
+  handleFormSubmit = (event) => {
     event.preventDefault();
-
     const formData = new FormData(this.form);
 
-    const response = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: formData.get("email"),
-        password: formData.get("password"),
-      }),
-    });
-
-    const { user, token } = await response.json();
-
-    store.dispatch(loginSuccess(user, token));
-
-    localStorage.setItem("token", token);
+    store.dispatch(login(formData.get("email"), formData.get("password")));
   };
 }
 

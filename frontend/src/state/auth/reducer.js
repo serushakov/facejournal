@@ -1,8 +1,12 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS } from "./types.js";
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_SUCCESS } from "./types.js";
 
-const initialState = {
+const resetState = {
   user: null,
   token: null,
+};
+
+const initialState = {
+  ...resetState,
   loading: false,
   initialized: false,
 };
@@ -11,6 +15,12 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     default:
       return state;
+
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        ...resetState,
+      };
 
     case LOGIN_REQUEST:
       return {
