@@ -3,12 +3,19 @@
     <div class="contentWidth container">
       <brand-logo class="logo"></brand-logo>
 
-      <div class="buttons">
+      <div id="logged-out-state" class="buttons">
         <i-button id="register" class="button" variant="secondary">
           <span slot="text">Register</span>
         </i-button>
         <i-button id="login" class="button" variant="primary">
           <span slot="text">Log in</span>
+        </i-button>
+      </div>
+
+      <div id="logged-in-state" class="buttons hidden">
+        <span id="username"></span>
+        <i-button id="logout" class="button" variant="primary">
+          <span slot="text">Log out</span>
         </i-button>
       </div>
     </div>

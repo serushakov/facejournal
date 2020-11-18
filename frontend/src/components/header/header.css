@@ -17,6 +17,10 @@
   display: flex;
 }
 
+.buttons.hidden {
+  display: none;
+}
+
 .button + .button {
   margin-inline-start: 1rem;
 }
@@ -30,4 +34,15 @@
   .container {
     padding: 1rem 1rem;
   }
+}
+
+#logged-in-state:not(.hidden) {
+  display: flex;
+  align-items: center;
+}
+
+#username {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-inline-end: 1rem;
 }
