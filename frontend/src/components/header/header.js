@@ -2,6 +2,9 @@ import store from "/state/index.js";
 import Router from "/router/Router.js";
 import { logout } from "/state/auth/thunks.js";
 
+import css from "./header.scss";
+import resetCss from "../../styles/reset.scss";
+
 class Header extends HTMLElement {
   constructor() {
     super();
@@ -20,6 +23,13 @@ class Header extends HTMLElement {
 
     this.loadStyle();
     this.init();
+  };
+
+  loadStyle = () => {
+    const style = document.createElement("style");
+    style.innerText = css + resetCss;
+
+    this.shadowRoot.appendChild(style);
   };
 
   init() {
@@ -68,13 +78,6 @@ class Header extends HTMLElement {
     this.loggedInStateContainer.classList.add("hidden");
     this.loggedOutStateContainer.classList.remove("hidden");
     this.usernameContainer.textContent = "";
-  };
-
-  loadStyle = async () => {
-    this.shadowRoot.append(
-      await loadStyles("/components/header/header.css"),
-      await loadStyles("/reset.css")
-    );
   };
 }
 

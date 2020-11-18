@@ -1,3 +1,6 @@
+import css from "./logo.scss";
+import resetCss from "../../styles/reset.scss";
+
 class Logo extends HTMLElement {
   constructor() {
     super();
@@ -14,11 +17,11 @@ class Logo extends HTMLElement {
     this.loadStyle();
   };
 
-  loadStyle = async () => {
-    this.shadowRoot.append(
-      await loadStyles("/components/logo/logo.css"),
-      await loadStyles("/reset.css")
-    );
+  loadStyle = () => {
+    const style = document.createElement("style");
+    style.innerText = css + resetCss;
+
+    this.shadowRoot.appendChild(style);
   };
 }
 

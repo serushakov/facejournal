@@ -1,4 +1,7 @@
 {
   "presets": [["@babel/preset-modules"]],
-  "plugins": ["@babel/plugin-proposal-class-properties"]
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@researchgate/babel-plugin-transform-scss-import-to-string"
+  ]
 }

@@ -16,11 +16,12 @@ services:
       - data/
 
   frontend:
-    build: ./frontend
+    build:
+        context: .
+        dockerfile: ./frontend/Dockerfile
     volumes:
-      - ./frontend:/frontend
-      - ./node_modules:/frontend/node_modules
-    command: yarn watch
+      - ./frontend:/usr/src/frontend
+    command: yarn workspace frontend run watch
 
   backend:
     depends_on:

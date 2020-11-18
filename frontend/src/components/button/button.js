@@ -1,3 +1,6 @@
+import css from "./button.scss";
+import resetCss from "../../styles/reset.scss";
+
 class Button extends HTMLElement {
   constructor() {
     super();
@@ -8,7 +11,6 @@ class Button extends HTMLElement {
   }
 
   createShadowRoot = (document) => {
-    console.log(document);
     const template = document.getElementById("button");
 
     this.attachShadow({
@@ -19,12 +21,12 @@ class Button extends HTMLElement {
     this.init();
   };
 
-  async loadStyle() {
-    this.shadowRoot.append(
-      await loadStyles("/components/button/button.css"),
-      await loadStyles("/reset.css")
-    );
-  }
+  loadStyle = () => {
+    const style = document.createElement("style");
+    style.innerText = css + resetCss;
+
+    this.shadowRoot.appendChild(style);
+  };
 
   init() {
     if (!this.attributes.variant) {

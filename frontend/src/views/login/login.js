@@ -13,7 +13,6 @@ class LoginPage extends HTMLElement {
     this.appendChild(template.content.cloneNode(true));
 
     this.init();
-    this.loadStyles();
   };
 
   init() {
@@ -23,14 +22,7 @@ class LoginPage extends HTMLElement {
     this.form.addEventListener("submit", this.handleFormSubmit);
   }
 
-  async loadStyles() {
-    const styles = await loadStyles("/views/login/login.css");
-
-    this.appendChild(styles);
-  }
-
   disconnectedCallback() {
-    console.log("disconnect");
     store.unsubscribe(this.listener);
   }
 

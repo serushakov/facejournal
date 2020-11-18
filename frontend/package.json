@@ -4,8 +4,8 @@
   "description": "Frontend code for FaceJournal project",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently -x \"yarn watch\" \"serve -l 8080 ./build\"",
-    "watch": "nodemon --watch src --ext '*' -x yarn build",
+    "start": "concurrently -x \"yarn watch\" \"serve -l 8080 ./build\" ",
+    "watch": "concurrently \"nodemon --watch src --ext '*' -x yarn build\" \"sass --watch ./src/styles/index.scss ./build/styles.css\"",
     "build": "babel src -d build --copy-files",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,8 +25,11 @@
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-modules": "^0.1.4",
+    "@researchgate/babel-plugin-transform-scss-import-to-string": "^1.0.0",
     "concurrently": "^5.3.0",
+    "node-sass": "^5.0.0",
     "nodemon": "^2.0.6",
+    "sass": "^1.29.0",
     "serve": "^11.3.2"
   },
   "dependencies": {}
