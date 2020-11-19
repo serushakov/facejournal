@@ -1,0 +1,58 @@
+<template id="register-page">
+  <div class="register-page">
+    <form id="register-form">
+      <fieldset class="register-page__fieldset">
+        <legend class="register-page__fieldset__legend">Register</legend>
+
+        <div class="side-by-side register-page__field-wrapper">
+          <div class="input__wrapper side-by-side__field-wrapper">
+            <label class="input__label" for="email">First name</label>
+            <input
+              class="input__field"
+              required="true"
+              id="firstName"
+              type="text"
+              name="firstName"
+            />
+          </div>
+          <div class="input__wrapper side-by-side__field-wrapper">
+            <label class="input__label" for="email">Last name</label>
+            <input
+              class="input__field"
+              required="true"
+              id="lastName"
+              type="text"
+              name="lastName"
+            />
+          </div>
+        </div>
+
+        <div class="input__wrapper register-page__field-wrapper">
+          <label class="input__label" for="email">Email</label>
+          <input
+            class="input__field"
+            required="true"
+            id="email"
+            type="email"
+            name="email"
+          />
+        </div>
+
+        <div class="input__wrapper register-page__field-wrapper">
+          <label for="password" class="input__label">Password</label>
+          <input
+            class="input__field"
+            required="true"
+            id="password"
+            type="password"
+            name="password"
+          />
+        </div>
+
+        <i-button variant="primary" type="submit" class="register-page__button">
+          <span slot="text">Register</span>
+        </i-button>
+      </fieldset>
+    </form>
+  </div>
+</template>

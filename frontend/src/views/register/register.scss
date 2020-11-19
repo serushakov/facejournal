@@ -1,0 +1,38 @@
+.register-page {
+  max-width: 30rem;
+  margin: 2rem auto 0;
+
+  &__fieldset {
+    padding: 1rem;
+    border: 2px solid var(--dark-shade);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+
+    &__legend {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+  }
+
+  &__field-wrapper {
+    margin-bottom: 1rem;
+  }
+
+  &__button {
+    width: fit-content;
+    align-self: center;
+  }
+}
+
+.side-by-side {
+  display: flex;
+
+  &__field-wrapper {
+    flex: 1;
+
+    & ~ & {
+      margin-inline-start: 1rem;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { loginSuccess, loginRequest } from "/state/auth/actions.js";
 
 new Router(document.getElementById("root"), [
   new Route("/login", "/views/login/login.js", "login-page"),
+  new Route("/register", "/views/register/register.js", "register-page"),
   new Route(null, "/views/404/404.js", "page-not-found"),
 ]);
 

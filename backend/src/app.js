@@ -72,7 +72,7 @@ app.post("/register", async (req, res) => {
   const { email, password, first_name, last_name } = req.body;
 
   if (!email || !password || !first_name || !last_name) {
-    return res.send(400);
+    return res.status(400).send("Some of the fields are missing");
   }
 
   const existingUser = await User.findOne({
@@ -84,7 +84,7 @@ app.post("/register", async (req, res) => {
   });
 
   if (existingUser) {
-    return res.send(400);
+    return res.status(400).send("User already exists");
   }
 
   const encryptedPassword = await bcrypt.hash(password, 10);
@@ -96,8 +96,11 @@ app.post("/register", async (req, res) => {
     password: encryptedPassword,
   });
 
+  const token = jwt.sign({ firstName, lastName, id, email }, "very secret", {
+    expiresIn: 86400,
+  });
+
   req.login(user, () => {
-    console.log(user);
     return res.send(user);
   });
 });
