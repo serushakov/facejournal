@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes } from "sequelize";
 import sequelize from "./sequelize";
 
 const User = sequelize.define("User", {
@@ -8,7 +8,6 @@ const User = sequelize.define("User", {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  // Model attributes are defined here
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,

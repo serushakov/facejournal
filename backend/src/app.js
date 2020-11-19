@@ -3,6 +3,7 @@ import passport from "passport";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import auth from "./routes/auth";
+import posts from "./routes/posts";
 
 import "./passport";
 import { Friendship, User } from "./database";
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 app.use("/auth", auth);
+app.use("/posts", posts);
 
 app.get("/", (req, res) => {
   res.send("Hello world");
