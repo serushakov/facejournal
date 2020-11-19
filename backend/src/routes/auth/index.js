@@ -1,20 +1,17 @@
 import express from "express";
 import passport from "passport";
-import handleLogin from "./handleLogin";
-import handleRegister from "./handleRegister";
+import handleLogin, { loginValidators } from "./handleLogin";
+import handleRegister, { registerValidators } from "./handleRegister";
+import handleMe, { meValidators } from "./handleMe.js";
 
 const router = express.Router();
 
-router.post("/login", handleLogin);
-router.post("/register", handleRegister);
+router.post("/login", loginValidators, handleLogin);
+router.post("/register", registerValidators, handleRegister);
 
 /* AUTHENTICATED ROUTES BELOW */
 router.use(passport.authenticate("jwt"));
 
-router.get("/me", (req, res) => {
-  if (!req.isAuthenticated()) return res.send(401);
-
-  res.send(req.user);
-});
+router.get("/me", meValidators, handleMe);
 
 export default router;
