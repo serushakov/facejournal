@@ -1,12 +1,12 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import { User } from "../../database";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { User } from '../../database';
 
 const TOKEN_EXPIRATION = 86400; // 24 hours
 
 export function createUserJwt({ firstName, lastName, id, email }) {
   // FIXME secret
-  const token = jwt.sign({ firstName, lastName, id, email }, "very secret", {
+  const token = jwt.sign({ firstName, lastName, id, email }, 'very secret', {
     expiresIn: 86400,
   });
 

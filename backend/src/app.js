@@ -1,12 +1,12 @@
-import express from "express";
-import passport from "passport";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import auth from "./routes/auth";
-import posts from "./routes/posts";
+import express from 'express';
+import passport from 'passport';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import auth from './routes/auth';
+import posts from './routes/posts';
 
-import "./passport";
-import { Friendship, User } from "./database";
+import './passport';
+import { Friendship, User } from './database';
 
 const app = express();
 
@@ -15,30 +15,30 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
-app.use("/auth", auth);
-app.use("/posts", posts);
+app.use('/auth', auth);
+app.use('/posts', posts);
 
-app.get("/", (req, res) => {
-  res.send("Hello world");
+app.get('/', (req, res) => {
+  res.send('Hello world');
 });
 
 /* AUTHENTICATED ROUTES BELOW */
-app.use(passport.authenticate("jwt"));
+app.use(passport.authenticate('jwt'));
 
-app.get("/users", async (req, res) => {
+app.get('/users', async (req, res) => {
   const users = await User.findAll({
-    attributes: ["firstName", "lastName", "id", "email"],
+    attributes: ['firstName', 'lastName', 'id', 'email'],
     include: {
       model: User,
-      as: "friends",
-      attributes: ["firstName", "lastName", "id", "email"],
+      as: 'friends',
+      attributes: ['firstName', 'lastName', 'id', 'email'],
     },
   });
 
   res.json(users);
 });
 
-app.post("/friend", async (req, res) => {
+app.post('/friend', async (req, res) => {
   if (!req.isAuthenticated()) return res.send(401);
 
   const userId = req.body.userId;

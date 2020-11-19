@@ -1,8 +1,8 @@
-import { DataTypes } from "sequelize";
-import sequelize from "./sequelize";
-import User from "./User";
+import { DataTypes } from 'sequelize';
+import sequelize from './sequelize';
+import User from './User';
 
-const Post = sequelize.define("Post", {
+const Post = sequelize.define('Post', {
   id: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -28,7 +28,7 @@ const Post = sequelize.define("Post", {
 });
 
 Post.belongsTo(User, {
-  foreignKey: "creator",
+  foreignKey: 'creator',
 });
 
 export default Post;

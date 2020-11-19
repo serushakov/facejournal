@@ -4,7 +4,8 @@
   "description": "Backend part for FaceJournal project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -r esm --inspect=0.0.0.0 src/app.js"
+    "start": "nodemon -r esm --inspect=0.0.0.0 src/app.js",
+    "prettier": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,11 @@
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
-    "esm": "^3.2.25"
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "esm": "^3.2.25",
+    "prettier": "^2.1.2"
   }
 }

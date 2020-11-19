@@ -1,13 +1,13 @@
-import bcrypt from "bcrypt";
-import { body, validationResult } from "express-validator";
-import { User } from "../../database";
-import { serializeUserAuth } from "./serializers";
-import { createUserJwt } from "./utils";
-import { Op } from "sequelize";
+import bcrypt from 'bcrypt';
+import { body, validationResult } from 'express-validator';
+import { User } from '../../database';
+import { serializeUserAuth } from './serializers';
+import { createUserJwt } from './utils';
+import { Op } from 'sequelize';
 
 export const loginValidators = [
-  body("email").isEmail().exists(),
-  body("password").exists(),
+  body('email').isEmail().exists(),
+  body('password').exists(),
 ];
 
 async function handleLogin(req, res) {
@@ -30,7 +30,7 @@ async function handleLogin(req, res) {
   if (!user || !(await bcrypt.compare(password, user.password))) {
     res.status = 400;
     return res.send({
-      message: "Either email or password are incorrect",
+      message: 'Either email or password are incorrect',
     });
   }
 

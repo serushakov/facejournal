@@ -1,14 +1,14 @@
-import { Op } from "sequelize";
-import { body, validationResult } from "express-validator";
-import { User } from "../../database";
-import { serializeUserAuth } from "./serializers";
-import { createUser, createUserJwt } from "./utils";
+import { Op } from 'sequelize';
+import { body, validationResult } from 'express-validator';
+import { User } from '../../database';
+import { serializeUserAuth } from './serializers';
+import { createUser, createUserJwt } from './utils';
 
 export const registerValidators = [
-  body("email").isEmail().exists(),
-  body("password").exists(),
-  body("first_name").exists(),
-  body("last_name").exists(),
+  body('email').isEmail().exists(),
+  body('password').exists(),
+  body('first_name').exists(),
+  body('last_name').exists(),
 ];
 
 async function handleRegister(req, res) {
@@ -30,7 +30,7 @@ async function handleRegister(req, res) {
   });
 
   if (existingUser) {
-    return res.status(400).send("User already exists");
+    return res.status(400).send('User already exists');
   }
 
   const user = await createUser({

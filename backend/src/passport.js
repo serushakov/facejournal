@@ -1,15 +1,15 @@
-import passport from "passport";
-import { Op } from "sequelize";
-import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import { User } from "./database";
+import passport from 'passport';
+import { Op } from 'sequelize';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import { User } from './database';
 
 passport.use(
   new JwtStrategy(
     {
-      secretOrKey: "very secret", // FIXME
+      secretOrKey: 'very secret', // FIXME
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       jsonWebTokenOptions: {
-        maxAge: "1 day",
+        maxAge: '1 day',
       },
     },
     async ({ email }, done) => {
@@ -24,7 +24,7 @@ passport.use(
 
         if (!user) {
           return done(null, false, {
-            message: "Either email or password are incorrect",
+            message: 'Either email or password are incorrect',
           });
         }
 

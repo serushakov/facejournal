@@ -1,9 +1,9 @@
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
 
-const sequelize = new Sequelize("db", "user", "password", {
-  host: "db",
+const sequelize = new Sequelize('db', 'user', 'password', {
+  host: 'db',
   port: 3306,
-  dialect: "mariadb",
+  dialect: 'mariadb',
 
   pool: {
     max: 5,
@@ -16,9 +16,9 @@ export async function initialize() {
   try {
     await sequelize.authenticate();
 
-    console.log("Sequelize: Connection has been established successfully.");
+    console.log('Sequelize: Connection has been established successfully.');
   } catch (error) {
-    console.error("Sequelize: Unable to connect to the database:", error);
+    console.error('Sequelize: Unable to connect to the database:', error);
   }
 }
 

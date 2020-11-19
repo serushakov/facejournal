@@ -1,7 +1,7 @@
-import { DataTypes } from "sequelize";
-import sequelize from "./sequelize";
+import { DataTypes } from 'sequelize';
+import sequelize from './sequelize';
 
-const User = sequelize.define("User", {
+const User = sequelize.define('User', {
   id: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -31,7 +31,7 @@ const User = sequelize.define("User", {
   },
 });
 
-export const Friendship = sequelize.define("Friendship", {
+export const Friendship = sequelize.define('Friendship', {
   friendId: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -42,6 +42,6 @@ export const Friendship = sequelize.define("Friendship", {
   },
 });
 
-User.belongsToMany(User, { as: "friends", through: Friendship });
+User.belongsToMany(User, { as: 'friends', through: Friendship });
 
 export default User;
