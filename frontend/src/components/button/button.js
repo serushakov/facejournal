@@ -23,7 +23,7 @@ class Button extends HTMLElement {
 
   loadStyle = () => {
     const style = document.createElement("style");
-    style.innerText = css + resetCss;
+    style.textContent = css + resetCss;
 
     this.shadowRoot.appendChild(style);
   };

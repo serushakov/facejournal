@@ -48,7 +48,7 @@ function processNodes(input) {
 async function loadStyles(link) {
   const styles = await fetch(link).then((r) => r.text());
   const style = document.createElement("style");
-  style.innerText = styles;
+  style.textContent = styles;
   contentMap.set(link, style);
 
   return style;
