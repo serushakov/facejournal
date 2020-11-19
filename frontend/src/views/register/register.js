@@ -2,6 +2,7 @@ import css from "./register.scss";
 import "/components/button/button.js";
 import store from "/state/index.js";
 import Router from "/router/Router.js";
+import { register } from "../../state/auth/thunks.js";
 
 class RegisterPage extends HTMLElement {
   constructor() {
@@ -42,18 +43,14 @@ class RegisterPage extends HTMLElement {
 
     const formData = new FormData(this.form);
 
-    const response = await fetch("/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        first_name: formData.get("firstName"),
-        last_name: formData.get("lastName"),
+    store.dispatch(
+      register({
+        firstName: formData.get("firstName"),
+        lastName: formData.get("lastName"),
         email: formData.get("email"),
         password: formData.get("password"),
-      }),
-    });
+      })
+    );
   };
 }
 
