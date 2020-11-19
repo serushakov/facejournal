@@ -1,6 +1,7 @@
 import store from "/state/index.js";
 import "/components/button/button.js";
 import { login } from "/state/auth/thunks.js";
+import Router from "/router/Router.js";
 
 import css from "./login.scss";
 
@@ -15,7 +16,7 @@ class LoginPage extends HTMLElement {
     this.appendChild(template.content.cloneNode(true));
 
     const style = document.createElement("style");
-    style.innerText = css;
+    style.textContent = css;
     this.appendChild(style);
 
     this.init();
@@ -32,35 +33,11 @@ class LoginPage extends HTMLElement {
     store.unsubscribe(this.listener);
   }
 
-  listener = (state) => {
-    const { user } = state.auth;
+  listener = ({ auth: { user } }) => {
     if (user) {
-      this.displayLoggedInState(user);
-    } else {
-      this.displayLoggedOutState();
+      Router.navigate("/feed", { replace: true });
     }
   };
-
-  displayLoggedInState(user) {
-    const loggedInState = this.querySelector("#logged-in-view");
-    const form = this.querySelector("#login-form");
-
-    loggedInState.classList.add("visible");
-    form.classList.add("hidden");
-
-    const userName = `${user.firstName} ${user.lastName}`;
-
-    const title = this.querySelector("#user-name");
-    title.textContent = `Hello, ${userName} 👋`;
-  }
-
-  displayLoggedOutState() {
-    const loggedInState = this.querySelector("#logged-in-view");
-    const form = this.querySelector("#login-form");
-
-    loggedInState.classList.remove("visible");
-    form.classList.remove("hidden");
-  }
 
   handleFormSubmit = (event) => {
     event.preventDefault();

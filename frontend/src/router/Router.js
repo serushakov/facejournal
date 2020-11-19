@@ -6,9 +6,13 @@ class Router {
 
   registeredElements = new Set();
 
-  static navigate(path) {
+  static navigate(path, options) {
     if (location.pathname !== path) {
-      history.pushState(null, null, path);
+      if (options?.replace) {
+        history.replaceState(null, null, path);
+      } else {
+        history.pushState(null, null, path);
+      }
       window.dispatchEvent(new PopStateEvent("popstate"));
     }
   }
