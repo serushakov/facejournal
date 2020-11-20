@@ -1,8 +1,13 @@
 import store from '/state/index.js';
 import { loadAndParseHtml } from '/loader.js';
+import { getFeed } from '../../state/feed/thunks.js';
+import {
+  selectFeedPosts,
+  selectRequestParams,
+} from '../../state/feed/selectors.js';
+import { setFeedParams } from '../../state/feed/actions.js';
 
 import css from './feed.scss';
-import { getFeed } from '../../state/feed/thunks.js';
 
 class FeedPage extends HTMLElement {
   constructor() {
@@ -22,17 +27,33 @@ class FeedPage extends HTMLElement {
   };
 
   init() {
-    store.subscribe(this.listener);
+    store.subscribeWithSelector(selectFeedPosts, this.handleFeedChanged);
+    store.subscribeWithSelector(selectRequestParams, this.handleParamsChanged);
 
-    store.dispatch(getFeed({}));
+    const input = this.querySelector('#input');
+    input.value = 20;
+    input.addEventListener('change', (event) => {
+      const { value } = event.target;
+
+      store.dispatch(
+        setFeedParams({
+          limit: value,
+          offset: 0,
+        })
+      );
+    });
   }
 
   disconnectedCallback() {
     store.unsubscribe(this.listener);
   }
 
-  listener = (state) => {
-    console.log(state.feed);
+  handleParamsChanged = (params) => {
+    store.dispatch(getFeed(params));
+  };
+
+  handleFeedChanged = (feed) => {
+    console.log(feed);
   };
 }
 

@@ -1,11 +1,8 @@
 import { selectToken } from '../auth/selectors.js';
 import { getFeedRequest, getFeedSuccess } from './actions.js';
-import { selectRequestParams } from './selectors.js';
 
-export const getFeed = () => async (dispatch, getState) => {
+export const getFeed = ({ limit, offset }) => async (dispatch, getState) => {
   const token = selectToken(getState());
-
-  const { limit, offset } = selectRequestParams(getState());
 
   dispatch(getFeedRequest());
 

@@ -1,10 +1,12 @@
-import { FEED_REQUEST, FEED_SUCCESS } from './types.js';
+import { FEED_REQUEST, FEED_SUCCESS, SET_FEED_PARAMS } from './types.js';
 
 const initialState = {
   loading: false,
   result: null,
-  limit: 20,
-  offset: 0,
+  params: {
+    limit: 20,
+    offset: 0,
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,6 +24,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: false,
         result: action.payload,
+      };
+    case SET_FEED_PARAMS:
+      return {
+        ...state,
+        params: action.payload,
       };
   }
 };
