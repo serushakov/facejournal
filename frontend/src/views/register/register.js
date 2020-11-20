@@ -1,7 +1,7 @@
-import 'components/button/button.js';
-import store from 'state/index.js';
-import { loadAndParseHtml } from 'loader.js';
-import Router from 'router/Router.js';
+import '/components/button/button.js';
+import store from '/state/index.js';
+import { loadAndParseHtml } from '/loader.js';
+import Router from '/router/Router.js';
 import { register } from '/state/auth/thunks.js';
 
 import css from './register.scss';
