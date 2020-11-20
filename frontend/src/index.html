@@ -1,18 +1,15 @@
 <html>
   <head>
-    <script src="/loader.js"></script>
-    <script src="/pages/test.js"></script>
-    <script type="module" src="/main.js"></script>
     <script src="/router/nav.js"></script>
+    <script type="module" src="/main.js"></script>
 
     <link rel="stylesheet" href="/styles.css" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <script type="module" type="text/javascript">
-      loadComponent("/components/header/header.js");
-      loadComponent("/components/button/button.js");
-      loadComponent("/components/logo/logo.js");
+      import { loadComponent } from '/loader.js';
+      loadComponent('/components/header/header.js');
     </script>
   </head>
 

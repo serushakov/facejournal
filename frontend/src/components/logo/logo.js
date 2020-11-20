@@ -1,28 +1,29 @@
-import css from "./logo.scss";
-import resetCss from "../../styles/reset.scss";
+import css from './logo.scss';
+import resetCss from '../../styles/reset.scss';
+import { loadAndParseHtml } from '/loader.js';
 
 class Logo extends HTMLElement {
   constructor() {
     super();
-    loadAndParseHtml("/components/logo/logo.html").then(this.createShadowRoot);
+    loadAndParseHtml('/components/logo/logo.html').then(this.createShadowRoot);
   }
 
   createShadowRoot = (document) => {
-    const template = document.getElementById("logo");
+    const template = document.getElementById('logo');
 
     this.attachShadow({
-      mode: "open",
+      mode: 'open',
     }).appendChild(template.content.cloneNode(true));
 
     this.loadStyle();
   };
 
   loadStyle = () => {
-    const style = document.createElement("style");
+    const style = document.createElement('style');
     style.textContent = css + resetCss;
 
     this.shadowRoot.appendChild(style);
   };
 }
 
-customElements.define("brand-logo", Logo);
+customElements.define('brand-logo', Logo);

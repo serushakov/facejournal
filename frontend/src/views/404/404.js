@@ -1,14 +1,16 @@
+import { loadAndParseHtml } from '/loader.js';
+
 class PageNotFound extends HTMLElement {
   constructor() {
     super();
-    loadAndParseHtml("/views/404/404.html").then(this.setContent);
+    loadAndParseHtml('/views/404/404.html').then(this.setContent);
   }
 
   setContent = (document) => {
-    const template = document.querySelector("template");
+    const template = document.querySelector('template');
 
     this.appendChild(template.content.cloneNode(true));
   };
 }
 
-customElements.define("page-not-found", PageNotFound);
+customElements.define('page-not-found', PageNotFound);

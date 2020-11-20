@@ -1,20 +1,22 @@
-import css from "./register.scss";
-import "/components/button/button.js";
-import store from "/state/index.js";
-import Router from "/router/Router.js";
-import { register } from "../../state/auth/thunks.js";
+import 'components/button/button.js';
+import store from 'state/index.js';
+import { loadAndParseHtml } from 'loader.js';
+import Router from 'router/Router.js';
+import { register } from '/state/auth/thunks.js';
+
+import css from './register.scss';
 
 class RegisterPage extends HTMLElement {
   constructor() {
     super();
-    loadAndParseHtml("/views/register/register.html").then(this.setContent);
+    loadAndParseHtml('/views/register/register.html').then(this.setContent);
   }
 
   setContent = (document) => {
-    const template = document.getElementById("register-page");
+    const template = document.getElementById('register-page');
     this.appendChild(template.content.cloneNode(true));
 
-    const style = document.createElement("style");
+    const style = document.createElement('style');
     style.textContent = css;
     this.appendChild(style);
 
@@ -22,15 +24,15 @@ class RegisterPage extends HTMLElement {
   };
 
   init = () => {
-    this.form = this.querySelector("#register-form");
-    this.form.addEventListener("submit", this.handleFormSubmit);
+    this.form = this.querySelector('#register-form');
+    this.form.addEventListener('submit', this.handleFormSubmit);
 
     store.subscribe(this.listener);
   };
 
   listener = (state) => {
     if (state.auth.user) {
-      Router.navigate("/feed", { replace: true });
+      Router.navigate('/feed', { replace: true });
     }
   };
 
@@ -45,13 +47,13 @@ class RegisterPage extends HTMLElement {
 
     store.dispatch(
       register({
-        firstName: formData.get("firstName"),
-        lastName: formData.get("lastName"),
-        email: formData.get("email"),
-        password: formData.get("password"),
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        email: formData.get('email'),
+        password: formData.get('password'),
       })
     );
   };
 }
 
-customElements.define("register-page", RegisterPage);
+customElements.define('register-page', RegisterPage);

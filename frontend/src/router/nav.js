@@ -1,10 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 function nav(event) {
   event.preventDefault();
-  const href = event.target.href;
+  const { href } = event.target;
 
-  if (location.href !== href) {
-    history.pushState(null, null, href);
+  if (window.location.href !== href) {
+    window.history.pushState(null, null, href);
     // Dispatching a popstate event to trigger router listener
-    window.dispatchEvent(new PopStateEvent("popstate"));
+    window.dispatchEvent(new PopStateEvent('popstate'));
   }
 }

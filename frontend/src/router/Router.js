@@ -1,5 +1,6 @@
 class Router {
   routes = [];
+
   rootElement = null;
 
   prevLocation = null;
@@ -7,13 +8,13 @@ class Router {
   registeredElements = new Set();
 
   static navigate(path, options) {
-    if (location.pathname !== path) {
+    if (window.location.pathname !== path) {
       if (options?.replace) {
-        history.replaceState(null, null, path);
+        window.history.replaceState(null, null, path);
       } else {
-        history.pushState(null, null, path);
+        window.history.pushState(null, null, path);
       }
-      window.dispatchEvent(new PopStateEvent("popstate"));
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }
   }
 
@@ -26,7 +27,7 @@ class Router {
   }
 
   listenToRouteChanges() {
-    window.addEventListener("popstate", this.handleLocationChange);
+    window.addEventListener('popstate', this.handleLocationChange);
   }
 
   getRoute(currentLocation) {
@@ -39,14 +40,14 @@ class Router {
   }
 
   handleLocationChange = async () => {
-    const currentLocation = location.pathname;
+    const currentLocation = window.location.pathname;
 
     const element = await this.getRoute(currentLocation).loadPage();
 
     if (element) {
       this.mountRoute(element);
     } else {
-      throw Error("No route to render");
+      throw Error('No route to render');
     }
 
     this.prevLocation = currentLocation;

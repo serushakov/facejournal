@@ -1,20 +1,21 @@
-import css from "./button.scss";
-import resetCss from "../../styles/reset.scss";
+import css from './button.scss';
+import resetCss from '../../styles/reset.scss';
+import { loadAndParseHtml } from '/loader.js';
 
 class Button extends HTMLElement {
   constructor() {
     super();
 
-    loadAndParseHtml("/components/button/button.html").then(
+    loadAndParseHtml('/components/button/button.html').then(
       this.createShadowRoot
     );
   }
 
   createShadowRoot = (document) => {
-    const template = document.getElementById("button");
+    const template = document.getElementById('button');
 
     this.attachShadow({
-      mode: "open",
+      mode: 'open',
     }).appendChild(template.content.cloneNode(true));
 
     this.loadStyle();
@@ -22,7 +23,7 @@ class Button extends HTMLElement {
   };
 
   loadStyle = () => {
-    const style = document.createElement("style");
+    const style = document.createElement('style');
     style.textContent = css + resetCss;
 
     this.shadowRoot.appendChild(style);
@@ -30,16 +31,16 @@ class Button extends HTMLElement {
 
   init() {
     if (!this.attributes.variant) {
-      throw Error("Button should have a variant attribute");
+      throw Error('Button should have a variant attribute');
     }
 
-    this.buttonElement = this.shadowRoot.getElementById("button");
+    this.buttonElement = this.shadowRoot.getElementById('button');
 
     for (let attribute of Array.from(this.attributes)) {
       this.setButtonAttribute(attribute.name, attribute.value);
     }
 
-    this.addEventListener("click", this.handleClick);
+    this.addEventListener('click', this.handleClick);
   }
 
   handleClick = () => {
@@ -50,21 +51,21 @@ class Button extends HTMLElement {
 
   setButtonAttribute(name, value, oldValue) {
     switch (name) {
-      case "type":
-        if (value === "submit") {
-          this.submitButton = document.createElement("button");
-          this.submitButton.type = "submit";
-          this.submitButton.hidden = "true";
+      case 'type':
+        if (value === 'submit') {
+          this.submitButton = document.createElement('button');
+          this.submitButton.type = 'submit';
+          this.submitButton.hidden = 'true';
 
           this.append(this.submitButton);
         }
         break;
-      case "id":
+      case 'id':
         break;
-      case "class":
+      case 'class':
         this.buttonElement.classList.add(value);
         break;
-      case "variant":
+      case 'variant':
         if (oldValue) {
           this.buttonElement.classList.remove(oldValue);
         }
@@ -82,4 +83,4 @@ class Button extends HTMLElement {
   }
 }
 
-customElements.define("i-button", Button);
+customElements.define('i-button', Button);
