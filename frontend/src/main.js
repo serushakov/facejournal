@@ -7,6 +7,7 @@ import { loginSuccess, loginRequest } from '/state/auth/actions.js';
 const router = new Router(document.getElementById('root'), [
   new Route('/login', '/views/login/login.js', 'login-page'),
   new Route('/register', '/views/register/register.js', 'register-page'),
+  new Route('/feed', '/views/feed/feed.js', 'feed-page'),
   new Route(null, '/views/404/404.js', 'page-not-found'),
 ]);
 
