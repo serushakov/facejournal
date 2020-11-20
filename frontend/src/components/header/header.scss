@@ -6,9 +6,9 @@
 .container {
   margin: 0 auto;
   height: 100%;
-  max-width: 1200px;
+  max-width: var(--x-large-breakpoint);
 
-  padding: 1rem 2rem;
+  padding: 1rem var(--side-padding);
   display: flex;
   justify-content: space-between;
 }

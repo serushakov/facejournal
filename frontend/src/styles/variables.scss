@@ -13,6 +13,14 @@ body {
   --font-size-max: 16px;
   --min-width: 320px;
 
+  --large-padding: 2rem;
+  --small-padding: 1rem;
+
+  --side-padding: var(--large-padding);
+  @media screen and (max-width: 480px) {
+    --side-padding: var(--small-padding);
+  }
+
   --small-breakpoint: 480px;
   --medium-breakpoint: 768px;
   --large-breakpoint: 992px;
