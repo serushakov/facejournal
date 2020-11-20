@@ -8,6 +8,7 @@ module.exports = {
     'import/extensions': 0,
     'import/no-unresolved': 0,
     'import/no-absolute-path': 0,
+    'import/prefer-default-export': 0,
     'no-restricted-syntax': 0,
   },
   env: {

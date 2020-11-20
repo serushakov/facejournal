@@ -2,6 +2,7 @@ import store from '/state/index.js';
 import { loadAndParseHtml } from '/loader.js';
 
 import css from './feed.scss';
+import { getFeed } from '../../state/feed/thunks.js';
 
 class FeedPage extends HTMLElement {
   constructor() {
@@ -22,13 +23,17 @@ class FeedPage extends HTMLElement {
 
   init() {
     store.subscribe(this.listener);
+
+    store.dispatch(getFeed({}));
   }
 
   disconnectedCallback() {
     store.unsubscribe(this.listener);
   }
 
-  listener = (state) => {};
+  listener = (state) => {
+    console.log(state.feed);
+  };
 }
 
 customElements.define('feed-page', FeedPage);
