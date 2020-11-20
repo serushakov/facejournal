@@ -6,6 +6,7 @@ import {
   selectRequestParams,
 } from '../../state/feed/selectors.js';
 import { setFeedParams } from '../../state/feed/actions.js';
+import '/components/post-item/post-item.js';
 
 import css from './feed.scss';
 
@@ -29,19 +30,6 @@ class FeedPage extends HTMLElement {
   init() {
     store.subscribeWithSelector(selectFeedPosts, this.handleFeedChanged);
     store.subscribeWithSelector(selectRequestParams, this.handleParamsChanged);
-
-    const input = this.querySelector('#input');
-    input.value = 20;
-    input.addEventListener('change', (event) => {
-      const { value } = event.target;
-
-      store.dispatch(
-        setFeedParams({
-          limit: value,
-          offset: 0,
-        })
-      );
-    });
   }
 
   disconnectedCallback() {
@@ -53,7 +41,39 @@ class FeedPage extends HTMLElement {
   };
 
   handleFeedChanged = (feed) => {
-    console.log(feed);
+    if (!feed) return;
+
+    const feedElements = feed.map(this.createPostItem);
+
+    const feedRoot = this.querySelector('#feed');
+    feedRoot.innerHTML = '';
+    feedRoot.append(...feedElements);
+  };
+
+  createPostItem = (post) => {
+    const { title, textContent, User } = post;
+
+    const postItemContainer = document.createElement('div');
+    postItemContainer.classList.add('feed-page__item');
+
+    const postItem = document.createElement('post-item');
+
+    const titleSlot = document.createElement('span');
+    titleSlot.textContent = title;
+    titleSlot.slot = 'title';
+
+    const textContentSlot = document.createElement('p');
+    textContentSlot.textContent = textContent;
+    textContentSlot.slot = 'text-content';
+
+    const creatorNameSlot = document.createElement('span');
+    creatorNameSlot.textContent = `${User.firstName} ${User.lastName}`;
+    creatorNameSlot.slot = 'creator-name';
+
+    postItem.append(titleSlot, textContentSlot, creatorNameSlot);
+    postItemContainer.appendChild(postItem);
+
+    return postItemContainer;
   };
 }
 

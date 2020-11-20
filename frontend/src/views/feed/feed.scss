@@ -1,0 +1,10 @@
+.feed-page {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    & + & {
+      margin-top: 2rem;
+    }
+  }
+}
