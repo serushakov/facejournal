@@ -1,0 +1,31 @@
+.post-item {
+  display: flex;
+  flex-direction: column;
+
+  border: 2px solid var(--dark-shade);
+  padding: 1.5rem;
+  border-radius: 8px;
+
+  &__header {
+    width: 100%;
+    margin-bottom: 1rem;
+
+    &__title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 1.5rem;
+    }
+  }
+
+  &__content {
+    margin-bottom: 1rem;
+
+    &__text {
+      font-size: 1rem;
+      font-weight: 300;
+
+      white-space: pre-wrap;
+      hyphens: auto;
+    }
+  }
+}

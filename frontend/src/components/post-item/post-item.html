@@ -1,0 +1,17 @@
+<template id="post-item">
+  <div class="post-item">
+    <div class="post-item__header">
+      <slot name="title" class="post-item__header__title"></slot>
+    </div>
+
+    <div class="post-item__content">
+      <slot name="image" class="post-item__content__image"></slot>
+      <slot name="text-content" class="post-item__content__text"></slot>
+    </div>
+
+    <div class="post-item__creator">
+      <slot name="creator-avatar" class="post-item__creator__image"></slot>
+      <slot name="creator-name" class="post-item__creator__name"></slot>
+    </div>
+  </div>
+</template>
