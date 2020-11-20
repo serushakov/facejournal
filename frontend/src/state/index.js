@@ -1,6 +1,6 @@
-import Store from '/state/Store.js';
-import auth from '/state/auth/reducer.js';
-import feed from '/state/feed/reducer.js';
+import Store from './Store.js';
+import auth from './auth/reducer.js';
+import feed from './feed/reducer.js';
 
 const store = new Store(
   Store.combineReducers({
