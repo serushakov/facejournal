@@ -1,0 +1,36 @@
+.create-post {
+  &__fieldset {
+    border: 2px solid var(--dark-shade);
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__legend {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  &__field-wrapper {
+    margin-bottom: 1rem;
+  }
+
+  &__textarea {
+    margin-bottom: 0.25rem;
+    position: relative;
+
+    & > textarea {
+      resize: vertical;
+    }
+  }
+  &__charcount {
+    font-size: 0.75rem;
+    align-self: flex-end;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-around;
+  }
+}

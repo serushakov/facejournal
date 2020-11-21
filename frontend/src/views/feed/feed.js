@@ -7,6 +7,7 @@ import {
 } from '../../state/feed/selectors.js';
 import { setFeedParams } from '../../state/feed/actions.js';
 import '/components/post-item/post-item.js';
+import '/components/create-post-form/create-post-form.js';
 
 import css from './feed.scss';
 import { selectUser } from '../../state/auth/selectors.js';

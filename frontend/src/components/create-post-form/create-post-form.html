@@ -1,0 +1,43 @@
+<template id="create-post-form">
+  <div>
+    <form id="form" class="create-post">
+      <fieldset class="create-post__fieldset">
+        <legend class="create-post__legend">Create a post</legend>
+        <div class="input__wrapper create-post__field-wrapper">
+          <label class="input__label" for="title">Title</label>
+          <input
+            class="input__field"
+            required="true"
+            id="title"
+            type="text"
+            name="title"
+          />
+        </div>
+
+        <div class="input__wrapper create-post__textarea">
+          <textarea
+            class="input__field"
+            required="true"
+            name="text-content"
+            id="textarea"
+            rows="3"
+          ></textarea>
+        </div>
+        <span id="character-count" class="create-post__charcount">0/0</span>
+
+        <div class="create-post__buttons">
+          <i-button variant="secondary" class="create-post__submit_button">
+            <span slot="text">Cancel</span>
+          </i-button>
+          <i-button
+            variant="primary"
+            type="submit"
+            class="create-post__submit_button"
+          >
+            <span slot="text">Create</span>
+          </i-button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</template>

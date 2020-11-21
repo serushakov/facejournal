@@ -2,7 +2,7 @@ import { body, validationResult } from 'express-validator';
 import { Post } from '../../database';
 
 export const createPostValidators = [
-  body('title').exists().isLength({ min: 3, max: 200 }),
+  body('title').isLength({ min: 3, max: 200 }),
   body('text_content').isLength({ max: 3000 }),
 ];
 
