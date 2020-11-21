@@ -3,7 +3,7 @@ class Store {
 
   reducer = null;
 
-  listeners = new Map(); // { [listener]: [ selector | null] }
+  listeners = new Map(); // { [listener]: [ selector[] | null] }
 
   static combineReducers(reducers) {
     return (state, action) => {
@@ -23,6 +23,8 @@ class Store {
     this.state = this.reducer(this.state, { type: null });
   }
 
+  /* PUBLIC API */
+
   getState = () => this.state;
 
   dispatch = (action) => {
@@ -38,27 +40,12 @@ class Store {
     this.sendUpdate(prevState);
   };
 
-  sendUpdate(prevState) {
-    for (const [listener, selector] of this.listeners.entries()) {
-      if (selector === null) {
-        listener(this.state, prevState);
-      } else {
-        const newState = selector(this.state);
-        const selectorPrevState = selector(prevState);
+  subscribeWithSelectors = (listener, ...selectors) => {
+    const selectedStates = selectors.map((selector) => selector(this.state));
 
-        // Referrential comparision
-        if (newState !== selectorPrevState) {
-          listener(newState);
-        }
-      }
-    }
-  }
+    this.listeners.set(listener, selectors);
 
-  subscribeWithSelector = (selector, listener) => {
-    const selectedState = selector(this.state);
-    this.listeners.set(listener, selector);
-
-    listener(selectedState, null);
+    listener(...this.joinPrevAndCurrentStates(selectedStates));
   };
 
   subscribe = (listener) => {
@@ -69,6 +56,40 @@ class Store {
 
   unsubscribe = (listener) => {
     this.listeners.delete(listener);
+  };
+
+  /* PRIVATE API */
+
+  sendUpdate(prevState) {
+    for (const [listener, selectors] of this.listeners.entries()) {
+      if (selectors === null) {
+        listener(this.state, prevState);
+      } else {
+        const newStates = this.selectStatesWithSelector(selectors, this.state);
+        const prevStates = this.selectStatesWithSelector(selectors, prevState);
+
+        // Referrential comparision
+        if (!this.statesAreEqual(newStates, prevStates)) {
+          listener(...this.joinPrevAndCurrentStates(newStates, prevStates));
+        }
+      }
+    }
+  }
+
+  statesAreEqual = (currentStates, prevStates) =>
+    currentStates.reduce(
+      (result, state, index) => result && state === prevStates[index],
+      true
+    );
+
+  selectStatesWithSelector = (selectors, state) =>
+    selectors.map((selector) => selector(state));
+
+  joinPrevAndCurrentStates = (currentStates, nextStates) => {
+    return currentStates.map((currentState, index) => [
+      currentState,
+      nextStates?.[index],
+    ]);
   };
 }
 

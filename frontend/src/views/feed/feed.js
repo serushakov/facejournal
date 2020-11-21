@@ -9,6 +9,7 @@ import { setFeedParams } from '../../state/feed/actions.js';
 import '/components/post-item/post-item.js';
 
 import css from './feed.scss';
+import { selectUser } from '../../state/auth/selectors.js';
 
 class FeedPage extends HTMLElement {
   constructor() {
@@ -28,19 +29,27 @@ class FeedPage extends HTMLElement {
   };
 
   init() {
-    store.subscribeWithSelector(selectFeedPosts, this.handleFeedChanged);
-    store.subscribeWithSelector(selectRequestParams, this.handleParamsChanged);
+    store.subscribeWithSelectors(this.handleFeedChanged, selectFeedPosts);
+
+    store.subscribeWithSelectors(
+      this.handleParamsChanged,
+      selectRequestParams,
+      selectUser
+    );
   }
 
   disconnectedCallback() {
-    store.unsubscribe(this.listener);
+    store.unsubscribe(this.handleFeedChanged);
+    store.unsubscribe(this.handleParamsChanged);
   }
 
-  handleParamsChanged = (params) => {
+  handleParamsChanged = ([params], [user]) => {
+    if (!user) return;
+
     store.dispatch(getFeed(params));
   };
 
-  handleFeedChanged = (feed) => {
+  handleFeedChanged = ([feed]) => {
     if (!feed) return;
 
     const feedElements = feed.map(this.createPostItem);
