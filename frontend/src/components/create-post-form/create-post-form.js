@@ -4,7 +4,6 @@ import resetCss from '../../styles/reset.scss';
 import inputCss from '../../styles/input.scss';
 import { loadAndParseHtml } from '/loader.js';
 import { selectToken } from '../../state/auth/selectors.js';
-import { getFeed } from '../../state/feed/thunks.js';
 
 const MAX_TEXT_LENGTH = 3000;
 
@@ -43,6 +42,9 @@ class CreatePostForm extends HTMLElement {
     this.form = this.shadowRoot.querySelector('#form');
     this.form.addEventListener('submit', this.handleFormSubmit);
 
+    const cancelButton = this.shadowRoot.querySelector('#cancel-button');
+    cancelButton.addEventListener('click', this.handleCancelClick);
+
     this.setCharcount();
   }
 
@@ -69,7 +71,7 @@ class CreatePostForm extends HTMLElement {
     const formData = new FormData(this.form);
     const token = selectToken(store.getState());
 
-    await fetch('/api/posts', {
+    const response = await fetch('/api/posts', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -82,7 +84,21 @@ class CreatePostForm extends HTMLElement {
       }),
     });
 
-    store.dispatch(getFeed());
+    const { id } = await response.json();
+
+    this.emitCreatedEvent(id);
+  };
+
+  handleCancelClick = () => {
+    const event = new Event('cancel');
+    this.dispatchEvent(event);
+  };
+
+  emitCreatedEvent = (postId) => {
+    const event = new Event('create');
+    event.postId = postId;
+
+    this.dispatchEvent(event);
   };
 }
 

@@ -1,6 +1,13 @@
 <template id="feed-page">
-  <div class="feed-page__add-post">
-    <create-post-form></create-post-form>
+  <div class="feed-page__add-post" id="create-post-container">
+    <i-button
+      id="create-post-button"
+      variant="secondary"
+      style="width: 100%"
+      class="feed-page__add-post__button"
+    >
+      <span slot="text">Create a post</span>
+    </i-button>
   </div>
 
   <div id="feed" className="feed-page"></div>
