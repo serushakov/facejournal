@@ -41,7 +41,7 @@ async function handleGetFeed(req, res) {
     },
     include: {
       model: User,
-      attributes: ['firstName', 'lastName', 'id', 'email'],
+      attributes: ['firstName', 'lastName', 'id', 'email', 'avatar'],
     },
   });
 

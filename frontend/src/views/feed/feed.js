@@ -79,7 +79,16 @@ class FeedPage extends HTMLElement {
     creatorNameSlot.textContent = `${User.firstName} ${User.lastName}`;
     creatorNameSlot.slot = 'creator-name';
 
-    postItem.append(titleSlot, textContentSlot, creatorNameSlot);
+    const creatorImageSlot = document.createElement('img');
+    creatorImageSlot.src = User.avatar;
+    creatorImageSlot.slot = 'creator-avatar';
+
+    postItem.append(
+      titleSlot,
+      textContentSlot,
+      creatorNameSlot,
+      creatorImageSlot
+    );
     postItemContainer.appendChild(postItem);
 
     return postItemContainer;

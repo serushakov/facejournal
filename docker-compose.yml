@@ -30,7 +30,7 @@ services:
         context: .
         dockerfile: ./backend/Dockerfile
     volumes:
-      - ./backend/src:/usr/src/backend/src
+      - ./backend:/usr/src/backend
     networks:
       - gateway
     ports:

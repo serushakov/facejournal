@@ -28,4 +28,23 @@
       hyphens: auto;
     }
   }
+
+  &__creator {
+    display: flex;
+    align-items: center;
+
+    &__avatar {
+      display: block;
+      width: 2rem;
+      height: 2rem;
+      overflow: hidden;
+
+      border-radius: 50%;
+      margin-inline-end: 0.5rem;
+    }
+
+    &__name {
+      font-size: 0.875rem;
+    }
+  }
 }
