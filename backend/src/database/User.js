@@ -29,6 +29,11 @@ const User = sequelize.define('User', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
+  avatar: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '/static/images/user-avatar-placeholder.jpg',
+  },
 });
 
 export const Friendship = sequelize.define('Friendship', {

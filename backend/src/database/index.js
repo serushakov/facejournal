@@ -4,9 +4,7 @@ import Post from './Post';
 
 (async () => {
   await initialize();
-  await User.sync();
-  await Friendship.sync();
-  await Post.sync();
+  sequelize.sync();
 })();
 
 export { sequelize, User, Friendship, Post };
