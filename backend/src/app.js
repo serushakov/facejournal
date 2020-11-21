@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import passport from 'passport';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -13,6 +14,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/static', express.static(path.join(__dirname, '../', 'static')));
 app.use(passport.initialize());
 
 app.use('/auth', auth);
