@@ -89,7 +89,7 @@ class FeedPage extends HTMLElement {
   };
 
   createPostItem = (post) => {
-    const { title, textContent, User, imageUrl } = post;
+    const { title, textContent, creator, media } = post;
 
     const postItemContainer = document.createElement('div');
     postItemContainer.classList.add('feed-page__item');
@@ -105,15 +105,15 @@ class FeedPage extends HTMLElement {
     textContentSlot.slot = 'text-content';
 
     const creatorNameSlot = document.createElement('span');
-    creatorNameSlot.textContent = `${User.firstName} ${User.lastName}`;
+    creatorNameSlot.textContent = `${creator.firstName} ${creator.lastName}`;
     creatorNameSlot.slot = 'creator-name';
 
     const creatorImageSlot = document.createElement('img');
-    creatorImageSlot.src = User.avatar;
+    creatorImageSlot.src = creator.avatar;
     creatorImageSlot.slot = 'creator-avatar';
 
     const imageSlot = document.createElement('img');
-    imageSlot.src = imageUrl;
+    imageSlot.src = media[0].url;
     imageSlot.slot = 'image';
 
     postItem.append(

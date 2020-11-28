@@ -1,6 +1,6 @@
 import { query, validationResult } from 'express-validator';
 import { Op } from 'sequelize';
-import { Post, User } from '../../database';
+import { Post } from '../../database';
 
 const extractQueryParamsForSequelize = ({ query: { limit, offset } }) => {
   const parsedLimit = parseInt(limit);
@@ -35,20 +35,19 @@ async function handleGetFeed(req, res) {
     offset,
     order: [['createdAt', 'DESC']],
     where: {
-      creator: {
+      creatorId: {
         [Op.in]: userIds,
       },
     },
-    include: {
-      model: User,
-      attributes: ['firstName', 'lastName', 'id', 'email', 'avatar'],
-    },
   });
+
+  const { count, rows } = posts;
 
   res.send({
     limit,
     offset,
-    ...posts,
+    count,
+    rows: await Promise.all(rows.map((post) => post.toJSON())),
   });
 }
 

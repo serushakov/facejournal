@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import path from 'path';
 import { body, validationResult } from 'express-validator';
 import mime from 'mime-types';
-import { Post } from '../../database';
+import { Post, Media } from '../../database';
 
 const allowedMimeTypes = [
   'video/mp4',
@@ -81,27 +81,30 @@ async function handleCreatePost(req, res) {
     return res.status(500);
   }
 
-  const fileType = file && getFileType(file.mimetype);
-  const filePath = file && `/static/${file.filename}`;
-
-  const fileFields = {};
-
-  switch (fileType) {
-    case 'image':
-      fileFields.imageUrl = filePath;
-      break;
-    case 'video':
-      fileFields.videoUrl = filePath;
-      break;
-    default:
-  }
-
   const post = await Post.create({
     title,
     textContent,
-    creator: user.id,
-    ...fileFields,
   });
+
+  post.setUser(user);
+
+  const fileType = file && getFileType(file.mimetype);
+  const filePath = file && `/static/${file.filename}`;
+
+  post.addMedia(
+    await Media.create({
+      url: filePath,
+      type: fileType,
+    })
+  );
+
+  const lol = await Post.findOne({
+    where: {
+      id: post.id,
+    },
+  });
+
+  console.log(lol);
 
   res.status(201);
 

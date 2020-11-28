@@ -1,4 +1,5 @@
 import { DataTypes } from 'sequelize';
+import Media from './Media';
 import sequelize from './sequelize';
 import User from './User';
 
@@ -12,12 +13,6 @@ const Post = sequelize.define('Post', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  imageUrl: {
-    type: DataTypes.STRING,
-  },
-  videoUrl: {
-    type: DataTypes.STRING,
   },
   textContent: {
     type: DataTypes.STRING,
@@ -33,8 +28,26 @@ const Post = sequelize.define('Post', {
   },
 });
 
-Post.belongsTo(User, {
-  foreignKey: 'creator',
+User.hasMany(Post, { foreignKey: 'creatorId' });
+Post.belongsTo(User, { foreignKey: 'creatorId' });
+
+Post.hasMany(Media, {
+  foreignKey: 'postId',
+  as: 'media',
 });
+
+Post.prototype.toJSON = async function toJSON() {
+  const creator = await this.getUser();
+
+  return {
+    id: this.id,
+    title: this.title,
+    textContent: this.textContent,
+    cratedAd: this.createdAt,
+    updatedAt: this.updatedAt,
+    creator: await creator.toJSON(),
+    media: await this.getMedia(),
+  };
+};
 
 export default Post;
