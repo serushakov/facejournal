@@ -71,22 +71,16 @@ class CreatePostForm extends HTMLElement {
     const formData = new FormData(this.form);
     const token = selectToken(store.getState());
 
-    const response = await fetch('/api/posts', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
+    const request = new XMLHttpRequest();
 
-      body: JSON.stringify({
-        title: formData.get('title'),
-        text_content: formData.get('text-content'),
-      }),
+    request.open('POST', '/api/posts');
+    request.setRequestHeader('Authorization', `Bearer ${token}`);
+
+    request.addEventListener('load', () => {
+      const { id } = JSON.parse(request.responseText);
+      this.emitCreatedEvent(id);
     });
-
-    const { id } = await response.json();
-
-    this.emitCreatedEvent(id);
+    request.send(formData);
   };
 
   handleCancelClick = () => {
