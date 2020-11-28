@@ -38,7 +38,7 @@ services:
       - 9229:9229
     networks:
       - gateway
-    command: yarn workspace backend run start
+    command: sh -c './backend/wait-for db:3306 -- yarn workspace backend run start'
 
   nginx:
     depends_on:

@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:14
 
 WORKDIR /usr/src
 
@@ -7,6 +7,6 @@ COPY package.json .
 
 COPY backend backend
 
-RUN ls -la
+RUN apt-get -q update && apt-get -qy install netcat
 
 RUN yarn install --pure-lockfile --non-interactive
