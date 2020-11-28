@@ -66,7 +66,7 @@ export const createPostValidators = [
   body('text_content').isLength({ max: 3000 }),
 ];
 
-export const uploadHandler = upload.single('media');
+export const uploadHandler = upload.array('media', 5);
 
 async function handleCreatePost(req, res) {
   const errors = validationResult(req);
@@ -74,7 +74,7 @@ async function handleCreatePost(req, res) {
     return res.status(400).send(errors.array());
   }
 
-  const { user, body: requestBody, file } = req;
+  const { user, body: requestBody, files } = req;
   const { title, text_content: textContent } = requestBody;
 
   if (!user) {
@@ -88,23 +88,18 @@ async function handleCreatePost(req, res) {
 
   post.setUser(user);
 
-  const fileType = file && getFileType(file.mimetype);
-  const filePath = file && `/static/${file.filename}`;
+  const media =
+    files &&
+    (await Promise.all(
+      files.map((file) =>
+        Media.create({
+          url: `/static/${file.filename}`,
+          type: getFileType(file.mimetype),
+        })
+      )
+    ));
 
-  post.addMedia(
-    await Media.create({
-      url: filePath,
-      type: fileType,
-    })
-  );
-
-  const lol = await Post.findOne({
-    where: {
-      id: post.id,
-    },
-  });
-
-  console.log(lol);
+  post.addMedia(media);
 
   res.status(201);
 
