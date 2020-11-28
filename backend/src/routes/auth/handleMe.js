@@ -2,7 +2,7 @@ import { header, validationResult } from 'express-validator';
 
 export const meValidators = [header('Authorization').exists()];
 
-function handleMe(req, res) {
+async function handleMe(req, res) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -15,7 +15,7 @@ function handleMe(req, res) {
     return res.send([{ msg: 'Unauthorized' }]);
   }
 
-  res.send(req.user.toJSON());
+  res.send(await req.user.toJSON());
 }
 
 export default handleMe;
