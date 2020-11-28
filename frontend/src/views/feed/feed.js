@@ -112,16 +112,15 @@ class FeedPage extends HTMLElement {
     creatorImageSlot.src = creator.avatar;
     creatorImageSlot.slot = 'creator-avatar';
 
-    const imageSlot = document.createElement('img');
-    imageSlot.src = media[0].url;
-    imageSlot.slot = 'image';
+    if (media.length) {
+      postItem.setMedia(media);
+    }
 
     postItem.append(
       titleSlot,
       textContentSlot,
       creatorNameSlot,
-      creatorImageSlot,
-      imageSlot
+      creatorImageSlot
     );
     postItemContainer.appendChild(postItem);
 

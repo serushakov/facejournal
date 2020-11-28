@@ -21,11 +21,56 @@
     overflow: hidden;
     margin-bottom: 1rem;
 
-    &__image {
+    &__media {
+      position: relative;
       width: 100%;
+
+      &:hover > &__button.visible {
+        opacity: 1;
+      }
+
+      &__button {
+        position: absolute;
+        height: 100%;
+        padding: 0 1rem;
+        appearance: none;
+        display: none;
+        top: 0;
+        opacity: 0;
+        transition: opacity 300ms ease-out;
+
+        border: none;
+        color: var(--light-shade);
+
+        font-size: 1.5rem;
+
+        &.visible {
+          display: block;
+        }
+
+        &.prev {
+          left: 0;
+          background: linear-gradient(
+            270deg,
+            rgba(53, 61, 76, 0) 0%,
+            rgba(53, 61, 76, 0.5) 25%,
+            rgba(53, 61, 76, 1) 100%
+          );
+        }
+
+        &.next {
+          right: 0;
+          background: linear-gradient(
+            90deg,
+            rgba(53, 61, 76, 0) 0%,
+            rgba(53, 61, 76, 0.5) 25%,
+            rgba(53, 61, 76, 1) 100%
+          );
+        }
+      }
     }
 
-    &__image + &__text {
+    &__media + &__text {
       margin-top: 1rem;
     }
 
@@ -56,4 +101,8 @@
       font-size: 0.875rem;
     }
   }
+}
+
+.video {
+  width: 100%;
 }
