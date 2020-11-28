@@ -88,7 +88,7 @@ async function handleCreatePost(req, res) {
 
   switch (fileType) {
     case 'image':
-      fileFields.imageUrls = [filePath];
+      fileFields.imageUrl = filePath;
       break;
     case 'video':
       fileFields.videoUrl = filePath;

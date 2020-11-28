@@ -13,8 +13,8 @@ const Post = sequelize.define('Post', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  imageUrls: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+  imageUrl: {
+    type: DataTypes.STRING,
   },
   videoUrl: {
     type: DataTypes.STRING,
