@@ -7,6 +7,7 @@ import { Post, Media } from '../../database';
 
 const allowedMimeTypes = [
   'video/mp4',
+  'video/quicktime',
   'video/webm',
   'image/jpeg',
   'image/gif',
@@ -46,7 +47,7 @@ const upload = multer({
     if (allowedMimeTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Unsupported file type'));
+      cb(new Error(`Unsupported file type ${file.mimetype}`));
     }
   },
 });
