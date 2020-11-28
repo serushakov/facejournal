@@ -1,5 +1,4 @@
 import { header, validationResult } from 'express-validator';
-import { serializeUser } from './serializers.js';
 
 export const meValidators = [header('Authorization').exists()];
 
@@ -16,7 +15,7 @@ function handleMe(req, res) {
     return res.send([{ msg: 'Unauthorized' }]);
   }
 
-  res.send(serializeUser(req.user));
+  res.send(req.user.toJSON());
 }
 
 export default handleMe;

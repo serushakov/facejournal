@@ -49,4 +49,14 @@ export const Friendship = sequelize.define('Friendship', {
 
 User.belongsToMany(User, { as: 'friends', through: Friendship });
 
+User.prototype.toJSON = async function toJSON() {
+  return {
+    firstName: this.firstName,
+    lastName: this.lastName,
+    id: this.id,
+    email: this.email,
+    avatar: this.avatar,
+  };
+};
+
 export default User;

@@ -1,9 +1,7 @@
 import bcrypt from 'bcrypt';
 import { body, validationResult } from 'express-validator';
 import { User } from '../../database';
-import { serializeUserAuth } from './serializers';
 import { createUserJwt } from './utils';
-import { Op } from 'sequelize';
 
 export const loginValidators = [
   body('email').isEmail().exists(),
@@ -36,7 +34,10 @@ async function handleLogin(req, res) {
 
   const token = createUserJwt(user);
 
-  res.send(serializeUserAuth(user, token));
+  res.send({
+    ...user.toJSON(),
+    token,
+  });
 }
 
 export default handleLogin;

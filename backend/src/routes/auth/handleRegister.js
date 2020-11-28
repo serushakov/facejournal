@@ -1,7 +1,6 @@
 import { Op } from 'sequelize';
 import { body, validationResult } from 'express-validator';
 import { User } from '../../database';
-import { serializeUserAuth } from './serializers';
 import { createUser, createUserJwt } from './utils';
 
 export const registerValidators = [
@@ -41,7 +40,10 @@ async function handleRegister(req, res) {
   });
   const token = createUserJwt(user);
 
-  res.send(serializeUserAuth(user, token));
+  res.send({
+    ...user.toJSON(),
+    token,
+  });
 }
 
 export default handleRegister;
