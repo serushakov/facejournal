@@ -10,6 +10,7 @@
     <script type="module" type="text/javascript">
       import { loadComponent } from '/loader.js';
       loadComponent('/components/header/header.js');
+      loadComponent('/components/side-navigation/side-navigation.js');
     </script>
   </head>
 
@@ -17,7 +18,9 @@
     <i-header></i-header>
 
     <div class="grid">
-      <div class="nav"></div>
+      <div class="nav">
+        <side-navigation />
+      </div>
       <div id="root" class="content"></div>
       <div class="side"></div>
     </div>
