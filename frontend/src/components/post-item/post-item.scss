@@ -38,6 +38,7 @@
         top: 0;
         opacity: 0;
         transition: opacity 300ms ease-out;
+        background: rgba(var(--dark-shade-rgb), 0.5);
 
         border: none;
         color: var(--light-shade);
@@ -50,22 +51,10 @@
 
         &.prev {
           left: 0;
-          background: linear-gradient(
-            270deg,
-            rgba(53, 61, 76, 0) 0%,
-            rgba(53, 61, 76, 0.5) 25%,
-            rgba(53, 61, 76, 1) 100%
-          );
         }
 
         &.next {
           right: 0;
-          background: linear-gradient(
-            90deg,
-            rgba(53, 61, 76, 0) 0%,
-            rgba(53, 61, 76, 0.5) 25%,
-            rgba(53, 61, 76, 1) 100%
-          );
         }
       }
     }

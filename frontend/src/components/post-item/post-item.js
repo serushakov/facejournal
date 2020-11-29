@@ -1,5 +1,6 @@
 import css from './post-item.scss';
 import resetCss from '../../styles/reset.scss';
+import variablesCss from '../../styles/variables.scss';
 import { loadAndParseHtml } from '/loader.js';
 
 class PostItem extends HTMLElement {
@@ -24,7 +25,7 @@ class PostItem extends HTMLElement {
 
   loadStyle = () => {
     const style = document.createElement('style');
-    style.textContent = css + resetCss;
+    style.textContent = css + resetCss + variablesCss;
 
     this.shadowRoot.appendChild(style);
   };
