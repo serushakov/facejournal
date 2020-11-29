@@ -31,6 +31,40 @@ class PostItem extends HTMLElement {
 
   init = () => {
     this.mediaRoot = this.shadowRoot.querySelector('#media-root');
+
+    if (this.media) {
+      this.mediaIndex = 0;
+      this.displayMedia();
+    }
+  };
+
+  setMedia = (media) => {
+    this.media = media;
+    if (this.mediaRoot) {
+      this.displayMedia();
+    }
+  };
+
+  displayMedia = () => {
+    if (!this.mediaRoot) this.createMediaRoot();
+    this.mediaRoot.innerHTML = '';
+
+    const mediaItem = this.media[this.mediaIndex];
+    const element = this.createMediaElement(mediaItem);
+    element.src = mediaItem.url;
+
+    this.mediaRoot.appendChild(element);
+  };
+
+  createMediaRoot = () => {
+    const template = this.shadowRoot.querySelector('#media');
+
+    const mediaElement = template.content.cloneNode(true);
+
+    this.shadowRoot.querySelector('#content').prepend(mediaElement);
+
+    this.mediaRoot = this.shadowRoot.querySelector('#media-root');
+
     this.prevNextButtons = this.shadowRoot.querySelectorAll(
       '.post-item__content__media__button'
     );
@@ -39,28 +73,9 @@ class PostItem extends HTMLElement {
       button.addEventListener('click', this.handlePrevNextButtonClick)
     );
 
-    if (this.media) {
-      this.mediaIndex = 0;
-      this.displayMedia();
-
-      if (this.media.length > 1) {
-        this.prevNextButtons.forEach((node) => node.classList.add('visible'));
-      }
+    if (this.media.length > 1) {
+      this.prevNextButtons.forEach((node) => node.classList.add('visible'));
     }
-  };
-
-  setMedia = (media) => {
-    this.media = media;
-  };
-
-  displayMedia = () => {
-    this.mediaRoot.innerHTML = '';
-
-    const mediaItem = this.media[this.mediaIndex];
-    const element = this.createMediaElement(mediaItem);
-    element.src = mediaItem.url;
-
-    this.mediaRoot.appendChild(element);
   };
 
   handlePrevNextButtonClick = ({ target }) => {
