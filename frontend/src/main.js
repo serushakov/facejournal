@@ -17,7 +17,7 @@ async function loadUser() {
   if (token) {
     store.dispatch(loginRequest());
 
-    const response = await fetch('/api/auth/me', {
+    const response = await fetch('/api/users/me', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
