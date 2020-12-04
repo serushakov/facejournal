@@ -2,6 +2,7 @@ import Router from './router/Router.js';
 import Route from './router/Route.js';
 import store from '/state/index.js';
 import { loginSuccess, loginRequest } from '/state/auth/actions.js';
+import { loginFailure } from './state/auth/actions.js';
 
 // eslint-disable-next-line no-unused-vars
 const router = new Router(document.getElementById('root'), [
@@ -27,6 +28,8 @@ async function loadUser() {
     const user = await response.json();
 
     store.dispatch(loginSuccess(user, token));
+  } else {
+    store.dispatch(loginFailure());
   }
 }
 

@@ -1,4 +1,9 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_SUCCESS } from "./types.js";
+import {
+  LOGIN_FAILURE,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
+} from './types.js';
 
 const resetState = {
   user: null,
@@ -26,6 +31,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+      };
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        initialized: true,
       };
     case LOGIN_SUCCESS:
       return {
