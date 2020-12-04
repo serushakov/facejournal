@@ -8,6 +8,7 @@ const router = new Router(document.getElementById('root'), [
   new Route('/login', '/views/login/login.js', 'login-page'),
   new Route('/register', '/views/register/register.js', 'register-page'),
   new Route('/feed', '/views/feed/feed.js', 'feed-page'),
+  new Route('/', '/views/front/front.js', 'front-page'),
   new Route(null, '/views/404/404.js', 'page-not-found'),
 ]);
 
