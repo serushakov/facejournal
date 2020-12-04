@@ -1,9 +1,9 @@
 import store from '../../state/index.js';
-import { selectUser } from '../../state/auth/selectors.js';
+import { selectUser, selectIsUserInitialized } from '../../state/auth/selectors.js';
 import Router from '../../router/Router.js';
 
 class FrontPage extends HTMLElement {
-  connectedCallback = () => {
+  connectedCallback() {
     store.subscribeWithSelectors(
       this.listener,
       selectUser,
@@ -11,7 +11,7 @@ class FrontPage extends HTMLElement {
     );
   };
 
-  listener = ([user, isInitialized]) => {
+  listener = ([user],[isInitialized]) => {
     if (!isInitialized) return;
 
     if (user) {
