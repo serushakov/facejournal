@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import { body, validationResult } from 'express-validator';
+import { Op } from 'sequelize';
 import { User } from '../../database';
 import { createUserJwt } from './utils';
 
@@ -26,8 +27,7 @@ async function handleLogin(req, res) {
   });
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    res.status = 400;
-    return res.send({
+    return res.status(400).send({
       message: 'Either email or password are incorrect',
     });
   }
@@ -35,7 +35,7 @@ async function handleLogin(req, res) {
   const token = createUserJwt(user);
 
   res.send({
-    ...user.toJSON(),
+    user: await user.toJSON(),
     token,
   });
 }
