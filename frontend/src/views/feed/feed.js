@@ -1,6 +1,7 @@
 import store from '/state/index.js';
 import { loadAndParseHtml } from '/loader.js';
 import { getFeed } from '../../state/feed/thunks.js';
+import Router from '../../router/Router.js';
 import {
   selectFeedPosts,
   selectRequestParams,
@@ -73,7 +74,9 @@ class FeedPage extends HTMLElement {
   };
 
   handleParamsChanged = ([params], [user]) => {
-    if (!user) return;
+    if (!user) {
+      Router.navigate('/login');
+    }
 
     store.dispatch(getFeed(params));
   };
