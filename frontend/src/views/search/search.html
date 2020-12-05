@@ -1,0 +1,19 @@
+<template id="search-page">
+  <div class="search-page">
+    <div class="search-page__config">
+      <form id="search-form">
+        <fieldset>
+          <legend>Search people</legend>
+          
+            <input type="text" name="query"></input>
+            
+            <i-button variant="primary" type="submit">
+                <span slot="text">Search</span>
+            </i-button>
+        </fieldset>
+      </form>
+    </div>
+
+    <div class="search-page__results" id="results-root"></div>
+  </div>
+</template>

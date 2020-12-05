@@ -10,6 +10,7 @@ const router = new Router(document.getElementById('root'), [
   new Route('/register', '/views/register/register.js', 'register-page'),
   new Route('/feed', '/views/feed/feed.js', 'feed-page'),
   new Route('/', '/views/front/front.js', 'front-page'),
+  new Route('/search', '/views/search/search.js', 'search-page'),
   new Route(null, '/views/404/404.js', 'page-not-found'),
 ]);
 
