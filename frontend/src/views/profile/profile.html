@@ -1,0 +1,25 @@
+<template id="profile-page">
+  <div class="profile-page">
+    <div class="profile-page__header">
+      <!-- <img id="cover-image" class="profile-page__header__cover-image" /> -->
+      <div class="profile-page__header__background" id="cover-image">
+        <div class="profile-page__header__profile">
+          <img id="avatar" class="profile-page__header__avatar" />
+
+          <div class="profile-page__header__profile__content">
+            <span id="full-name"></span>
+            <span id="email"></span>
+            <span id="created-at"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <svg height="0" hidden>
+    <defs>
+      <filter id="filter">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+      </filter>
+    </defs>
+  </svg>
+</template>
