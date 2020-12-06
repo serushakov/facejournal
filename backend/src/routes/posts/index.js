@@ -7,12 +7,17 @@ import handleCreatePost, {
 } from './handleCreatePost';
 import handleGetFeed, { getFeedValidators } from './handleGetFeed';
 import handleGetPost, { getPostValidators } from './handleGetPost';
+import handleGetUserPosts, {
+  getUserPostsValidators,
+} from './handleGetUserPosts';
 
 const router = express.Router();
 
+router.get('/user/:id', getUserPostsValidators, handleGetUserPosts);
+
 router.use(passport.authenticate('jwt'));
 
-router.post('/', uploadHandler, handleCreatePost);
+router.post('/', uploadHandler, createPostValidators, handleCreatePost);
 router.get('/post/:id', getPostValidators, handleGetPost);
 router.get('/feed', getFeedValidators, handleGetFeed);
 
