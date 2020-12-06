@@ -78,7 +78,7 @@ class CreatePostForm extends HTMLElement {
 
     request.addEventListener('load', () => {
       const { id } = JSON.parse(request.responseText);
-      this.emitCreatedEvent(id);
+      if (request.status === 201) this.emitCreatedEvent(id);
     });
     request.send(formData);
   };
