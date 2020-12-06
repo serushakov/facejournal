@@ -19,7 +19,6 @@
 
   &__content {
     overflow: hidden;
-    margin-bottom: 1rem;
 
     &__media {
       position: relative;
@@ -69,6 +68,10 @@
 
       hyphens: auto;
     }
+  }
+
+  &__content + &__creator {
+    margin-top: 1rem;
   }
 
   &__creator {

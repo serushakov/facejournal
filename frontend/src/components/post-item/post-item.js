@@ -37,6 +37,32 @@ class PostItem extends HTMLElement {
       this.mediaIndex = 0;
       this.displayMedia();
     }
+
+    this.observeSlots();
+  };
+
+  observeSlots() {
+    this.observer = new MutationObserver(this.handleSlotsChanged);
+
+    this.observer.observe(this, { childList: true });
+    this.handleSlotsChanged();
+  }
+
+  // Hide creator block if no creator slots have been filled
+  handleSlotsChanged = () => {
+    this.shadowRoot.querySelector(
+      '#creator'
+    ).style.display = this.hasCreatorSlots() ? 'flex' : 'none';
+  };
+
+  hasCreatorSlots = () => {
+    const childNodes = Array.from(this.childNodes);
+
+    return childNodes.reduce(
+      (result, current) =>
+        result || ['creator-avatar', 'creator-name'].includes(current.slot),
+      false
+    );
   };
 
   setMedia = (media) => {
