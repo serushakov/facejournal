@@ -1,7 +1,9 @@
 class Route {
   path = null;
+
   pageLocation = null;
-  pageContent = null;
+
+  tagName = null;
 
   constructor(path, pageLocation, tagName) {
     this.path = path;
