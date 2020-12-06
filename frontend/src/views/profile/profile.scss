@@ -83,4 +83,20 @@
       }
     }
   }
+
+  &__posts {
+    margin-top: 2rem;
+
+    &__title {
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    &__empty {
+      text-align: center;
+      width: 100%;
+      color: var(--dark-accent);
+    }
+  }
 }
