@@ -46,6 +46,12 @@
   outline: none;
 }
 
+.primary.large .content {
+  padding: 1.25rem 2rem;
+
+  font-size: 1.2rem;
+}
+
 .primary .background {
   box-shadow: inset 0px 0px 0px 2px var(--brand-color);
 }

@@ -1,0 +1,22 @@
+<template id="user-item">
+  <a id="anchor" class="user-item__anchor">
+    <div class="user-item">
+      <div class="user-item__avatar">
+        <slot name="avatar"></slot>
+      </div>
+      <div class="user-item__content">
+        <div class="user-item__content__full-name">
+          <slot name="full-name"></slot>
+        </div>
+        <div class="user-item__content__email">
+          <div class="user-item__content__label">Email:</div>
+          <slot name="email"></slot>
+        </div>
+        <div class="user-item__content__created-at">
+          <div class="user-item__content__label">Joined on:</div>
+          <slot name="created-at"></slot>
+        </div>
+      </div>
+    </div>
+  </a>
+</template>

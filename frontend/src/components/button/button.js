@@ -72,13 +72,19 @@ class Button extends HTMLElement {
 
         this.buttonElement.classList.add(value);
         break;
+      case 'size':
+        if (oldValue) {
+          this.buttonElement.classList.remove(oldValue);
+        }
+
+        this.buttonElement.classList.add(value);
+        break;
       default:
         this.buttonElement.setAttribute(name, value);
     }
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    console.log(name, oldValue, newValue);
     this.setButtonAttribute(name, newValue, oldValue);
   }
 }

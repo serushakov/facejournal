@@ -1,0 +1,58 @@
+.user-item {
+  display: flex;
+
+  border-radius: 8px;
+  border: 2px solid var(--dark-shade);
+  padding: 1rem;
+
+  background: var(--background-color);
+
+  &:not(:active) {
+    &:hover,
+    &:focus {
+      transform: translate(5px, -5px);
+    }
+  }
+
+  &__anchor {
+    display: block;
+    color: var(--dark-shade);
+    text-decoration: none;
+    position: relative;
+
+    &::before {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      content: '';
+      background: var(--dark-shade);
+      border-radius: 8px;
+      z-index: -1;
+    }
+  }
+
+  &__avatar {
+    min-width: 4rem;
+    min-height: 4rem;
+    border-radius: 50%;
+    height: 100%;
+
+    flex: 2;
+  }
+
+  &__content {
+    flex: 5;
+    height: 100%;
+    margin-inline-start: 1rem;
+
+    &__label {
+      margin-top: 0.5rem;
+      color: var(--dark-accent);
+    }
+
+    &__full-name {
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
+  }
+}
