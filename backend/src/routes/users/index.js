@@ -7,7 +7,7 @@ import handleGetUser, { getUserValidators } from './handleGetUser';
 const router = new express.Router();
 
 router.get('/search', searchValidators, handleSearch);
-router.get('/:id', getUserValidators, handleGetUser);
+router.get('/by_id/:id', getUserValidators, handleGetUser);
 
 /* AUTHENTICATED ROUTES BELOW */
 router.use(passport.authenticate('jwt'));
