@@ -68,6 +68,7 @@ User.prototype.toJSON = async function toJSON() {
     id: this.id,
     email: this.email,
     avatar: this.avatar,
+    createdAt: this.createdAt,
   };
 };
 
