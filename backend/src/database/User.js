@@ -36,6 +36,11 @@ const User = sequelize.define(
       allowNull: false,
       defaultValue: '/static/images/user-avatar-placeholder.jpg',
     },
+    coverImage: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: '/static/images/user-cover-image-placeholder.jpg',
+    },
   },
   {
     indexes: [
@@ -68,6 +73,7 @@ User.prototype.toJSON = async function toJSON() {
     id: this.id,
     email: this.email,
     avatar: this.avatar,
+    coverImage: this.coverImage,
     createdAt: this.createdAt,
   };
 };
