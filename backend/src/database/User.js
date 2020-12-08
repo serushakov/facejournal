@@ -78,4 +78,33 @@ User.prototype.toJSON = async function toJSON() {
   };
 };
 
+const getFriendshipStatus = async (user1, user2) => {
+  const isPending = await user1.hasFriend(user2.id);
+  const isFriend = isPending && (await user2.hasFriend(user1.id));
+
+  if (isFriend) return 'friend';
+
+  if (isPending) return 'pending';
+
+  return 'none';
+};
+
+User.prototype.toJsonWithFriendship = async function toJsonWithFriendship(
+  currentUser
+) {
+  const friendshipStatus =
+    currentUser && (await getFriendshipStatus(currentUser, this));
+
+  return {
+    firstName: this.firstName,
+    lastName: this.lastName,
+    id: this.id,
+    email: this.email,
+    avatar: this.avatar,
+    coverImage: this.coverImage,
+    createdAt: this.createdAt,
+    friendshipStatus,
+  };
+};
+
 export default User;

@@ -26,7 +26,7 @@ const hanldeGetUser = async (req, res) => {
     ]);
   }
 
-  res.send(await user.toJSON());
+  res.send(await user.toJsonWithFriendship(req.user));
 };
 
 export default hanldeGetUser;
