@@ -77,6 +77,14 @@
   &__creator {
     display: flex;
     align-items: center;
+    width: fit-content;
+
+    color: var(--dark-shade);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--brand-color);
+    }
 
     &__avatar {
       display: block;

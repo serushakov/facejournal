@@ -12,6 +12,16 @@ class PostItem extends HTMLElement {
     );
   }
 
+  static observedAttributes = ['href'];
+
+  get href() {
+    return this.getAttribute('href');
+  }
+
+  set href(value) {
+    this.setAttribute('href', value);
+  }
+
   createShadowRoot = (document) => {
     const template = document.getElementById('post-item');
 
@@ -30,6 +40,12 @@ class PostItem extends HTMLElement {
     this.shadowRoot.appendChild(style);
   };
 
+  attributeChangedCallback(name) {
+    if (name === 'href') {
+      this.setCreatorHref();
+    }
+  }
+
   init = () => {
     this.mediaRoot = this.shadowRoot.querySelector('#media-root');
 
@@ -38,6 +54,7 @@ class PostItem extends HTMLElement {
       this.displayMedia();
     }
 
+    this.setCreatorHref();
     this.observeSlots();
   };
 
@@ -81,6 +98,14 @@ class PostItem extends HTMLElement {
     element.src = mediaItem.url;
 
     this.mediaRoot.appendChild(element);
+  };
+
+  setCreatorHref = () => {
+    console.log(this.href);
+    if (!this.href || !this.shadowRoot) return;
+
+    const anchor = this.shadowRoot.querySelector('#creator');
+    anchor.href = this.href;
   };
 
   createMediaRoot = () => {

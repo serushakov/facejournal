@@ -125,6 +125,7 @@ class FeedPage extends HTMLElement {
       creatorNameSlot,
       creatorImageSlot
     );
+    postItem.href = `/users/${creator.id}`;
     postItemContainer.appendChild(postItem);
 
     return postItemContainer;
