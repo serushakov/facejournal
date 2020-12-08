@@ -10,6 +10,7 @@ import handleGetPost, { getPostValidators } from './handleGetPost';
 import handleGetUserPosts, {
   getUserPostsValidators,
 } from './handleGetUserPosts';
+import { postLikeValidators } from './handlePostLike';
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.use(passport.authenticate('jwt'));
 router.post('/', uploadHandler, createPostValidators, handleCreatePost);
 router.get('/post/:id', getPostValidators, handleGetPost);
 router.get('/feed', getFeedValidators, handleGetFeed);
+router.post('/post/:id/like', postLikeValidators);
 
 export default router;
