@@ -1,4 +1,5 @@
 import { DataTypes } from 'sequelize';
+import Like from './Like';
 import Media from './Media';
 import sequelize from './sequelize';
 import User from './User';
@@ -48,17 +49,17 @@ Post.hasMany(Media, {
   as: 'media',
 });
 
+Post.hasMany(Like, {
+  foreignKey: 'postId',
+  as: 'likes',
+});
+
 Post.prototype.toJSON = async function toJSON() {
   const creator = await this.getUser();
 
   return {
-    id: this.id,
-    title: this.title,
-    textContent: this.textContent,
-    cratedAd: this.createdAt,
-    updatedAt: this.updatedAt,
+    ...(await this.toSimpleJSON()),
     creator: await creator.toJSON(),
-    media: await this.getMedia(),
   };
 };
 
@@ -70,6 +71,7 @@ Post.prototype.toSimpleJSON = async function toJSON() {
     cratedAd: this.createdAt,
     updatedAt: this.updatedAt,
     media: await this.getMedia(),
+    likes: await this.getLikes(),
   };
 };
 
