@@ -8,6 +8,7 @@ import handlePostFriend, { postFriendValidators } from './handlePostFriend';
 import handleDeleteFriend, {
   deleteFriendValidators,
 } from './handleDeleteFriend';
+import handleGetFriends from './handleGetFriends';
 
 const router = new express.Router();
 
@@ -20,5 +21,6 @@ router.use(passport.authenticate('jwt'));
 router.get('/me', handleMe);
 router.post('/friend', postFriendValidators, handlePostFriend);
 router.delete('/friend', deleteFriendValidators, handleDeleteFriend);
+router.get('/friends', handleGetFriends);
 
 export default router;
