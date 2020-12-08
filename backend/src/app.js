@@ -6,9 +6,7 @@ import cookieParser from 'cookie-parser';
 import auth from './routes/auth';
 import posts from './routes/posts';
 import users from './routes/users';
-
 import './passport';
-import { Friendship, User } from './database';
 
 const app = express();
 
@@ -24,37 +22,6 @@ app.use('/posts', posts);
 
 app.get('/', (req, res) => {
   res.send('Hello world');
-});
-
-/* AUTHENTICATED ROUTES BELOW */
-app.use(passport.authenticate('jwt'));
-
-app.get('/users', async (req, res) => {
-  const users = await User.findAll({
-    attributes: ['firstName', 'lastName', 'id', 'email'],
-    include: {
-      model: User,
-      as: 'friends',
-      attributes: ['firstName', 'lastName', 'id', 'email'],
-    },
-  });
-
-  res.json(users);
-});
-
-app.post('/friend', async (req, res) => {
-  if (!req.isAuthenticated()) return res.send(401);
-
-  const userId = req.body.userId;
-
-  if (!userId) {
-    return res.send(400);
-  }
-
-  Friendship.create({
-    friendId: userId,
-    UserId: req.user.id,
-  });
 });
 
 const port = 3000;
