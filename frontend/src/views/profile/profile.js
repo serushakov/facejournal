@@ -213,26 +213,12 @@ class ProfilePage extends HTMLElement {
   }
 
   createPostItem = (post) => {
-    const { title, textContent, media } = post;
-
     const postItemContainer = document.createElement('div');
     postItemContainer.classList.add('feed-page__item');
 
     const postItem = document.createElement('post-item');
 
-    const titleSlot = document.createElement('span');
-    titleSlot.textContent = title;
-    titleSlot.slot = 'title';
-
-    const textContentSlot = document.createElement('p');
-    textContentSlot.textContent = textContent;
-    textContentSlot.slot = 'text-content';
-
-    if (media.length) {
-      postItem.setMedia(media);
-    }
-
-    postItem.append(titleSlot, textContentSlot);
+    postItem.post = post;
     postItemContainer.appendChild(postItem);
 
     return postItemContainer;
