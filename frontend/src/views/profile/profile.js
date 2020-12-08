@@ -1,12 +1,35 @@
+import store from '../../state/index.js';
+import {
+  selectIsUserInitialized,
+  selectToken,
+  selectUser,
+} from '../../state/auth/selectors.js';
 import { loadAndParseHtml } from '/loader.js';
 import '/components/post-item/post-item.js';
 
 import css from './profile.scss';
+import { fetchUser, fetchUserPosts } from '../../state/profile/thunks.js';
+import {
+  selectProfile,
+  selectProfilePostsState,
+} from '../../state/profile/selectors.js';
 
 class ProfilePage extends HTMLElement {
   constructor() {
     super();
     loadAndParseHtml('/views/profile/profile.html').then(this.setContent);
+  }
+
+  connectedCallback() {
+    this.mounted = true;
+
+    this.init();
+  }
+
+  set params(value) {
+    this.routeParams = value;
+
+    this.init();
   }
 
   setContent = (document) => {
@@ -21,44 +44,147 @@ class ProfilePage extends HTMLElement {
   };
 
   async init() {
+    if (!this.mounted) return;
     this.postsRoot = this.querySelector('#posts-root');
+    this.profileContainer = this.querySelector('#profile-container');
 
-    const user = await this.fetchUser();
-    await this.fetchPosts();
-    if (user) {
-      this.renderUser();
-      this.renderPosts();
+    store.subscribeWithSelectors(
+      this.handleCurrentUserChange,
+      selectIsUserInitialized,
+      selectToken,
+      selectUser
+    );
+
+    store.subscribeWithSelectors(this.handleUserChange, selectProfile);
+    store.subscribeWithSelectors(
+      this.handlePostsChange,
+      selectProfilePostsState
+    );
+  }
+
+  disconnectedCallback() {
+    store.unsubscribe(this.handleCurrentUserChange);
+    store.unsubscribe(this.handleUserChange);
+    store.unsubscribe(this.handlePostsChange);
+  }
+
+  fetchUser = () => {
+    store.dispatch(fetchUser(this.routeParams.id));
+  };
+
+  handleCurrentUserChange = async ([isInitialized], [token], [currentUser]) => {
+    if (!isInitialized) return;
+
+    if (currentUser) {
+      this.currentUserId = currentUser.id;
     }
-  }
 
-  set params(value) {
-    this.routeParams = value;
+    if (token) {
+      this.token = token;
+    }
 
-    this.init();
-  }
+    this.fetchUser();
+  };
 
-  async fetchUser() {
-    if (!this.routeParams) return;
-    const { id } = this.routeParams;
-
-    const response = await fetch(`/api/users/by_id/${id}`);
-
-    const user = await response.json();
-
+  handleUserChange = ([user, prevUser]) => {
+    if (!user) return;
     this.user = user;
 
-    return user;
-  }
+    this.renderUser();
+    this.renderFriendButton();
 
-  async fetchPosts() {
-    if (!this.routeParams) return;
-    const { id } = this.routeParams;
+    // fetch posts only when id changes
+    if (!prevUser?.id || prevUser.id !== user.id) {
+      this.fetchPosts();
+    }
+  };
 
-    const postsResponse = await fetch(`/api/posts/user/${id}`);
-    const posts = await postsResponse.json();
-
+  handlePostsChange = ([posts]) => {
+    if (!posts.content) return;
     this.posts = posts;
+    this.renderPosts();
+  };
+
+  fetchPosts = () => {
+    store.dispatch(fetchUserPosts(this.routeParams.id));
+  };
+
+  renderFriendButton = () => {
+    const { user, currentUserId } = this;
+
+    this.removeFriendButton();
+    if (user.id === currentUserId) return;
+
+    const button = document.createElement('i-button');
+    button.classList.add('profile-page__header__button');
+
+    const text = document.createElement('span');
+    text.slot = 'text';
+
+    switch (user.friendshipStatus) {
+      case 'friend':
+        button.setAttribute('variant', 'secondary');
+        text.innerText = 'Remove from friends';
+        break;
+      case 'pending':
+        button.setAttribute('variant', 'secondary');
+        text.innerText = 'Cancel friendship request';
+        break;
+      case 'none':
+        button.setAttribute('variant', 'primary');
+        text.innerText = 'Add friend';
+        break;
+      default:
+    }
+
+    button.appendChild(text);
+    this.friendButton = button;
+
+    button.addEventListener(
+      'click',
+      this.createButtonClickHandler(user.friendshipStatus)
+    );
+
+    this.profileContainer.append(button);
+  };
+
+  removeFriendButton() {
+    if (!this.friendButton) return;
+    this.friendButton.remove();
   }
+
+  createButtonClickHandler = (friendshipStatus) => async () => {
+    switch (friendshipStatus) {
+      case 'none':
+        await fetch('/api/users/friend', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: this.user.id,
+          }),
+        });
+
+        break;
+      case 'friend':
+      case 'pending':
+        await fetch('/api/users/friend', {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: this.user.id,
+          }),
+        });
+        break;
+      default:
+    }
+    this.fetchUser();
+  };
 
   renderUser() {
     const {
@@ -117,7 +243,7 @@ class ProfilePage extends HTMLElement {
   }
 
   renderPosts() {
-    const { count, rows } = this.posts;
+    const { count, rows } = this.posts.content;
 
     this.clearPosts();
 

@@ -20,6 +20,10 @@
       object-fit: cover;
     }
 
+    &__button {
+      align-self: flex-end;
+    }
+
     &__background {
       background-size: cover;
       background-position-y: 100%;
