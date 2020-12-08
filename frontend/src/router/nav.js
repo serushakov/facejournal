@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 function nav(event) {
   event.preventDefault();
-  const { href } = event.target;
+  const { href } = event.currentTarget;
 
   if (window.location.href !== href) {
     window.history.pushState(null, null, href);

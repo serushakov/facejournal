@@ -2,8 +2,6 @@ export default function nav(event) {
   event.preventDefault();
   const { href } = event.currentTarget;
 
-  console.log(href);
-
   if (window.location.href !== href) {
     window.history.pushState(null, null, href);
     // Dispatching a popstate event to trigger router listener
