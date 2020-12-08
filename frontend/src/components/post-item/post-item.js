@@ -2,6 +2,7 @@ import css from './post-item.scss';
 import resetCss from '../../styles/reset.scss';
 import variablesCss from '../../styles/variables.scss';
 import { loadAndParseHtml } from '/loader.js';
+import nav from '../../router/nav-module.js';
 
 class PostItem extends HTMLElement {
   constructor() {
@@ -20,6 +21,15 @@ class PostItem extends HTMLElement {
 
   set href(value) {
     this.setAttribute('href', value);
+  }
+
+  get post() {
+    return this.postItem;
+  }
+
+  set post(value) {
+    this.postItem = value;
+    this.fillSlots();
   }
 
   createShadowRoot = (document) => {
@@ -48,39 +58,54 @@ class PostItem extends HTMLElement {
 
   init = () => {
     this.mediaRoot = this.shadowRoot.querySelector('#media-root');
+    this.creator = this.shadowRoot.querySelector('#creator');
+    this.creator.addEventListener('click', nav);
 
-    if (this.media) {
-      this.mediaIndex = 0;
-      this.displayMedia();
+    if (this.post) {
+      this.fillSlots();
+    }
+  };
+
+  fillSlots() {
+    if (!this.shadowRoot) return;
+
+    const { title, textContent, creator, media } = this.post;
+
+    const titleSlot = document.createElement('span');
+    titleSlot.textContent = title;
+    titleSlot.slot = 'title';
+
+    const textContentSlot = document.createElement('p');
+    textContentSlot.textContent = textContent;
+    textContentSlot.slot = 'text-content';
+
+    let creatorImageSlot;
+    let creatorNameSlot;
+
+    if (this.getAttribute('with-creator')) {
+      creatorNameSlot = document.createElement('span');
+      creatorNameSlot.textContent = `${creator.firstName} ${creator.lastName}`;
+      creatorNameSlot.slot = 'creator-name';
+
+      creatorImageSlot = document.createElement('img');
+      creatorImageSlot.src = creator.avatar;
+      creatorImageSlot.slot = 'creator-avatar';
+
+      this.creator.href = `/users/${creator.id}`;
+
+      this.creator.style.display = 'flex';
+    } else {
+      this.creator.style.display = 'none';
     }
 
-    this.setCreatorHref();
-    this.observeSlots();
-  };
+    if (media.length) {
+      this.setMedia(media);
+    }
 
-  observeSlots() {
-    this.observer = new MutationObserver(this.handleSlotsChanged);
+    this.append(titleSlot, textContentSlot, creatorNameSlot, creatorImageSlot);
 
-    this.observer.observe(this, { childList: true });
-    this.handleSlotsChanged();
+    this.append();
   }
-
-  // Hide creator block if no creator slots have been filled
-  handleSlotsChanged = () => {
-    this.shadowRoot.querySelector(
-      '#creator'
-    ).style.display = this.hasCreatorSlots() ? 'flex' : 'none';
-  };
-
-  hasCreatorSlots = () => {
-    const childNodes = Array.from(this.childNodes);
-
-    return childNodes.reduce(
-      (result, current) =>
-        result || ['creator-avatar', 'creator-name'].includes(current.slot),
-      false
-    );
-  };
 
   setMedia = (media) => {
     this.media = media;
@@ -98,14 +123,6 @@ class PostItem extends HTMLElement {
     element.src = mediaItem.url;
 
     this.mediaRoot.appendChild(element);
-  };
-
-  setCreatorHref = () => {
-    console.log(this.href);
-    if (!this.href || !this.shadowRoot) return;
-
-    const anchor = this.shadowRoot.querySelector('#creator');
-    anchor.href = this.href;
   };
 
   createMediaRoot = () => {
