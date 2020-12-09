@@ -51,19 +51,24 @@ Post.hasMany(Media, {
 
 Post.hasMany(Like, {
   foreignKey: 'postId',
-  as: 'likes',
 });
 
-Post.prototype.toJSON = async function toJSON() {
+Post.prototype.toJSON = async function toJSON(currentUser) {
   const creator = await this.getUser();
 
   return {
-    ...(await this.toSimpleJSON()),
+    ...(await this.toSimpleJSON(currentUser)),
     creator: await creator.toJSON(),
   };
 };
 
-Post.prototype.toSimpleJSON = async function toJSON() {
+Post.prototype.isLikedByUser = function isLikedByUser(user) {
+  return this.hasLike(user.id);
+};
+
+Post.prototype.toSimpleJSON = async function toJSON(currentUser) {
+  const isLikedByUser = currentUser && (await this.isLikedByUser(currentUser));
+
   return {
     id: this.id,
     title: this.title,
@@ -71,7 +76,8 @@ Post.prototype.toSimpleJSON = async function toJSON() {
     cratedAd: this.createdAt,
     updatedAt: this.updatedAt,
     media: await this.getMedia(),
-    likes: await this.getLikes(),
+    likes: await this.countLikes(),
+    isLiked: isLikedByUser,
   };
 };
 
