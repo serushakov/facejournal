@@ -121,26 +121,12 @@ class ProfilePage extends HTMLElement {
     const text = document.createElement('span');
     text.slot = 'text';
 
-    switch (user.friendshipStatus) {
-      case 'friend':
-        button.setAttribute('variant', 'secondary');
-        text.innerText = 'Remove from friends';
-        break;
-      case 'pending':
-        button.setAttribute('variant', 'secondary');
-        text.innerText = 'Cancel friendship request';
-        break;
-      case 'requested':
-        button.setAttribute('variant', 'primary');
-        text.innerText = 'Accept friendship request';
-        button.classList.add('shake');
-
-        break;
-      case 'none':
-        button.setAttribute('variant', 'primary');
-        text.innerText = 'Add friend';
-        break;
-      default:
+    if (user.subscribed) {
+      button.setAttribute('variant', 'secondary');
+      text.innerText = 'Unsubscribe';
+    } else {
+      button.setAttribute('variant', 'primary');
+      text.innerText = 'Follow';
     }
 
     button.appendChild(text);
@@ -148,7 +134,7 @@ class ProfilePage extends HTMLElement {
 
     button.addEventListener(
       'click',
-      this.createButtonClickHandler(user.friendshipStatus)
+      this.createButtonClickHandler(user.subscribed)
     );
 
     this.profileContainer.append(button);
@@ -159,37 +145,31 @@ class ProfilePage extends HTMLElement {
     this.friendButton.remove();
   }
 
-  createButtonClickHandler = (friendshipStatus) => async () => {
-    switch (friendshipStatus) {
-      case 'none':
-      case 'requested':
-        await fetch('/api/users/friend', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            userId: this.user.id,
-          }),
-        });
-
-        break;
-      case 'friend':
-      case 'pending':
-        await fetch('/api/users/friend', {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            userId: this.user.id,
-          }),
-        });
-        break;
-      default:
+  createButtonClickHandler = (subscribed) => async () => {
+    if (subscribed) {
+      await fetch(`/api/users/${this.user.id}/follow`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: this.user.id,
+        }),
+      });
+    } else {
+      await fetch(`/api/users/${this.user.id}/follow`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: this.user.id,
+        }),
+      });
     }
+
     this.fetchUser();
   };
 

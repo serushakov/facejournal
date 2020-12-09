@@ -63,7 +63,6 @@ class Button extends HTMLElement {
       case 'id':
         break;
       case 'class':
-        this.buttonElement.classList.add(value);
         break;
       case 'variant':
         if (oldValue) {
