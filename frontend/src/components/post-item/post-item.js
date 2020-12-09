@@ -1,8 +1,15 @@
+import store from '../../state/index.js';
 import css from './post-item.scss';
 import resetCss from '../../styles/reset.scss';
 import variablesCss from '../../styles/variables.scss';
 import { loadAndParseHtml } from '/loader.js';
 import nav from '../../router/nav-module.js';
+import { selectToken } from '../../state/auth/selectors.js';
+
+const LIKE_BUTTON_TEXT = {
+  [false]: '👍 Like',
+  [true]: '👎 Unlike',
+};
 
 class PostItem extends HTMLElement {
   constructor() {
@@ -12,6 +19,8 @@ class PostItem extends HTMLElement {
       this.createShadowRoot
     );
   }
+
+  mediaIndex = 0;
 
   static observedAttributes = ['href'];
 
@@ -59,17 +68,26 @@ class PostItem extends HTMLElement {
   init = () => {
     this.mediaRoot = this.shadowRoot.querySelector('#media-root');
     this.creator = this.shadowRoot.querySelector('#creator');
+    this.likeCount = this.shadowRoot.querySelector('#like-count');
+    this.likeButton = this.shadowRoot.querySelector('#like-button');
+
+    this.likeButton.addEventListener('click', this.handleLikeClick);
+
     this.creator.addEventListener('click', nav);
 
     if (this.post) {
       this.fillSlots();
+    }
+
+    if (this.media) {
+      this.displayMedia();
     }
   };
 
   fillSlots() {
     if (!this.shadowRoot) return;
 
-    const { title, textContent, creator, media } = this.post;
+    const { title, textContent, creator, media, likes, isLiked } = this.post;
 
     const titleSlot = document.createElement('span');
     titleSlot.textContent = title;
@@ -93,13 +111,20 @@ class PostItem extends HTMLElement {
 
       this.creator.href = `/users/${creator.id}`;
 
-      this.creator.style.display = 'flex';
+      this.creator.style.display = '';
     } else {
       this.creator.style.display = 'none';
     }
 
+    this.likeCount.innerText = `${likes} ${likes === 1 ? 'like' : 'likes'}`;
+
     if (media.length) {
       this.setMedia(media);
+    }
+
+    if (typeof isLiked !== 'undefined') {
+      this.likeButton.innerText = LIKE_BUTTON_TEXT[isLiked];
+      this.likeButton.classList.add(isLiked ? 'dislike' : 'like');
     }
 
     this.append(titleSlot, textContentSlot, creatorNameSlot, creatorImageSlot);
@@ -109,6 +134,7 @@ class PostItem extends HTMLElement {
 
   setMedia = (media) => {
     this.media = media;
+
     if (this.mediaRoot) {
       this.displayMedia();
     }
@@ -145,6 +171,19 @@ class PostItem extends HTMLElement {
     if (this.media.length > 1) {
       this.prevNextButtons.forEach((node) => node.classList.add('visible'));
     }
+  };
+
+  handleLikeClick = async () => {
+    const token = selectToken(store.getState());
+
+    await fetch(`/api/posts/post/${this.post.id}/like`, {
+      method: this.post.isLiked ? 'DELETE' : 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    this.dispatchEvent(new Event('invalidate'));
   };
 
   handlePrevNextButtonClick = ({ target }) => {
