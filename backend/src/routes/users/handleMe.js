@@ -4,7 +4,11 @@ async function handleMe(req, res) {
     return res.send([{ msg: 'Unauthorized' }]);
   }
 
-  res.send(await req.user.toJSON());
+  res.send({
+    ...(await req.user.toJSON()),
+    followerCount: await req.user.countFollowers(),
+    subscriptionsCount: await req.user.countSubscriptions(),
+  });
 }
 
 export default handleMe;
