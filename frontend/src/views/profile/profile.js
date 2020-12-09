@@ -214,12 +214,14 @@ class ProfilePage extends HTMLElement {
 
   createPostItem = (post) => {
     const postItemContainer = document.createElement('div');
-    postItemContainer.classList.add('feed-page__item');
+    postItemContainer.classList.add('profile-page__posts__item');
 
     const postItem = document.createElement('post-item');
 
     postItem.post = post;
     postItemContainer.appendChild(postItem);
+
+    postItem.addEventListener('invalidate', this.fetchPosts);
 
     return postItemContainer;
   };
