@@ -99,6 +99,8 @@ class FeedPage extends HTMLElement {
     postItem.setAttribute('with-creator', true);
 
     postItem.post = post;
+
+    postItem.addEventListener('invalidate', () => store.dispatch(getFeed()));
     postItemContainer.appendChild(postItem);
 
     return postItemContainer;
