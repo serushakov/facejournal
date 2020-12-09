@@ -47,7 +47,7 @@ async function handleGetFeed(req, res) {
     limit,
     offset,
     count,
-    rows: await Promise.all(rows.map((post) => post.toJSON())),
+    rows: await Promise.all(rows.map((post) => post.toJSON(user))),
   });
 }
 

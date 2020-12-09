@@ -16,6 +16,7 @@ const handleGetUserPosts = async (req, res) => {
   const {
     params: { id },
     query: { limit, offset },
+    user: currentUser,
   } = req;
 
   const user = await User.findOne({
@@ -29,8 +30,10 @@ const handleGetUserPosts = async (req, res) => {
     offset,
   });
 
+  console.log(currentUser);
+
   const formattedPosts = await Promise.all(
-    posts.map((post) => post.toSimpleJSON())
+    posts.map((post) => post.toSimpleJSON(currentUser))
   );
   const count = await user.countPosts();
 
