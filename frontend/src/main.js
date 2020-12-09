@@ -12,7 +12,6 @@ new Router(document.getElementById('root'), [
   new Route('/', '/views/front/front.js', 'front-page'),
   new Route('/search', '/views/search/search.js', 'search-page'),
   new Route('/users/:id', '/views/profile/profile.js', 'profile-page'),
-  new Route('/friends', '/views/friends/friends.js', 'friends-page'),
   new Route(null, '/views/404/404.js', 'page-not-found'),
 ]);
 
