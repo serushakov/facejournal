@@ -1,8 +1,5 @@
 import { DataTypes } from 'sequelize';
-import Like from './Like';
-import Media from './Media';
 import sequelize from './sequelize';
-import User from './User';
 
 const Post = sequelize.define(
   'Post',
@@ -40,18 +37,6 @@ const Post = sequelize.define(
     ],
   }
 );
-
-User.hasMany(Post, { foreignKey: 'creatorId' });
-Post.belongsTo(User, { foreignKey: 'creatorId' });
-
-Post.hasMany(Media, {
-  foreignKey: 'postId',
-  as: 'media',
-});
-
-Post.hasMany(Like, {
-  foreignKey: 'postId',
-});
 
 Post.prototype.toJSON = async function toJSON(currentUser) {
   const creator = await this.getUser();
