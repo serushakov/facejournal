@@ -67,6 +67,9 @@ export const Friendship = sequelize.define('Friendship', {
 User.belongsToMany(User, { as: 'friends', through: Friendship });
 
 User.prototype.toJSON = async function toJSON() {
+  const role = await this.getRole();
+  const permissions = await role.getPermissions();
+
   return {
     firstName: this.firstName,
     lastName: this.lastName,
@@ -75,6 +78,7 @@ User.prototype.toJSON = async function toJSON() {
     avatar: this.avatar,
     coverImage: this.coverImage,
     createdAt: this.createdAt,
+    permissions,
   };
 };
 
