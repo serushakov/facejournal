@@ -1,5 +1,5 @@
 import sequelize, { initialize } from './sequelize';
-import User, { Friendship } from './User';
+import User from './User';
 import Post from './Post';
 import Media from './Media';
 import Like from './Like';
@@ -13,4 +13,4 @@ import './associations';
   sequelize.sync();
 })();
 
-export { sequelize, User, Friendship, Post, Media, Role, Like, Permission };
+export { sequelize, User, Post, Media, Role, Like, Permission };

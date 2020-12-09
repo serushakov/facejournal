@@ -8,6 +8,17 @@ import Like from './Like';
 Role.belongsToMany(Permission, { through: 'RolePermission' });
 Permission.belongsToMany(Role, { through: 'RolePermission' });
 
+User.belongsToMany(User, {
+  through: 'Friendship',
+  as: 'friendRequests',
+  foreignKey: 'friendId',
+});
+User.belongsToMany(User, {
+  through: 'Friendship',
+  as: 'friends',
+  foreignKey: 'userId',
+});
+
 User.belongsTo(Role, {
   foreignKey: {
     name: 'role',

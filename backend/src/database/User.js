@@ -53,21 +53,7 @@ const User = sequelize.define(
   }
 );
 
-export const Friendship = sequelize.define('Friendship', {
-  friendId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    primaryKey: true,
-    references: {
-      model: User,
-    },
-  },
-});
-
-User.belongsToMany(User, { as: 'friends', through: Friendship });
-
 User.prototype.toJSON = async function toJSON() {
-  console.log(User.prototype);
   const role = await this.getRole();
   const permissions = (await role.getPermissions()).map((item) => item.name);
 
@@ -85,10 +71,11 @@ User.prototype.toJSON = async function toJSON() {
 
 const getFriendshipStatus = async (user1, user2) => {
   const isPending = await user1.hasFriend(user2.id);
-  const isFriend = isPending && (await user2.hasFriend(user1.id));
+  const isRequested = await user2.hasFriend(user1.id);
 
-  if (isFriend) return 'friend';
+  if (isPending && isRequested) return 'friend';
 
+  if (isRequested) return 'requested';
   if (isPending) return 'pending';
 
   return 'none';
