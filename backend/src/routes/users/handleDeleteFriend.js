@@ -14,6 +14,20 @@ const handleDeleteFriend = async (req, res) => {
     body: { userId },
   } = req;
 
+  const friend = (
+    await user.getFriends({
+      where: {
+        id: userId,
+      },
+    })
+  )[0];
+
+  const isMutual = friend ? await friend.hasFriend(user.id) : false;
+
+  if (isMutual) {
+    friend.removeFriend(user.id);
+  }
+
   await user.removeFriend(userId);
 
   return res.sendStatus(200);

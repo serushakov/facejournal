@@ -30,8 +30,6 @@ const handleGetUserPosts = async (req, res) => {
     offset,
   });
 
-  console.log(currentUser);
-
   const formattedPosts = await Promise.all(
     posts.map((post) => post.toSimpleJSON(currentUser))
   );

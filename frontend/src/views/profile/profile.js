@@ -130,6 +130,12 @@ class ProfilePage extends HTMLElement {
         button.setAttribute('variant', 'secondary');
         text.innerText = 'Cancel friendship request';
         break;
+      case 'requested':
+        button.setAttribute('variant', 'primary');
+        text.innerText = 'Accept friendship request';
+        button.classList.add('shake');
+
+        break;
       case 'none':
         button.setAttribute('variant', 'primary');
         text.innerText = 'Add friend';
@@ -156,6 +162,7 @@ class ProfilePage extends HTMLElement {
   createButtonClickHandler = (friendshipStatus) => async () => {
     switch (friendshipStatus) {
       case 'none':
+      case 'requested':
         await fetch('/api/users/friend', {
           method: 'POST',
           headers: {
