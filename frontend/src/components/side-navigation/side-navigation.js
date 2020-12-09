@@ -1,3 +1,4 @@
+import store from '../../state/index.js';
 import css from './side-navigation.scss';
 import { loadAndParseHtml } from '/loader.js';
 
@@ -14,10 +15,6 @@ class SideNavigation extends HTMLElement {
     {
       label: 'Feed',
       url: '/feed',
-    },
-    {
-      label: 'Friends',
-      url: '/friends',
     },
     {
       label: 'Search',
