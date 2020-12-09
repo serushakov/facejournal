@@ -25,8 +25,8 @@ async function handleGetFeed(req, res) {
 
   const { user } = req;
 
-  const friends = await user.getFriends();
-  const userIds = [...friends.map((friend) => friend.id), user.id];
+  const subscriptions = await user.getSubscriptions();
+  const userIds = [...subscriptions.map((friend) => friend.id), user.id];
 
   const { limit, offset } = extractQueryParamsForSequelize(req);
 

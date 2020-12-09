@@ -1,17 +1,17 @@
-import { body } from 'express-validator';
+import { param } from 'express-validator';
 import { User } from '../../database';
 
-export const postFriendValidators = [body('userId').isUUID().exists()];
+export const postFriendValidators = [param('userId').isUUID().exists()];
 
 const handlePostFriend = async (req, res) => {
   const {
     user,
-    body: { userId },
+    params: { id },
   } = req;
 
   const friend = await User.findOne({
     where: {
-      id: userId,
+      id,
     },
   });
 
@@ -23,9 +23,9 @@ const handlePostFriend = async (req, res) => {
     ]);
   }
 
-  const friendship = await user.addFriend(userId);
+  await user.addSubscription(id);
 
-  return res.status(201).send(friendship);
+  return res.sendStatus(201);
 };
 
 export default handlePostFriend;

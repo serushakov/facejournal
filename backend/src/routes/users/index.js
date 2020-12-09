@@ -19,8 +19,8 @@ router.get('/by_id/:id', nonBlockingAuth, getUserValidators, handleGetUser);
 router.use(passport.authenticate('jwt'));
 
 router.get('/me', handleMe);
-router.post('/friend', postFriendValidators, handlePostFriend);
-router.delete('/friend', deleteFriendValidators, handleDeleteFriend);
+router.post('/:id/follow', postFriendValidators, handlePostFriend);
+router.delete('/:id/follow', deleteFriendValidators, handleDeleteFriend);
 router.get('/friends', handleGetFriends);
 
 export default router;

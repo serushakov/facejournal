@@ -1,6 +1,6 @@
-const { body, validationResult } = require('express-validator');
+const { param, validationResult } = require('express-validator');
 
-export const deleteFriendValidators = [body('userId').isUUID().exists()];
+export const deleteFriendValidators = [param('id').isUUID().exists()];
 
 const handleDeleteFriend = async (req, res) => {
   const errors = validationResult(req);
@@ -11,24 +11,10 @@ const handleDeleteFriend = async (req, res) => {
 
   const {
     user,
-    body: { userId },
+    params: { id },
   } = req;
 
-  const friend = (
-    await user.getFriends({
-      where: {
-        id: userId,
-      },
-    })
-  )[0];
-
-  const isMutual = friend ? await friend.hasFriend(user.id) : false;
-
-  if (isMutual) {
-    friend.removeFriend(user.id);
-  }
-
-  await user.removeFriend(userId);
+  await user.removeSubscription(id);
 
   return res.sendStatus(200);
 };

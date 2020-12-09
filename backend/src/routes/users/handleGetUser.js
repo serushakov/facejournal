@@ -26,7 +26,11 @@ const hanldeGetUser = async (req, res) => {
     ]);
   }
 
-  res.send(await user.toJsonWithFriendship(req.user));
+  res.send({
+    ...(await user.toJSON()),
+    subscribed: await user.hasFollower(req.user),
+    isFollowing: await user.hasSubscription(req.user),
+  });
 };
 
 export default hanldeGetUser;

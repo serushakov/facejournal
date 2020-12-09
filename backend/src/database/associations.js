@@ -9,14 +9,15 @@ Role.belongsToMany(Permission, { through: 'RolePermission' });
 Permission.belongsToMany(Role, { through: 'RolePermission' });
 
 User.belongsToMany(User, {
-  through: 'Friendship',
-  as: 'friendRequests',
-  foreignKey: 'friendId',
+  through: 'Follower',
+  as: 'subscriptions',
+  foreignKey: 'followerId',
 });
+
 User.belongsToMany(User, {
-  through: 'Friendship',
-  as: 'friends',
-  foreignKey: 'userId',
+  through: 'Follower',
+  as: 'followers',
+  foreignKey: 'victimId',
 });
 
 User.belongsTo(Role, {
