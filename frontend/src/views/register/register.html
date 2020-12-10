@@ -1,12 +1,5 @@
 <template id="register-page">
   <div class="register-page">
-    <div class="register-page__preview">
-      <user-hero-banner id="preview-banner">
-        <span slot="full-name" id="preview-name">Firstname Lastname</span>
-        <span slot="email" id="preview-email">mail@example.com</span>
-      </user-hero-banner>
-    </div>
-
     <form id="register-form">
       <fieldset class="register-page__fieldset">
         <legend class="register-page__fieldset__legend">Register</legend>
@@ -59,10 +52,23 @@
           />
         </div>
 
+        <div class="side-by-side__field-wrapper">
+          <input type="file" name="avatar" id="avatar" />
+          <input type="file" name="background" id="background" />
+        </div>
+
         <i-button variant="primary" type="submit" class="register-page__button">
           <span slot="text">Register</span>
         </i-button>
       </fieldset>
     </form>
+
+    <div class="register-page__preview">
+      <h2 class="register-page__preview__title">Preview</h2>
+      <user-hero-banner id="preview-banner">
+        <span slot="full-name" id="preview-name">Firstname Lastname</span>
+        <span slot="email" id="preview-email">mail@example.com</span>
+      </user-hero-banner>
+    </div>
   </div>
 </template>

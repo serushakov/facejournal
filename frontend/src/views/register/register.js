@@ -37,6 +37,8 @@ class RegisterPage extends HTMLElement {
     this.firstName = this.querySelector('#firstName');
     this.lastName = this.querySelector('#lastName');
     this.email = this.querySelector('#email');
+    this.avatar = this.querySelector('#avatar');
+    this.background = this.querySelector('#background');
 
     this.previewName = this.querySelector('#preview-name');
     this.previewEmail = this.querySelector('#preview-email');
@@ -44,6 +46,8 @@ class RegisterPage extends HTMLElement {
     this.firstName.addEventListener('input', this.handleInputChange);
     this.lastName.addEventListener('input', this.handleInputChange);
     this.email.addEventListener('input', this.handleInputChange);
+    this.avatar.addEventListener('change', this.handleInputChange);
+    this.background.addEventListener('change', this.handleInputChange);
   };
 
   handleInputChange = (event) => {
@@ -54,6 +58,12 @@ class RegisterPage extends HTMLElement {
         break;
       case 'email':
         this.setEmailPreview();
+        break;
+      case 'avatar':
+        this.setAvatarPreview();
+        break;
+      case 'background':
+        this.setBackgroundPreview();
         break;
       default:
     }
@@ -81,6 +91,26 @@ class RegisterPage extends HTMLElement {
 
     this.setImages(config.defaults.avatar, config.defaults.background);
   };
+
+  toBase64 = (file) =>
+    new Promise((resolve) => {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+    });
+
+  async setAvatarPreview() {
+    const base64Url = await this.toBase64(this.avatar.files[0]);
+
+    this.previewBanner.setAttribute('avatar-url', base64Url);
+  }
+
+  async setBackgroundPreview() {
+    const base64Url = await this.toBase64(this.background.files[0]);
+
+    this.previewBanner.setAttribute('background-url', base64Url);
+  }
 
   setImages(avatar, background) {
     if (!this.previewBanner) return;

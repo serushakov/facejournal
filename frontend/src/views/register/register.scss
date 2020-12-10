@@ -1,6 +1,11 @@
 .register-page {
   &__preview {
-    margin-bottom: 1rem;
+    margin-top: 1rem;
+
+    &__title {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
   }
 
   &__fieldset {
