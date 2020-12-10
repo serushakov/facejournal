@@ -13,6 +13,7 @@ import {
   selectProfile,
   selectProfilePostsState,
 } from '../../state/profile/selectors.js';
+import { loadUser } from '../../state/auth/thunks.js';
 
 class ProfilePage extends HTMLElement {
   constructor() {
@@ -70,6 +71,10 @@ class ProfilePage extends HTMLElement {
 
   fetchUser = () => {
     store.dispatch(fetchUser(this.routeParams.id));
+  };
+
+  fetchMe = () => {
+    store.dispatch(loadUser());
   };
 
   handleCurrentUserChange = async ([isInitialized], [token], [currentUser]) => {
@@ -171,6 +176,7 @@ class ProfilePage extends HTMLElement {
     }
 
     this.fetchUser();
+    this.fetchMe();
   };
 
   renderUser() {
@@ -202,8 +208,6 @@ class ProfilePage extends HTMLElement {
   shouldShowPostMenu = () => {
     const user = selectUser(store.getState());
 
-    console.log(this.user, user);
-
     return this.user.id === user.id || user.permissions.includes('post.delete');
   };
 
@@ -228,7 +232,7 @@ class ProfilePage extends HTMLElement {
   }
 
   renderPosts() {
-    const { count, rows } = this.posts.content;
+    const { rows } = this.posts.content;
 
     this.clearPosts();
 
