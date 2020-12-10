@@ -1,5 +1,12 @@
 <template id="register-page">
   <div class="register-page">
+    <div class="register-page__preview">
+      <user-hero-banner id="preview-banner">
+        <span slot="full-name" id="preview-name">Firstname Lastname</span>
+        <span slot="email" id="preview-email">mail@example.com</span>
+      </user-hero-banner>
+    </div>
+
     <form id="register-form">
       <fieldset class="register-page__fieldset">
         <legend class="register-page__fieldset__legend">Register</legend>
@@ -11,6 +18,7 @@
               class="input__field"
               required="true"
               id="firstName"
+              placeholder="Firstname"
               type="text"
               name="firstName"
             />
@@ -21,6 +29,7 @@
               class="input__field"
               required="true"
               id="lastName"
+              placeholder="Lastname"
               type="text"
               name="lastName"
             />
@@ -33,6 +42,7 @@
             class="input__field"
             required="true"
             id="email"
+            placeholder="mail@example.com"
             type="email"
             name="email"
           />

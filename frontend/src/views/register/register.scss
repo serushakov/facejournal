@@ -1,4 +1,8 @@
 .register-page {
+  &__preview {
+    margin-bottom: 1rem;
+  }
+
   &__fieldset {
     padding: 1rem;
     border: 2px solid var(--dark-shade);
