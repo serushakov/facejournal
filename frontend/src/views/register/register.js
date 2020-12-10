@@ -14,6 +14,8 @@ class RegisterPage extends HTMLElement {
     loadAndParseHtml('/views/register/register.html').then(this.setContent);
   }
 
+  step = 1;
+
   setContent = (document) => {
     const template = document.getElementById('register-page');
     this.appendChild(template.content.cloneNode(true));
@@ -26,39 +28,140 @@ class RegisterPage extends HTMLElement {
   };
 
   init = () => {
-    this.form = this.querySelector('#register-form');
-    this.form.addEventListener('submit', this.handleFormSubmit);
-
-    this.previewBanner = this.querySelector('#preview-banner');
-
+    this.root = this.querySelector('#root');
     store.subscribe(this.listener);
     store.subscribeWithSelectors(this.handleConfigChange, selectConfig);
+    this.renderStep();
+  };
 
-    this.firstName = this.querySelector('#firstName');
-    this.lastName = this.querySelector('#lastName');
-    this.email = this.querySelector('#email');
+  handleConfigChange = ([config]) => {
+    this.config = config;
+    if (!config) return;
+
+    this.setImages(config.defaults.avatar, config.defaults.background);
+  };
+
+  listener = (state) => {
+    if (state.auth.user) {
+      Router.navigate('/feed', { replace: true });
+    }
+  };
+
+  setStep(step) {
+    this.step = step;
+
+    this.renderStep();
+  }
+
+  renderStep() {
+    this.root.querySelectorAll('*').forEach((n) => n.remove());
+    switch (this.step) {
+      case 1:
+        this.renderStep1();
+        break;
+      case 2:
+        this.renderStep2();
+        break;
+      default:
+    }
+  }
+
+  renderStep1() {
+    const tempate = this.querySelector('#step-1');
+    const content = tempate.content.cloneNode(true);
+    this.root.append(content);
+
+    this.form = this.root.querySelector('#register-form');
+    this.form.addEventListener('submit', this.finishStep1);
+
+    if (this.formData) {
+      this.refillUserForm();
+    }
+  }
+
+  renderStep2() {
+    const tempate = this.querySelector('#step-2');
+    const content = tempate.content.cloneNode(true);
+    this.root.append(content);
+
+    this.form = this.querySelector('#images-form');
+    this.previewBanner = this.querySelector('#preview-banner');
+    this.previewName = this.querySelector('#preview-name');
+    this.previewEmail = this.querySelector('#preview-email');
     this.avatar = this.querySelector('#avatar');
     this.background = this.querySelector('#background');
 
-    this.previewName = this.querySelector('#preview-name');
-    this.previewEmail = this.querySelector('#preview-email');
-
-    this.firstName.addEventListener('input', this.handleInputChange);
-    this.lastName.addEventListener('input', this.handleInputChange);
-    this.email.addEventListener('input', this.handleInputChange);
     this.avatar.addEventListener('change', this.handleInputChange);
     this.background.addEventListener('change', this.handleInputChange);
+
+    this.querySelector('#back').addEventListener('click', this.handleClickBack);
+    this.querySelector('#send').addEventListener('click', this.finishStep2);
+
+    this.setPreview();
+
+    if (this.fileFormData) {
+      this.refillFileForm();
+    }
+  }
+
+  finishStep1 = async (event) => {
+    event.preventDefault();
+
+    this.formData = new FormData(this.form);
+
+    const response = await fetch('/api/auth/validate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: this.formData.get('email') }),
+    });
+
+    if (response.status === 400) {
+      const error = await response.json();
+
+      this.querySelector('#email-error').innerText = error[0].msg;
+      return;
+    }
+
+    this.setStep(2);
   };
+
+  finishStep2 = () => {
+    const files = new FormData(this.form);
+
+    files.forEach((value, key) => {
+      this.formData.set(key, value);
+    });
+
+    store.dispatch(register(this.formData));
+  };
+
+  handleClickBack = () => {
+    this.setStep(1);
+  };
+
+  refillUserForm = () => {
+    this.formData.forEach((value, key) => {
+      this.querySelector(`[name="${key}"]`).value = value;
+    });
+  };
+
+  setPreview() {
+    this.previewName.innerText = `${this.formData.get(
+      'firstName'
+    )} ${this.formData.get('lastName')}`;
+
+    this.previewEmail.innerText = this.formData.get('email');
+
+    this.setImages(
+      this.config.defaults.avatar,
+      this.config.defaults.background
+    );
+  }
 
   handleInputChange = (event) => {
     switch (event.target.name) {
-      case 'firstName':
-      case 'lastName':
-        this.setFullNamePreview();
-        break;
-      case 'email':
-        this.setEmailPreview();
-        break;
       case 'avatar':
         this.setAvatarPreview();
         break;
@@ -67,29 +170,6 @@ class RegisterPage extends HTMLElement {
         break;
       default:
     }
-  };
-
-  setFullNamePreview() {
-    this.previewName.innerText = `${
-      this.firstName.value || this.firstName.placeholder
-    } ${this.lastName.value || this.lastName.placeholder}`;
-  }
-
-  setEmailPreview() {
-    this.previewEmail.innerText = this.email.value || this.email.placeholder;
-  }
-
-  listener = (state) => {
-    if (state.auth.user) {
-      Router.navigate('/feed', { replace: true });
-    }
-  };
-
-  handleConfigChange = ([config]) => {
-    this.config = config;
-    if (!config) return;
-
-    this.setImages(config.defaults.avatar, config.defaults.background);
   };
 
   toBase64 = (file) =>
@@ -124,24 +204,10 @@ class RegisterPage extends HTMLElement {
     }
   }
 
-  disconnectedCallback = () => {
+  disconnectedCallback() {
     store.unsubscribe(this.listener);
-  };
-
-  handleFormSubmit = async (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(this.form);
-
-    store.dispatch(
-      register({
-        firstName: formData.get('firstName'),
-        lastName: formData.get('lastName'),
-        email: formData.get('email'),
-        password: formData.get('password'),
-      })
-    );
-  };
+    store.unsubscribe(this.handleConfigChange);
+  }
 }
 
 customElements.define('register-page', RegisterPage);

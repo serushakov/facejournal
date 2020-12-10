@@ -49,6 +49,10 @@ const User = sequelize.define(
         type: 'FULLTEXT',
         fields: ['firstName', 'lastName', 'email'],
       },
+      {
+        name: 'email_index',
+        fields: ['email'],
+      },
     ],
   }
 );

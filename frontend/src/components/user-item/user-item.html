@@ -1,8 +1,10 @@
 <template id="user-item">
   <a id="anchor" class="user-item__anchor">
     <div class="user-item">
-      <div class="user-item__avatar">
-        <slot name="avatar"></slot>
+      <div class="user-item__avatar-container">
+        <div class="user-item__avatar">
+          <slot name="avatar"></slot>
+        </div>
       </div>
       <div class="user-item__content">
         <div class="user-item__content__full-name">

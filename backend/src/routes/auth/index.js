@@ -1,14 +1,15 @@
 import express from 'express';
-import passport from 'passport';
 import handleLogin, { loginValidators } from './handleLogin';
-import handleRegister, { registerValidators } from './handleRegister';
+import handleRegister, {
+  registerValidators,
+  uploadHandler,
+} from './handleRegister';
+import handleValidate, { validateValidators } from './handleValidate';
 
 const router = express.Router();
 
 router.post('/login', loginValidators, handleLogin);
-router.post('/register', registerValidators, handleRegister);
-
-/* AUTHENTICATED ROUTES BELOW */
-router.use(passport.authenticate('jwt'));
+router.post('/register', uploadHandler, registerValidators, handleRegister);
+router.post('/validate', validateValidators, handleValidate);
 
 export default router;

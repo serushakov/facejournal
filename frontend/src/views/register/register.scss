@@ -24,11 +24,21 @@
 
   &__field-wrapper {
     margin-bottom: 1rem;
+
+    &__error {
+      color: red;
+    }
   }
 
   &__button {
     width: fit-content;
     align-self: center;
+  }
+
+  &__buttons {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-around;
   }
 }
 

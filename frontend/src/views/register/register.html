@@ -1,5 +1,5 @@
 <template id="register-page">
-  <div class="register-page">
+  <template id="step-1">
     <form id="register-form">
       <fieldset class="register-page__fieldset">
         <legend class="register-page__fieldset__legend">Register</legend>
@@ -33,17 +33,23 @@
           <label class="input__label" for="email">Email</label>
           <input
             class="input__field"
+            accept=".jpg,.jpeg,.png,.gif"
             required="true"
             id="email"
             placeholder="mail@example.com"
             type="email"
             name="email"
           />
+          <span
+            class="register-page__field-wrapper__error"
+            id="email-error"
+          ></span>
         </div>
 
         <div class="input__wrapper register-page__field-wrapper">
           <label for="password" class="input__label">Password</label>
           <input
+            accept=".jpg,.jpeg,.png,.gif"
             class="input__field"
             required="true"
             id="password"
@@ -52,23 +58,48 @@
           />
         </div>
 
-        <div class="side-by-side__field-wrapper">
-          <input type="file" name="avatar" id="avatar" />
-          <input type="file" name="background" id="background" />
-        </div>
-
-        <i-button variant="primary" type="submit" class="register-page__button">
-          <span slot="text">Register</span>
+        <i-button type="submit" variant="primary" class="register-page__button">
+          <span slot="text">Next</span>
         </i-button>
       </fieldset>
     </form>
+  </template>
 
-    <div class="register-page__preview">
-      <h2 class="register-page__preview__title">Preview</h2>
-      <user-hero-banner id="preview-banner">
-        <span slot="full-name" id="preview-name">Firstname Lastname</span>
-        <span slot="email" id="preview-email">mail@example.com</span>
-      </user-hero-banner>
-    </div>
-  </div>
+  <template id="step-2">
+    <form id="images-form">
+      <fieldset class="register-page__fieldset">
+        <legend class="register-page__fieldset__legend">Images</legend>
+
+        <div class="side-by-side__field-wrapper">
+          <div class="input__wrapper register-page__field-wrapper">
+            <label for="avatar" class="input__label">Avatar</label>
+            <input type="file" name="avatar" id="avatar" />
+          </div>
+          <div class="input__wrapper register-page__field-wrapper">
+            <label for="backround" class="input__label">Background</label>
+            <input type="file" name="background" id="background" />
+          </div>
+        </div>
+
+        <div class="register-page__preview">
+          <h2 class="register-page__preview__title">Preview</h2>
+          <user-hero-banner id="preview-banner">
+            <span slot="full-name" id="preview-name">Firstname Lastname</span>
+            <span slot="email" id="preview-email">mail@example.com</span>
+          </user-hero-banner>
+        </div>
+
+        <div class="register-page__buttons">
+          <i-button variant="secondary" id="back">
+            <span slot="text">Back</span>
+          </i-button>
+          <i-button variant="primary" id="send">
+            <span slot="text">Submit</span>
+          </i-button>
+        </div>
+      </fieldset>
+    </form>
+  </template>
+
+  <div class="register-page" id="root"></div>
 </template>
