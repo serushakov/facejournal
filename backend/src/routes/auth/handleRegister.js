@@ -92,12 +92,7 @@ async function handleRegister(req, res) {
   const token = createUserJwt(user);
 
   res.send({
-    user: {
-      ...(await user.toJSON()),
-
-      followerCount: 0,
-      subscriptions: [],
-    },
+    user: await user.toMeJson(),
     token,
   });
 }

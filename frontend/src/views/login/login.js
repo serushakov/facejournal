@@ -26,6 +26,8 @@ class LoginPage extends HTMLElement {
   init() {
     store.subscribe(this.listener);
 
+    this.error = this.querySelector('#error');
+
     this.form = this.querySelector('#login-form');
     this.form.addEventListener('submit', this.handleFormSubmit);
   }
@@ -40,11 +42,20 @@ class LoginPage extends HTMLElement {
     }
   };
 
-  handleFormSubmit = (event) => {
+  handleFormSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(this.form);
 
-    store.dispatch(login(formData.get('email'), formData.get('password')));
+    this.error.innerText = '';
+
+    const errors = await store.dispatch(
+      login(formData.get('email'), formData.get('password'))
+    );
+    if (errors) {
+      const error = errors[0].msg;
+
+      this.error.innerText = error;
+    }
   };
 }
 

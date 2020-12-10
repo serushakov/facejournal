@@ -4,15 +4,7 @@ async function handleMe(req, res) {
     return res.send([{ msg: 'Unauthorized' }]);
   }
 
-  const subscriptions = (await req.user.getSubscriptions()).map((user) =>
-    user.toSubscriptionJson()
-  );
-
-  res.send({
-    ...(await req.user.toJSON()),
-    followerCount: await req.user.countFollowers(),
-    subscriptions,
-  });
+  res.send(await req.user.toMeJson());
 }
 
 export default handleMe;

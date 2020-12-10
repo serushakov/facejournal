@@ -1,4 +1,8 @@
 .login-page {
+  &__error {
+    color: red;
+    text-align: center;
+  }
 }
 
 .login-page__form fieldset {
@@ -21,6 +25,6 @@
   width: 100%;
 }
 
-.login-page__form__button {
-  width: fit-content;
+.login-page__form__field__button {
+  margin-top: 1rem;
 }

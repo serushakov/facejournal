@@ -94,6 +94,18 @@ const getFriendshipStatus = async (user1, user2) => {
   return 'none';
 };
 
+User.prototype.toMeJson = async function toMeJson() {
+  const subscriptions = (await this.getSubscriptions()).map((user) =>
+    user.toSubscriptionJson()
+  );
+
+  return {
+    ...(await this.toJSON()),
+    followerCount: await this.countFollowers(),
+    subscriptions,
+  };
+};
+
 User.prototype.toJsonWithFriendship = async function toJsonWithFriendship(
   currentUser
 ) {

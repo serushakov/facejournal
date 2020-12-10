@@ -23,10 +23,16 @@ export const login = (email, password) => async (dispatch) => {
       password,
     }),
   });
-  const { user, token } = await response.json();
 
-  dispatch(loginSuccess(user, token));
-  localStorage.setItem(LOCALSTORAGE_TOKEN, token);
+  if (response.status === 200) {
+    const { user, token } = await response.json();
+
+    dispatch(loginSuccess(user, token));
+    localStorage.setItem(LOCALSTORAGE_TOKEN, token);
+  } else {
+    const errors = await response.json();
+    return errors;
+  }
 };
 
 export const register = (formData) => async (dispatch) => {

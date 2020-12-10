@@ -27,15 +27,17 @@ async function handleLogin(req, res) {
   });
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(400).send({
-      message: 'Either email or password are incorrect',
-    });
+    return res.status(400).send([
+      {
+        msg: 'Either email or password are incorrect',
+      },
+    ]);
   }
 
   const token = createUserJwt(user);
 
   res.send({
-    user: await user.toJSON(),
+    user: await user.toMeJson(),
     token,
   });
 }
