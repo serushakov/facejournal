@@ -55,6 +55,8 @@ class Router {
     if (route === null) return;
     const pathname = this.cleanupRoute(dirtyPathname);
 
+    if (pathname === '' && route === '/') return true;
+
     const routeParts = route.split('/');
     const pathnameParts = pathname.split('/');
 
