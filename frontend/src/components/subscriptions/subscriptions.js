@@ -2,7 +2,7 @@ import store from '../../state/index.js';
 import css from './subscriptions.scss';
 import resetCss from '../../styles/reset.scss';
 import variablesCss from '../../styles/variables.scss';
-
+import nav from '../../router/nav-module.js';
 import { loadAndParseHtml } from '/loader.js';
 import { selectUser } from '../../state/auth/selectors.js';
 
@@ -38,17 +38,26 @@ class Subscriptions extends HTMLElement {
 
   init = () => {
     store.subscribeWithSelectors(this.handleUserChange, selectUser);
+    window.addEventListener('popstate', this.handleLocationChange);
+  };
+
+  handleLocationChange = () => {
+    this.render();
   };
 
   handleUserChange = ([user]) => {
     if (!user) return;
+    this.user = user;
+    this.render();
+  };
 
-    const { subscriptions } = user;
+  render() {
+    const { subscriptions } = this.user;
 
     this.clearSubscriptions();
 
     this.subRoot.append(...subscriptions.map(this.createSubscriptionItem));
-  };
+  }
 
   clearSubscriptions = () => {
     this.subRoot.querySelectorAll('*').forEach((n) => {
@@ -57,15 +66,23 @@ class Subscriptions extends HTMLElement {
   };
 
   createSubscriptionItem = ({ firstName, lastName, id, avatar }) => {
-    console.log('create');
     const element = this.subItemTemplate.content.cloneNode(true);
 
     const anchorTag = element.querySelector('a');
     const span = element.querySelector('span');
     const image = anchorTag.querySelector('img');
 
-    anchorTag.href = `/users/${id}`;
+    const url = `/users/${id}`;
+    anchorTag.href = url;
+    anchorTag.addEventListener('click', nav);
     span.textContent = `${firstName} ${lastName}`;
+
+    const isActive = url === window.location.pathname;
+
+    if (isActive) {
+      anchorTag.classList.add('active');
+    }
+
     image.src = avatar;
 
     return element;

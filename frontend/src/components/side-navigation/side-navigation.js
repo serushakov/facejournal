@@ -41,16 +41,40 @@ class SideNavigation extends HTMLElement {
   };
 
   init = () => {
+    this.renderItems();
+    window.addEventListener('popstate', this.handleLocationChange);
+  };
+
+  renderItems = () => {
     this.navigationItems.forEach(this.createNavigationItem);
   };
 
+  handleLocationChange = () => {
+    const currentRoute = window.location.pathname;
+
+    if (this.navigationItems.some((item) => item.url === currentRoute)) {
+      this.cleanup();
+      this.renderItems();
+    }
+  };
+
+  cleanup() {
+    this.navigationRoot.querySelectorAll('*').forEach((n) => n.remove());
+  }
+
   createNavigationItem = (navItem) => {
     const element = this.navItemTemplate.content.cloneNode(true);
-
+    const container = element.querySelector('div');
     const anchorTag = element.querySelector('a');
 
     anchorTag.href = navItem.url;
     anchorTag.textContent = navItem.label;
+
+    const isActive = navItem.url === window.location.pathname;
+
+    if (isActive) {
+      container.classList.add('active');
+    }
 
     this.navigationRoot.appendChild(element);
   };

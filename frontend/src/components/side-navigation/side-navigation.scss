@@ -8,7 +8,8 @@
   overflow: hidden;
   display: list-item;
 
-  &:hover &__indicator {
+  &:hover &__indicator,
+  &.active &__indicator {
     transform: translate3d(0, 0, 0);
   }
 
@@ -17,8 +18,6 @@
     font-weight: 500;
     text-decoration: none;
     color: var(--brand-color);
-    &:visited {
-    }
   }
 
   &__indicator {
