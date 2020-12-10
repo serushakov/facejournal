@@ -63,7 +63,7 @@ const getFileType = (mimetype) => {
 };
 
 export const createPostValidators = [
-  body('title').isLength({ min: 3, max: 200 }),
+  body('title').isLength({ min: 1, max: 200 }),
   body('text_content').isLength({ max: 3000 }),
 ];
 

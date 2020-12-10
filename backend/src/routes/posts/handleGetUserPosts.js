@@ -28,6 +28,7 @@ const handleGetUserPosts = async (req, res) => {
   const posts = await user.getPosts({
     limit,
     offset,
+    order: [['createdAt', 'DESC']],
   });
 
   const formattedPosts = await Promise.all(
