@@ -52,6 +52,7 @@ class Subscriptions extends HTMLElement {
   };
 
   render() {
+    if (!this.user) return;
     const { subscriptions } = this.user;
 
     this.clearSubscriptions();

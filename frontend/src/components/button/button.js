@@ -30,13 +30,9 @@ class Button extends HTMLElement {
   };
 
   init() {
-    if (!this.attributes.variant) {
-      throw Error('Button should have a variant attribute');
-    }
-
     this.buttonElement = this.shadowRoot.getElementById('button');
 
-    for (let attribute of Array.from(this.attributes)) {
+    for (const attribute of Array.from(this.attributes)) {
       this.setButtonAttribute(attribute.name, attribute.value);
     }
 

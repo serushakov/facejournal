@@ -129,7 +129,7 @@ class ProfilePage extends HTMLElement {
     if (user.subscribed) {
       button.setAttribute('variant', 'secondary');
       text.innerText = 'Unsubscribe';
-    } else {
+    } else if (user.subscribed === false) {
       button.setAttribute('variant', 'primary');
       text.innerText = 'Follow';
     }
@@ -207,6 +207,8 @@ class ProfilePage extends HTMLElement {
 
   shouldShowPostMenu = () => {
     const user = selectUser(store.getState());
+
+    if (!user) return false;
 
     return this.user.id === user.id || user.permissions.includes('post.delete');
   };

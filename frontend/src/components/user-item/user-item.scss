@@ -16,9 +16,14 @@
 
   &__anchor {
     display: block;
-    color: var(--dark-shade);
+    color: var(--text-color-dark);
+
     text-decoration: none;
     position: relative;
+
+    &:hover {
+      color: var(--text-color-dark);
+    }
 
     &::before {
       position: absolute;

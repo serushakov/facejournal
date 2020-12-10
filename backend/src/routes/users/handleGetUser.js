@@ -26,10 +26,18 @@ const hanldeGetUser = async (req, res) => {
     ]);
   }
 
+  let additionalFields = {};
+
+  if (req.user) {
+    additionalFields = {
+      subscribed: await user.hasFollower(req.user),
+      isFollowing: await user.hasSubscription(req.user),
+    };
+  }
+
   res.send({
     ...(await user.toJSON()),
-    subscribed: await user.hasFollower(req.user),
-    isFollowing: await user.hasSubscription(req.user),
+    ...additionalFields,
   });
 };
 
