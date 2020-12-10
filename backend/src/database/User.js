@@ -69,6 +69,15 @@ User.prototype.toJSON = async function toJSON() {
   };
 };
 
+User.prototype.toSubscriptionJson = function toSubscriptionJson() {
+  return {
+    firstName: this.firstName,
+    lastName: this.lastName,
+    id: this.id,
+    avatar: this.avatar,
+  };
+};
+
 const getFriendshipStatus = async (user1, user2) => {
   const isPending = await user1.hasFriend(user2.id);
   const isRequested = await user2.hasFriend(user1.id);

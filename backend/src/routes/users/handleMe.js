@@ -4,10 +4,14 @@ async function handleMe(req, res) {
     return res.send([{ msg: 'Unauthorized' }]);
   }
 
+  const subscriptions = (await req.user.getSubscriptions()).map((user) =>
+    user.toSubscriptionJson()
+  );
+
   res.send({
     ...(await req.user.toJSON()),
     followerCount: await req.user.countFollowers(),
-    subscriptionsCount: await req.user.countSubscriptions(),
+    subscriptions,
   });
 }
 
