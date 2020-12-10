@@ -13,6 +13,7 @@ import handleGetUserPosts, {
 } from './handleGetUserPosts';
 import handlePostLike, { postLikeValidators } from './handlePostLike';
 import { nonBlockingAuth } from '../../utils';
+import handleDeletePost, { deletePostValidators } from './handleDeletePost';
 
 const router = express.Router();
 
@@ -25,7 +26,8 @@ router.get(
 
 router.use(passport.authenticate('jwt'));
 
-router.post('/', uploadHandler, createPostValidators, handleCreatePost);
+router.post('/post', uploadHandler, createPostValidators, handleCreatePost);
+router.delete('/post/:id', deletePostValidators, handleDeletePost);
 router.get('/post/:id', getPostValidators, handleGetPost);
 router.get('/feed', getFeedValidators, handleGetFeed);
 router.post('/post/:id/like', postLikeValidators, handlePostLike);
