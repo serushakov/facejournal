@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 import {
   loginFailure,
   loginRequest,
@@ -35,19 +36,32 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const register = (formData) => async (dispatch) => {
-  const request = new XMLHttpRequest();
+export const register = (formData, onProgress) => async (dispatch) =>
+  new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
 
-  request.open('POST', '/api/auth/register');
+    request.open('POST', '/api/auth/register');
 
-  request.addEventListener('load', () => {
-    const { user, token } = JSON.parse(request.responseText);
-    dispatch(loginSuccess(user, token));
-    localStorage.setItem(LOCALSTORAGE_TOKEN, token);
+    request.addEventListener('load', () => {
+      const { user, token } = JSON.parse(request.responseText);
+      dispatch(loginSuccess(user, token));
+      localStorage.setItem(LOCALSTORAGE_TOKEN, token);
+    });
+
+    request.upload.addEventListener('progress', (event) => {
+      const percent = (event.loaded / event.total) * 100;
+
+      onProgress(Math.round(percent));
+    });
+
+    request.addEventListener('load', () => {
+      if (request.status === 413) {
+        reject([{ msg: 'Files are too large, maximum 20MB total' }]);
+      }
+    });
+
+    request.send(formData);
   });
-
-  request.send(formData);
-};
 
 export const loadUser = () => async (dispatch) => {
   const token = localStorage.getItem('token');

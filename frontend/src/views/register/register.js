@@ -98,10 +98,6 @@ class RegisterPage extends HTMLElement {
     this.querySelector('#send').addEventListener('click', this.finishStep2);
 
     this.setPreview();
-
-    if (this.fileFormData) {
-      this.refillFileForm();
-    }
   }
 
   finishStep1 = async (event) => {
@@ -133,8 +129,18 @@ class RegisterPage extends HTMLElement {
     files.forEach((value, key) => {
       this.formData.set(key, value);
     });
+    this.querySelector('#overlay').classList.add('show');
 
-    store.dispatch(register(this.formData));
+    store
+      .dispatch(
+        register(this.formData, (percentage) => {
+          this.querySelector('#loader').value = percentage;
+        })
+      )
+      .catch((error) => {
+        this.querySelector('#overlay').classList.remove('show');
+        this.querySelector('#error').innerText = error[0].msg;
+      });
   };
 
   handleClickBack = () => {

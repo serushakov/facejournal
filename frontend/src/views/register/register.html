@@ -64,7 +64,17 @@
   </template>
 
   <template id="step-2">
-    <form id="images-form">
+    <form id="images-form" class="register-page__form">
+      <div class="register-page__form__overlay" id="overlay">
+        <div class="register-page__form__overlay__content">
+          <progress
+            class="register-page__form__overlay__content__loader"
+            id="loader"
+            value="0"
+            max="100"
+          ></progress>
+        </div>
+      </div>
       <fieldset class="register-page__fieldset">
         <legend class="register-page__fieldset__legend">Images</legend>
 
@@ -88,6 +98,8 @@
             />
           </div>
         </div>
+
+        <span id="error" class="error"></span>
 
         <div class="register-page__preview">
           <h2 class="register-page__preview__title">Preview</h2>
