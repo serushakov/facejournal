@@ -73,7 +73,7 @@ class CreatePostForm extends HTMLElement {
 
     const request = new XMLHttpRequest();
 
-    request.open('POST', '/api/posts');
+    request.open('POST', '/api/posts/post');
     request.setRequestHeader('Authorization', `Bearer ${token}`);
 
     request.addEventListener('load', () => {
