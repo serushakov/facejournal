@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import auth from './routes/auth';
 import posts from './routes/posts';
 import users from './routes/users';
+import config from './routes/config';
 import './passport';
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(passport.initialize());
 app.use('/auth', auth);
 app.use('/users', users);
 app.use('/posts', posts);
+app.use('/config', config);
 
 app.get('/', (req, res) => {
   res.send('Hello world');
