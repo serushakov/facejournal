@@ -6,6 +6,7 @@ import {
 } from '../../state/auth/selectors.js';
 import { loadAndParseHtml } from '/loader.js';
 import '/components/post-item/post-item.js';
+import '/components/user-hero-banner/user-hero-banner.js';
 
 import css from './profile.scss';
 import { fetchUser, fetchUserPosts } from '../../state/profile/thunks.js';
@@ -47,7 +48,7 @@ class ProfilePage extends HTMLElement {
   async init() {
     if (!this.mounted) return;
     this.postsRoot = this.querySelector('#posts-root');
-    this.profileContainer = this.querySelector('#profile-container');
+    this.userBanner = this.querySelector('#user-hero-banner');
 
     store.subscribeWithSelectors(
       this.handleCurrentUserChange,
@@ -121,8 +122,7 @@ class ProfilePage extends HTMLElement {
     if (user.id === currentUserId) return;
 
     const button = document.createElement('i-button');
-    button.classList.add('profile-page__header__button');
-
+    button.slot = 'button';
     const text = document.createElement('span');
     text.slot = 'text';
 
@@ -142,7 +142,7 @@ class ProfilePage extends HTMLElement {
       this.createButtonClickHandler(user.subscribed)
     );
 
-    this.profileContainer.append(button);
+    this.userBanner.append(button);
   };
 
   removeFriendButton() {
@@ -179,7 +179,12 @@ class ProfilePage extends HTMLElement {
     this.fetchMe();
   };
 
+  clearUser() {
+    this.userBanner.querySelectorAll('*').forEach((n) => n.remove());
+  }
+
   renderUser() {
+    this.clearUser();
     const {
       coverImage,
       firstName,
@@ -189,20 +194,24 @@ class ProfilePage extends HTMLElement {
       createdAt,
     } = this.user;
 
-    const coverImageElement = this.querySelector('#cover-image');
-    coverImageElement.style.backgroundImage = `url(${coverImage})`;
+    const heroBanner = this.querySelector('#user-hero-banner');
 
-    const avatarElement = this.querySelector('#avatar');
-    avatarElement.src = avatar;
+    heroBanner.setAttribute('avatar-url', avatar);
+    heroBanner.setAttribute('background-url', coverImage);
 
-    const fullNameElement = this.querySelector('#full-name');
+    const fullNameElement = document.createElement('slot');
+    fullNameElement.slot = 'full-name';
     fullNameElement.innerText = `${firstName} ${lastName}`;
 
-    const emailElement = this.querySelector('#email');
+    const emailElement = document.createElement('slot');
+    emailElement.slot = 'email';
     emailElement.innerText = email;
 
-    const createdAtElement = this.querySelector('#created-at');
+    const createdAtElement = document.createElement('slot');
+    createdAtElement.slot = 'created-at';
     createdAtElement.innerText = new Date(createdAt).toLocaleDateString();
+
+    heroBanner.append(fullNameElement, emailElement, createdAtElement);
   }
 
   shouldShowPostMenu = () => {

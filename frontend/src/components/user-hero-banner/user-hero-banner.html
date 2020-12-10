@@ -1,0 +1,31 @@
+<template id="user-hero-banner">
+  <div class="user-banner">
+    <div class="user-banner__background" id="cover-image">
+      <div class="user-banner__profile" id="profile-container">
+        <img id="avatar" class="user-banner__avatar" />
+
+        <div class="user-banner__profile__content">
+          <span class="user-banner__profile__content__name">
+            <slot name="full-name"></slot>
+          </span>
+          <span>
+            <slot name="email"></slot>
+          </span>
+          <span>
+            <slot name="created-at"></slot>
+          </span>
+        </div>
+        <div class="user-banner__button">
+          <slot name="button"></slot>
+        </div>
+      </div>
+    </div>
+  </div>
+  <svg height="0" hidden>
+    <defs>
+      <filter id="filter">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+      </filter>
+    </defs>
+  </svg>
+</template>
