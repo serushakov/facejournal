@@ -87,7 +87,7 @@ async function handleCreatePost(req, res) {
     textContent,
   });
 
-  post.setUser(user);
+  post.setCreator(user);
 
   const media =
     files &&
