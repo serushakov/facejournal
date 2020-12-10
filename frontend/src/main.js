@@ -1,8 +1,7 @@
 import Router from './router/Router.js';
 import Route from './router/Route.js';
 import store from '/state/index.js';
-import { loginSuccess, loginRequest } from '/state/auth/actions.js';
-import { loginFailure } from './state/auth/actions.js';
+import { loadUser } from './state/auth/thunks.js';
 
 // eslint-disable-next-line no-new
 new Router(document.getElementById('root'), [
@@ -15,24 +14,4 @@ new Router(document.getElementById('root'), [
   new Route(null, '/views/404/404.js', 'page-not-found'),
 ]);
 
-async function loadUser() {
-  const token = localStorage.getItem('token');
-
-  if (token) {
-    store.dispatch(loginRequest());
-
-    const response = await fetch('/api/users/me', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const user = await response.json();
-
-    store.dispatch(loginSuccess(user, token));
-  } else {
-    store.dispatch(loginFailure());
-  }
-}
-
-loadUser();
+store.dispatch(loadUser());

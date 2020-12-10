@@ -1,6 +1,11 @@
-import { loginSuccess, logoutSuccess } from "./actions.js";
+import {
+  loginFailure,
+  loginRequest,
+  loginSuccess,
+  logoutSuccess,
+} from './actions.js';
 
-const LOCALSTORAGE_TOKEN = "token";
+const LOCALSTORAGE_TOKEN = 'token';
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem(LOCALSTORAGE_TOKEN);
@@ -8,10 +13,10 @@ export const logout = () => (dispatch) => {
 };
 
 export const login = (email, password) => async (dispatch) => {
-  const response = await fetch("/api/auth/login", {
-    method: "POST",
+  const response = await fetch('/api/auth/login', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       email,
@@ -27,16 +32,16 @@ export const login = (email, password) => async (dispatch) => {
 export const register = ({ firstName, lastName, email, password }) => async (
   dispatch
 ) => {
-  const response = await fetch("/api/auth/register", {
-    method: "POST",
+  const response = await fetch('/api/auth/register', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       first_name: firstName,
       last_name: lastName,
-      email: email,
-      password: password,
+      email,
+      password,
     }),
   });
 
@@ -44,4 +49,24 @@ export const register = ({ firstName, lastName, email, password }) => async (
 
   dispatch(loginSuccess(user, token));
   localStorage.setItem(LOCALSTORAGE_TOKEN, token);
+};
+
+export const loadUser = () => async (dispatch) => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    dispatch(loginRequest());
+
+    const response = await fetch('/api/users/me', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const user = await response.json();
+
+    dispatch(loginSuccess(user, token));
+  } else {
+    dispatch(loginFailure());
+  }
 };
