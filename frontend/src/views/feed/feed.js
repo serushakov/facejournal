@@ -9,6 +9,7 @@ import {
 import '/components/post-item/post-item.js';
 import '/components/create-post-form/create-post-form.js';
 import { selectUser } from '../../state/auth/selectors.js';
+import nav from '../../router/nav-module.js';
 
 import css from './feed.scss';
 
@@ -32,6 +33,7 @@ class FeedPage extends HTMLElement {
   init() {
     store.subscribeWithSelectors(this.handleFeedChanged, selectFeedPosts);
 
+    this.feedRoot = this.querySelector('#feed');
     this.createPostButton = this.querySelector('#create-post-button');
     this.createPostButton.addEventListener(
       'click',
@@ -45,6 +47,8 @@ class FeedPage extends HTMLElement {
       selectRequestParams,
       selectUser
     );
+
+    this.renderFeed();
   }
 
   disconnectedCallback() {
@@ -83,13 +87,37 @@ class FeedPage extends HTMLElement {
 
   handleFeedChanged = ([feed]) => {
     if (!feed) return;
-
-    const feedElements = feed.map(this.createPostItem);
-
-    const feedRoot = this.querySelector('#feed');
-    feedRoot.innerHTML = '';
-    feedRoot.append(...feedElements);
+    this.feed = feed;
+    this.renderFeed();
   };
+
+  renderFeed() {
+    if (!this.feedRoot || !this.feed) return;
+    this.feedRoot.querySelectorAll('*').forEach((n) => n.remove());
+
+    if (this.feed.length === 0) {
+      this.showEmptyState();
+    } else {
+      const feedElements = this.feed.map(this.createPostItem);
+
+      this.feedRoot.append(...feedElements);
+    }
+  }
+
+  showEmptyState() {
+    const emptySpan = document.createElement('p');
+    emptySpan.innerHTML = `It is quiet in here! Find someone to follow by clicking `;
+    emptySpan.classList.add('feed-page__empty');
+
+    const link = document.createElement('a');
+    link.href = '/search';
+    link.innerText = 'here';
+    link.addEventListener('click', nav);
+
+    emptySpan.append(link);
+
+    this.feedRoot.append(emptySpan);
+  }
 
   shouldShowPostMenu = (post) => {
     const user = selectUser(store.getState());

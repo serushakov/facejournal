@@ -22,9 +22,6 @@ class Subscriptions extends HTMLElement {
       template.content.cloneNode(true)
     );
 
-    this.subItemTemplate = this.shadowRoot.querySelector('#subscription-item');
-    this.subRoot = this.shadowRoot.querySelector('#subscriptions-root');
-
     this.loadStyle();
     this.init();
   };
@@ -37,6 +34,10 @@ class Subscriptions extends HTMLElement {
   };
 
   init = () => {
+    this.subItemTemplate = this.shadowRoot.querySelector('#subscription-item');
+    this.subRoot = this.shadowRoot.querySelector('#subscriptions-root');
+    this.root = this.shadowRoot.querySelector('#root');
+
     store.subscribeWithSelectors(this.handleUserChange, selectUser);
     window.addEventListener('popstate', this.handleLocationChange);
   };
@@ -58,12 +59,14 @@ class Subscriptions extends HTMLElement {
     this.clearSubscriptions();
 
     this.subRoot.append(...subscriptions.map(this.createSubscriptionItem));
+    this.root.hidden = false;
   }
 
   clearSubscriptions = () => {
     this.subRoot.querySelectorAll('*').forEach((n) => {
       n.remove();
     });
+    this.root.hidden = true;
   };
 
   createSubscriptionItem = ({ firstName, lastName, id, avatar }) => {
