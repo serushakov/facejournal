@@ -15,6 +15,41 @@
       <h2 class="post-item__header__title">
         <slot name="title"></slot>
       </h2>
+
+      <tool-tip>
+        <div slot="content">
+          <svg
+            class="post-item__header__icon"
+            width="25"
+            height="24"
+            viewBox="0 0 25 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6.5 10C5.4 10 4.5 10.9 4.5 12C4.5 13.1 5.4 14 6.5 14C7.6 14 8.5 13.1 8.5 12C8.5 10.9 7.6 10 6.5 10ZM18.5 10C17.4 10 16.5 10.9 16.5 12C16.5 13.1 17.4 14 18.5 14C19.6 14 20.5 13.1 20.5 12C20.5 10.9 19.6 10 18.5 10ZM12.5 10C11.4 10 10.5 10.9 10.5 12C10.5 13.1 11.4 14 12.5 14C13.6 14 14.5 13.1 14.5 12C14.5 10.9 13.6 10 12.5 10Z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
+
+        <div slot="tooltip-content">
+          <ul class="post-item__header__tooltip-menu">
+            <li class="post-item__header__tooltip-menu__item">
+              <button class="post-item__header__tooltip-menu__item__button">
+                Edit post
+              </button>
+            </li>
+            <li class="post-item__header__tooltip-menu__item">
+              <button
+                class="post-item__header__tooltip-menu__item__button delete"
+              >
+                Delete post
+              </button>
+            </li>
+          </ul>
+        </div>
+      </tool-tip>
     </div>
 
     <div class="post-item__content" id="content">

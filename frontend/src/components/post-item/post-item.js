@@ -6,6 +6,8 @@ import { loadAndParseHtml } from '/loader.js';
 import nav from '../../router/nav-module.js';
 import { selectToken } from '../../state/auth/selectors.js';
 
+import '../tooltip/tooltip.js';
+
 const LIKE_BUTTON_TEXT = {
   [false]: '👍 Like',
   [true]: '👎 Unlike',
