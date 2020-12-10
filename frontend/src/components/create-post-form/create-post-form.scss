@@ -1,4 +1,39 @@
 .create-post {
+  position: relative;
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(var(--dark-shade-rgb), 0.4);
+    z-index: 100;
+    border-radius: 8px;
+
+    &.show {
+      pointer-events: all;
+      display: flex;
+    }
+
+    &__content {
+      width: 80%;
+      padding: 1rem;
+      border-radius: 25px;
+      display: flex;
+      background-color: var(--background-color);
+
+      &__loader {
+        width: 100%;
+        height: 2rem;
+      }
+    }
+  }
+
   &__fieldset {
     border: 2px solid var(--dark-shade);
     padding: 1rem;

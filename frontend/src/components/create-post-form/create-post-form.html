@@ -1,6 +1,11 @@
 <template id="create-post-form">
   <div>
     <form id="form" class="create-post">
+      <div class="create-post__overlay" id="overlay">
+        <div class="create-post__overlay__content">
+          <progress class="create-post__overlay__content__loader" id="loader" value="0" max="100"></progress>
+        </div>
+      </div>
       <fieldset class="create-post__fieldset">
         <legend class="create-post__legend">Create a post</legend>
         <div class="input__wrapper create-post__field-wrapper">

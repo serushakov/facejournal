@@ -80,7 +80,21 @@ class CreatePostForm extends HTMLElement {
       const { id } = JSON.parse(request.responseText);
       if (request.status === 201) this.emitCreatedEvent(id);
     });
+
+    request.upload.addEventListener('progress', (loadEvent) => {
+      const percent = (loadEvent.loaded / loadEvent.total) * 100;
+
+      this.shadowRoot.querySelector('#loader').value = Math.round(percent);
+    });
+
+    this.createOverlay();
+
     request.send(formData);
+  };
+
+  createOverlay = () => {
+    const overlay = this.shadowRoot.querySelector('#overlay');
+    overlay.classList.add('show');
   };
 
   handleCancelClick = () => {
