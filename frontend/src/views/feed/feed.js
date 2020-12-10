@@ -1,4 +1,4 @@
-import store from '/state/index.js';
+import store from '../../state/index.js';
 import { loadAndParseHtml } from '/loader.js';
 import { getFeed } from '../../state/feed/thunks.js';
 import Router from '../../router/Router.js';
@@ -91,6 +91,14 @@ class FeedPage extends HTMLElement {
     feedRoot.append(...feedElements);
   };
 
+  shouldShowPostMenu = (post) => {
+    const user = selectUser(store.getState());
+
+    return (
+      post.creator.id === user.id || user.permissions.includes('post.delete')
+    );
+  };
+
   createPostItem = (post) => {
     const postItemContainer = document.createElement('div');
     postItemContainer.classList.add('feed-page__item');
@@ -99,6 +107,8 @@ class FeedPage extends HTMLElement {
     postItem.setAttribute('with-creator', true);
 
     postItem.post = post;
+    const shouldShowMenu = this.shouldShowPostMenu(post);
+    postItem.showMenu = shouldShowMenu;
 
     postItem.addEventListener('invalidate', () => store.dispatch(getFeed()));
     postItemContainer.appendChild(postItem);

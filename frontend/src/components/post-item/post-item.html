@@ -16,7 +16,7 @@
         <slot name="title"></slot>
       </h2>
 
-      <tool-tip>
+      <tool-tip id="tooltip" style="display: none">
         <div slot="content">
           <svg
             class="post-item__header__icon"
@@ -42,6 +42,7 @@
             </li>
             <li class="post-item__header__tooltip-menu__item">
               <button
+                id="delete-button"
                 class="post-item__header__tooltip-menu__item__button delete"
               >
                 Delete post

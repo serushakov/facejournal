@@ -24,7 +24,7 @@ class PostItem extends HTMLElement {
 
   mediaIndex = 0;
 
-  static observedAttributes = ['href'];
+  static observedAttributes = ['href', 'show-menu'];
 
   get href() {
     return this.getAttribute('href');
@@ -41,6 +41,14 @@ class PostItem extends HTMLElement {
   set post(value) {
     this.postItem = value;
     this.fillSlots();
+  }
+
+  get showMenu() {
+    return this.getAttribute('show-menu') === 'true';
+  }
+
+  set showMenu(value) {
+    this.setAttribute('show-menu', value);
   }
 
   createShadowRoot = (document) => {
@@ -62,8 +70,14 @@ class PostItem extends HTMLElement {
   };
 
   attributeChangedCallback(name) {
-    if (name === 'href') {
-      this.setCreatorHref();
+    switch (name) {
+      case 'href':
+        this.setCreatorHref();
+        break;
+      case 'show-menu':
+        this.showOrHideMenu();
+        break;
+      default:
     }
   }
 
@@ -72,10 +86,15 @@ class PostItem extends HTMLElement {
     this.creator = this.shadowRoot.querySelector('#creator');
     this.likeCount = this.shadowRoot.querySelector('#like-count');
     this.likeButton = this.shadowRoot.querySelector('#like-button');
+    this.deleteButton = this.shadowRoot.querySelector('#delete-button');
 
     this.likeButton.addEventListener('click', this.handleLikeClick);
 
+    this.deleteButton.addEventListener('click', this.handleDeleteClick);
+
     this.creator.addEventListener('click', nav);
+
+    this.showOrHideMenu();
 
     if (this.post) {
       this.fillSlots();
@@ -217,6 +236,32 @@ class PostItem extends HTMLElement {
       case 'image':
         return document.createElement('img');
       default:
+    }
+  };
+
+  showOrHideMenu = () => {
+    if (this.showMenu && this.shadowRoot) {
+      this.shadowRoot.querySelector('#tooltip').style.display = 'unset';
+    }
+  };
+
+  handleDeleteClick = async () => {
+    const token = selectToken(store.getState());
+
+    const confirmation = window.confirm(
+      'Are you sure you want to delete this post?'
+    );
+
+    if (!confirmation) return;
+
+    try {
+      await fetch(`/api/posts/post/${this.post.id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      this.dispatchEvent(new Event('invalidate'));
+    } catch (e) {
+      alert(e);
     }
   };
 }

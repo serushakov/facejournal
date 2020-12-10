@@ -199,6 +199,14 @@ class ProfilePage extends HTMLElement {
     createdAtElement.innerText = new Date(createdAt).toLocaleDateString();
   }
 
+  shouldShowPostMenu = () => {
+    const user = selectUser(store.getState());
+
+    console.log(this.user, user);
+
+    return this.user.id === user.id || user.permissions.includes('post.delete');
+  };
+
   createPostItem = (post) => {
     const postItemContainer = document.createElement('div');
     postItemContainer.classList.add('profile-page__posts__item');
@@ -207,6 +215,8 @@ class ProfilePage extends HTMLElement {
 
     postItem.post = post;
     postItemContainer.appendChild(postItem);
+
+    postItem.showMenu = this.shouldShowPostMenu();
 
     postItem.addEventListener('invalidate', this.fetchPosts);
 
