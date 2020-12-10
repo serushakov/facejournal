@@ -13,6 +13,7 @@
       import { loadComponent } from '/loader.js';
       loadComponent('/components/header/header.js');
       loadComponent('/components/side-navigation/side-navigation.js');
+      loadComponent('/components/subscriptions/subscriptions.js');
     </script>
   </head>
 
@@ -24,7 +25,9 @@
         <side-navigation />
       </div>
       <div id="root" class="content"></div>
-      <div class="side"></div>
+      <div class="side">
+        <subscription-list />
+      </div>
     </div>
   </body>
 </html>
