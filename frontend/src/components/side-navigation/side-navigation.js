@@ -1,4 +1,3 @@
-import store from '../../state/index.js';
 import css from './side-navigation.scss';
 import { loadAndParseHtml } from '/loader.js';
 
