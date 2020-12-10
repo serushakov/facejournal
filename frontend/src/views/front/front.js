@@ -14,6 +14,10 @@ class FrontPage extends HTMLElement {
     );
   }
 
+  disconnectedCallback() {
+    store.unsubscribe(this.listener);
+  }
+
   listener = ([user], [isInitialized]) => {
     if (!isInitialized) return;
 

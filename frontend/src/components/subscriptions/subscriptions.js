@@ -46,6 +46,11 @@ class Subscriptions extends HTMLElement {
     this.render();
   };
 
+  disconnectedCallback() {
+    store.unsubscribe(this.handleUserChange);
+    store.unsubscribe(this.handleLocationChange);
+  }
+
   handleUserChange = ([user]) => {
     if (!user) return;
     this.user = user;
