@@ -39,7 +39,7 @@ const Post = sequelize.define(
 );
 
 Post.prototype.toJSON = async function toJSON(currentUser) {
-  const creator = await this.getUser();
+  const creator = await this.getCreator();
 
   return {
     ...(await this.toSimpleJSON(currentUser)),

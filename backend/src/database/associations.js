@@ -29,7 +29,7 @@ User.belongsTo(Role, {
 });
 
 User.hasMany(Post, { foreignKey: 'creatorId' });
-Post.belongsTo(User, { foreignKey: 'creatorId' });
+Post.belongsTo(User, { foreignKey: 'creatorId', as: 'creator' });
 
 Post.hasMany(Media, {
   foreignKey: 'postId',
