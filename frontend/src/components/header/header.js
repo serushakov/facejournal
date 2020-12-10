@@ -1,5 +1,6 @@
 import store from '/state/index.js';
 import Router from '/router/Router.js';
+import nav from '../../router/nav-module.js';
 import { logout } from '/state/auth/thunks.js';
 import { loadAndParseHtml } from '/loader.js';
 import '/components/button/button.js';
@@ -43,6 +44,8 @@ class Header extends HTMLElement {
       '#logged-out-state'
     );
     this.usernameContainer = this.shadowRoot.querySelector('#username');
+    this.userLink = this.shadowRoot.querySelector('#user-link');
+    this.userAvatar = this.shadowRoot.querySelector('#user-avatar');
 
     this.shadowRoot.getElementById('login').addEventListener('click', () => {
       Router.navigate('/login');
@@ -69,12 +72,16 @@ class Header extends HTMLElement {
     }
   };
 
-  showLoggedInState = ({ firstName, lastName }) => {
+  showLoggedInState = ({ firstName, lastName, id, avatar }) => {
     const fullName = `${firstName} ${lastName}`;
 
     this.loggedInStateContainer.classList.remove('hidden');
     this.loggedOutStateContainer.classList.add('hidden');
     this.usernameContainer.textContent = fullName;
+    this.userLink.href = `/users/${id}`;
+
+    this.userLink.addEventListener('click', nav);
+    this.userAvatar.src = avatar;
   };
 
   showLoggedOutState = () => {

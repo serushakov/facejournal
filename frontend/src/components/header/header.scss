@@ -36,6 +36,25 @@
   }
 }
 
+#user-avatar {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  margin-inline-end: 0.5rem;
+}
+
+#user-link {
+  display: flex;
+  align-items: center;
+
+  color: var(--text-color-dark);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--brand-color);
+  }
+}
+
 #logged-in-state:not(.hidden) {
   display: flex;
   align-items: center;
