@@ -2,6 +2,7 @@ import Router from './router/Router.js';
 import Route from './router/Route.js';
 import store from '/state/index.js';
 import { loadUser } from './state/auth/thunks.js';
+import fetchConfig from './state/config/thunks.js';
 
 // eslint-disable-next-line no-new
 new Router(document.getElementById('root'), [
@@ -15,3 +16,4 @@ new Router(document.getElementById('root'), [
 ]);
 
 store.dispatch(loadUser());
+store.dispatch(fetchConfig());
