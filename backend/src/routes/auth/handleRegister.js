@@ -78,8 +78,12 @@ async function handleRegister(req, res) {
     return res.status(400).send('User already exists');
   }
 
-  const avatarUrl = `/static/user-images/${files.avatar[0].filename}`;
-  const bgUrl = `/static/user-images/${files.background[0].filename}`;
+  const avatarUrl =
+    files && files.avatar && `/static/user-images/${files.avatar[0].filename}`;
+  const bgUrl =
+    files &&
+    files.background &&
+    `/static/user-images/${files.background[0].filename}`;
 
   const user = await createUser({
     email,
