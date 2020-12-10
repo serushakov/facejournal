@@ -11,6 +11,7 @@
   &__item {
     display: flex;
     align-items: center;
+    margin-bottom: 0.5rem;
 
     &.active {
       text-decoration: underline;
