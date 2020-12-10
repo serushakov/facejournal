@@ -49,7 +49,7 @@ class UserHeroBanner extends HTMLElement {
     this.backgroundImage = this.shadowRoot.querySelector('#cover-image');
 
     this.setAvatarImage(this.getAttribute('avatar-url'));
-    this.setAvatarImage(this.getAttribute('background-url'));
+    this.setBackgroundImage(this.getAttribute('background-url'));
   };
 
   setAvatarImage(value) {
